@@ -130,15 +130,15 @@
       {"name":"anaclock.img","url":"anaclock-icon.js","evaluate":true}
     ]
   },
-  { "id": "compass",
-    "name": "Compass",
-    "icon": "compass.png",
+  { "id": "jcompass",
+    "name": "J's Compass",
+    "icon": "jcompass.png",
     "version":"0.01",
-    "description": "Simple compass that points North",
+    "description": "Simple compass that points North - smooth needle animation",
     "tags": "tool,outdoors",
     "storage": [
-      {"name":"compass.app.js","url":"compass.js"},
-      {"name":"compass.img","url":"compass-icon.js","evaluate":true}
+      {"name":"jcompass.app.js","url":"jcompass.js"},
+      {"name":"jcompass.img","url":"jcompass-icon.js","evaluate":true}
     ]
   },
   { "id": "gpstime",
