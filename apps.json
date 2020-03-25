@@ -269,18 +269,7 @@
       {"name":"widhrm.wid.js","url":"widget.js"}
     ]
   },
-  { "id": "stetho",
-    "name": "Stethoscope",
-    "icon": "stetho.png",
-    "version":"0.01",
-    "description": "Hear your heart rate",
-    "tags": "health",
-    "storage": [
-      {"name":"stetho.app.js","url":"stetho.js"},
-      {"name":"stetho.img","url":"stetho-icon.js","evaluate":true}
-    ]
-  },
-  { "id": "swatch",
+   { "id": "swatch",
     "name": "Stopwatch",
     "icon": "stopwatch.png",
     "version":"0.01",
@@ -328,25 +317,6 @@
       {"name":"hidbkbd.img","url":"hid-binary-keyboard-icon.js","evaluate":true}
     ]
   },
-  { "id": "animals",
-    "name": "Animals Game",
-    "icon": "animals.png",
-    "version":"0.01",
-    "description": "Simple toddler's game - displays a different number of animals each time the screen is pressed",
-    "tags": "game",
-    "storage": [
-      {"name":"animals.app.js","url":"animals.js"},
-      {"name":"animals.img","url":"animals-icon.js","evaluate":true},
-      {"name":"animals-snake.img","url":"animals-snake.js","evaluate":true},
-      {"name":"animals-duck.img","url":"animals-duck.js","evaluate":true},
-      {"name":"animals-swan.img","url":"animals-swan.js","evaluate":true},
-      {"name":"animals-fox.img","url":"animals-fox.js","evaluate":true},
-      {"name":"animals-camel.img","url":"animals-camel.js","evaluate":true},
-      {"name":"animals-pig.img","url":"animals-pig.js","evaluate":true},
-      {"name":"animals-sheep.img","url":"animals-sheep.js","evaluate":true},
-      {"name":"animals-mouse.img","url":"animals-mouse.js","evaluate":true}
-    ]
-  },
   { "id": "qrcode",
     "name": "Custom QR Code",
     "icon": "qrcode.png",
@@ -359,18 +329,6 @@
       {"name":"qrcode.img"}
     ]
   },
-  { "id": "beer",
-    "name": "Beer Compass",
-    "icon": "beercompass.png",
-    "version":"0.01",
-    "description": "Uploads all the pubs in an area onto your watch, so it can always point you at the nearest one",
-    "tags": "",
-    "custom": "beercompass.html",
-    "storage": [
-      {"name":"beer.app.js"},
-      {"name":"beer.img"}
-    ]
-  },
   { "id": "route",
     "name": "Route Viewer",
     "icon": "route.png",
@@ -381,46 +339,6 @@
     "storage": [
       {"name":"route.app.js"},
       {"name":"route.img"}
-    ]
-  },
-  {
-    "id": "ncstart",
-    "name": "NCEU Startup",
-    "icon": "start.png",
-    "version":"0.02",
-    "description": "NodeConfEU 2019 'First Start' Sequence",
-    "tags": "start,welcome",
-    "storage": [
-      {"name":"welcome.js","url":"welcome.js"},
-      {"name":"ncstart.app.js","url":"start.js"},
-      {"name":"ncstart.img","url":"start-icon.js","evaluate":true},
-      {"name":"nc-bangle.img","url":"start-bangle.js","evaluate":true},
-      {"name":"nc-nceu.img","url":"start-nceu.js","evaluate":true},
-      {"name":"nc-nfr.img","url":"start-nfr.js","evaluate":true},
-      {"name":"nc-nodew.img","url":"start-nodew.js","evaluate":true},
-      {"name":"nc-tf.img","url":"start-tf.js","evaluate":true}
-    ]
-  },
-  { "id": "ncfrun",
-    "name": "NCEU 5K Fun Run",
-    "icon": "nceu-funrun.png",
-    "version":"0.01",
-    "description": "Display a map of the NodeConf EU 2019 5K Fun Run route and your location on it",
-    "tags": "health",
-    "storage": [
-      {"name":"ncfrun.app.js","url":"nceu-funrun.js"},
-      {"name":"ncfrun.img","url":"nceu-funrun-icon.js","evaluate":true}
-    ]
-  },
-  { "id": "widnceu",
-    "name": "NCEU Logo Widget",
-    "icon": "widget.png",
-    "version":"0.02",
-    "description": "Show the NodeConf EU logo in the top left",
-    "tags": "widget",
-    "type":"widget",
-    "storage": [
-      {"name":"widnceu.wid.js","url":"widget.js"}
     ]
   },
   { "id": "bigclock",
@@ -450,44 +368,6 @@
       {"name":"gesture.img","url":"gesture-icon.js","evaluate":true}
     ]
   },
-  { "id": "pparrot",
-    "name": "Party Parrot",
-    "icon": "party-parrot.png",
-    "version":"0.01",
-    "description": "Party with a parrot on your wrist",
-    "tags": "party,parrot,lol",
-    "type":"app",
-    "allow_emulator":true,
-    "storage": [
-      {"name":"pparrot.app.js","url":"party-parrot.js"},
-      {"name":"pparrot.img","url":"party-parrot-icon.js","evaluate":true}
-    ]
-  },
-  { "id": "hrings",
-    "name": "Hypno Rings",
-    "icon": "hypno-rings.png",
-    "version":"0.01",
-    "description": "Experiment with trippy rings, press buttons for change",
-    "tags": "rings,hypnosis,psychadelic",
-    "type":"app",
-    "allow_emulator":true,
-    "storage": [
-      {"name":"hrings.app.js","url":"hypno-rings.js"},
-      {"name":"hrings.img","url":"hypno-rings-icon.js","evaluate":true}
-    ]
-  },
-  { "id": "morse",
-    "name": "Morse Code",
-    "icon": "morse-code.png",
-    "version":"0.01",
-    "description": "Learn morse code by hearing/seeing/feeling the code. Tap to toggle buzz!",
-    "tags": "morse,sound,visual,input",
-    "type":"app",
-    "storage": [
-      {"name":"morse.app.js","url":"morse-code.js"},
-      {"name":"morse.img","url":"morse-code-icon.js","evaluate":true}
-    ]
-  },
   {
     "id": "blescan",
     "name": "BLE Scanner",
@@ -498,93 +378,6 @@
     "storage" : [
       {"name":"blescan.app.js","url":"blescan.js"},
       {"name":"blescan.img","url":"blescan-icon.js", "evaluate":true}
-    ]
-  },
-  { "id": "mmonday",
-  "name": "Manic Monday Tone",
-  "icon": "manic-monday-icon.png",
-  "version":"0.01",
-  "description": "The Bangles make a comeback",
-  "tags": "sound",
-  "storage": [
-    {"name":"mmonday.app.js","url":"manic-monday.js"},
-    {"name":"mmonday.img","url":"manic-monday-icon.js","evaluate":true}
-  ]
-  },
-  { "id": "jbells",
-    "name": "Jingle Bells",
-    "icon": "jbells.png",
-    "version":"0.01",
-    "description": "Play Jingle Bells",
-    "tags": "sound",
-    "type":"app",
-    "storage": [
-      {"name":"jbells.app.js","url":"jbells.js"},
-      {"name":"jbells.img","url":"jbells-icon.js","evaluate":true}
-    ]
-  },
-  { "id": "scolor",
-    "name": "Show Color",
-    "icon": "show-color.png",
-    "version":"0.01",
-    "description": "Display all available Colors and Names",
-    "tags": "tool",
-    "type":"app",
-    "allow_emulator":true,
-    "storage": [
-      {"name":"scolor.app.js","url":"show-color.js"},
-      {"name":"scolor.img","url":"show-color-icon.js","evaluate":true}
-    ]
-  },
-  { "id": "miclock",
-    "name": "Mixed Clock",
-    "icon": "clock-mixed.png",
-    "version":"0.02",
-    "description": "A mix of analog and digital Clock",
-    "tags": "clock",
-    "type":"clock",
-    "allow_emulator":true,
-    "storage": [
-      {"name":"miclock.app.js","url":"clock-mixed.js"},
-      {"name":"miclock.img","url":"clock-mixed-icon.js","evaluate":true}
-    ]
-  },
-  { "id": "bclock",
-    "name": "Binary Clock",
-    "icon": "clock-binary.png",
-    "version":"0.02",
-    "description": "A simple binary clock watch face",
-    "tags": "clock",
-    "type":"clock",
-    "allow_emulator":true,
-    "storage": [
-      {"name":"bclock.app.js","url":"clock-binary.js"},
-      {"name":"bclock.img","url":"clock-binary-icon.js","evaluate":true}
-    ]
-  },
-  { "id": "clotris",
-    "name": "Clock-Tris",
-    "icon": "clock-tris.png",
-    "version":"0.01",
-    "description": "A fully functional clone of a classic game of falling blocks",
-    "tags": "game",
-    "allow_emulator":true,
-    "storage": [
-      {"name":"clotris.app.js","url":"clock-tris.js"},
-      {"name":"clotris.img","url":"clock-tris-icon.js","evaluate":true},
-      {"name":".trishig","url":"clock-tris-high"}
-    ]
-  },
-  { "id": "flappy",
-    "name": "Flappy Bird",
-    "icon": "app.png",
-    "version":"0.03",
-    "description": "A Flappy Bird game clone",
-    "tags": "game",
-    "allow_emulator":true,
-    "storage": [
-      {"name":"flappy.app.js","url":"app.js"},
-      {"name":"flappy.img","url":"app-icon.js","evaluate":true}
     ]
   },
   {
@@ -598,47 +391,6 @@
     "storage": [
       {"name":"gpsinfo.app.js","url": "gps-info.js"},
       {"name":"gpsinfo.img","url": "gps-info-icon.js","evaluate": true}
-    ]
-  },
-  {
-    "id": "pomodo",
-    "name":"Pomodoro",
-    "icon":"pomodoro.png",
-    "version":"0.01",
-    "description": "A simple pomodoro timer.",
-    "tags": "pomodoro,cooking,tools",
-    "type": "app",
-    "allow_emulator":true,
-    "storage": [
-      {"name":"pomodo.app.js","url": "pomodoro.js"},
-      {"name":"pomodo.img","url": "pomodoro-icon.js","evaluate": true}
-    ]
-  },
-  { "id": "blobclk",
-    "name": "Large Digit Blob Clock",
-    "shortName" : "Blob Clock",
-    "icon": "clock-blob.png",
-    "version":"0.03",
-    "description": "A clock with big digits",
-    "tags": "clock",
-    "type":"clock",
-    "allow_emulator":true,
-    "storage": [
-      {"name":"blobclk.app.js","url":"clock-blob.js"},
-      {"name":"blobclk.img","url":"clock-blob-icon.js","evaluate":true}
-    ]
-  },
-  { "id": "boldclk",
-    "name": "Bold Clock",
-    "icon": "bold_clock.png",
-    "version":"0.02",
-    "description": "Simple, readable and practical clock",
-    "tags": "clock",
-    "type":"clock",
-    "allow_emulator":true,
-    "storage": [
-      {"name":"boldclk.app.js","url":"bold_clock.js"},
-      {"name":"boldclk.img","url":"bold_clock-icon.js","evaluate":true}
     ]
   },
   { "id": "widclk",
@@ -663,19 +415,6 @@
       {"name":"widpedom.wid.js","url":"widget.js"}
     ]
   },
-  { "id": "berlinc",
-    "name": "Berlin Clock",
-    "icon": "berlin-clock.png",
-    "version":"0.02",
-    "description": "Berlin Clock (see https://en.wikipedia.org/wiki/Mengenlehreuhr)",
-    "tags": "clock",
-    "type":"clock",
-    "allow_emulator":true,
-    "storage": [
-      {"name":"berlinc.app.js","url":"berlin-clock.js"},
-      {"name":"berlinc.img","url":"berlin-clock-icon.js","evaluate":true}
-    ]
-  },
   { "id": "ctrclk",
     "name": "Centerclock",
     "icon": "app.png",
@@ -687,45 +426,6 @@
     "storage": [
       {"name":"ctrclk.app.js","url":"app.js"},
       {"name":"ctrclk.img","url":"app-icon.js","evaluate":true}
-    ]
-  },
-  { "id": "demoapp",
-    "name": "Demo Loop",
-    "icon": "app.png",
-    "version":"0.01",
-    "description": "Simple demo app - displays Bangle.js, JS logo, graphics, and Bangle.js information",
-    "tags": "",
-    "type":"app",
-    "allow_emulator":true,
-    "storage": [
-      {"name":"demoapp.app.js","url":"app.js"},
-      {"name":"demoapp.img","url":"app-icon.js","evaluate":true}
-    ],
-    "sortorder" : -9
-  },
-  { "id": "flagrse",
-    "name": "Espruino Flag Raiser",
-    "icon": "app.png",
-    "version":"0.01",
-    "description": "App to send a command to another Espruino to cause it to raise a flag",
-    "tags": "",
-    "storage": [
-      {"name":"flagrse.app.js","url":"app.js"},
-      {"name":"flagrse.img","url":"app-icon.js","evaluate":true}
-    ]
-  },
-  {
-    "id": "pipboy",
-    "name": "Pipboy",
-    "icon": "app.png",
-    "version": "0.01",
-    "description": "Pipboy themed clock",
-    "tags": "clock",
-    "type":"clock",
-    "allow_emulator":true,
-    "storage": [
-      {"name":"pipboy.app.js","url":"app.js"},
-      {"name":"pipboy.img","url":"app-icon.js","evaluate":true}
     ]
   },
   { "id": "torch",
