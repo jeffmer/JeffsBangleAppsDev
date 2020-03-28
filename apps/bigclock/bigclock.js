@@ -8,8 +8,8 @@ function drawTime() {
     minutes = time[1];
   g.setColor(1,1,1);
   g.setFont("Vector",100);
-  g.drawString(hours,50,10,true);
-  g.drawString(minutes,50,130,true);
+  g.drawString(hours,50,24,true);
+  g.drawString(minutes,50,135,true);
 }
 
 Bangle.on('lcdPower',function(on) {
@@ -22,6 +22,8 @@ Bangle.on('lcdPower',function(on) {
 
 Bangle.setLCDBrightness(1);
 g.clear();
+Bangle.loadWidgets();
+Bangle.drawWidgets();
 drawTime();
 // Show launcher when middle button pressed
 setWatch(Bangle.showLauncher, BTN2, {repeat:false,edge:"falling"});
