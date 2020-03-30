@@ -190,7 +190,7 @@
     ]
   },
   { "id": "gpstrack",
-    "name": "GPS track",
+    "name": "GPS Track",
     "icon": "app.png",
     "version":"0.06",
     "description": "Application that draws a recorded  GPS track",
