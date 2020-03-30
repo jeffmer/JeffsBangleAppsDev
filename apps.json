@@ -189,6 +189,17 @@
       {"name":"gpsrec.wid.js","url":"widget.js"}
     ]
   },
+  { "id": "gpstrack",
+    "name": "GPS track",
+    "icon": "track.png",
+    "version":"0.06",
+    "description": "Application that draws a recorded  GPS track",
+    "tags": "tool,outdoors,gps,widget",
+    "storage": [
+      {"name":"gpstrack.app.js","url":"track.js"},
+      {"name":"gpstrack.img","url":"track-icon.js","evaluate":true},
+    ]
+  },
   { "id": "heart",
     "name": "Heart Rate Recorder",
     "icon": "app.png",
