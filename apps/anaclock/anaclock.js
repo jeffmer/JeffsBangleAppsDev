@@ -93,9 +93,9 @@ startTimers();
 setWatch(Bangle.showLauncher, BTN2, {repeat:false,edge:"falling"});
 setWatch(function(){
     load("digiclock.app.js");
-}, BTN4, {repeat:false,edge:"rising"});
+}, BTN1, {repeat:false,edge:"rising"});
 setWatch(function(){
     load("bigclock.app.js");
-}, BTN5, {repeat:false,edge:"rising"});
+}, BTN3, {repeat:false,edge:"rising"});
 
 

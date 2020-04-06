@@ -30,7 +30,7 @@ setWatch(Bangle.showLauncher, BTN2, {repeat:false,edge:"falling"});
 // change watch
 setWatch(function(){
     load("anaclock.app.js");
-}, BTN4, {repeat:false,edge:"rising"});
+}, BTN1, {repeat:false,edge:"rising"});
 setWatch(function(){
     load("digiclock.app.js");
-}, BTN5, {repeat:false,edge:"rising"});
+}, BTN3, {repeat:false,edge:"rising"});
