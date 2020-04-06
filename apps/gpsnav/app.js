@@ -1,17 +1,16 @@
-Bangle.setGPSPower(1);
 
-var buf = Graphics.createArrayBuffer(240,50,1,{msb:true});
-var tbuf = Graphics.createArrayBuffer(240,50,1,{msb:true});
+var pal2color = new Uint16Array([0x0000,0xffff],0,2);
+var buf = Graphics.createArrayBuffer(240,50,1,{msb:true})
 
 function flip(b,y) {
- g.drawImage({width:240,height:60,bpp:1,buffer:b.buffer},0,y);
-  b.clear();
+ g.drawImage({width:240,height:60,bpp:1,buffer:b.buffer, palette:pal2color},0,y);
+ b.clear();
 }
 
 var labels = ["N","NE","E","SE","S","SW","W","NW"];
 
 function drawCompass(course) {
-  buf.setColor(3);
+  buf.setColor(1);
   buf.setFont("Vector",16);
   var start = course-90;
   if (start<0) start+=360;
@@ -60,14 +59,14 @@ var speed = 0;
 var satellites = 0;
 
 function drawN(){
-  tbuf.setColor(1);
-  tbuf.setFont("Vector",48);
+  buf.setColor(1);
+  buf.setFont("Vector",48);
   var cs = course.toString();
   cs = course<10?"00"+cs : course<100 ?"0"+cs : cs;
-  tbuf.drawString(cs,10,0);
+  buf.drawString(cs,10,0);
   var txt = (speed<10) ? speed.toFixed(1) : Math.round(speed);
-  tbuf.drawString(txt,140,0);
-  flip(tbuf,170);
+  buf.drawString(txt,140,0);
+  flip(buf,170);
   g.setFont("6x8",2);
   g.setColor(0,0,0);
   g.fillRect(25,25,100,35);
@@ -118,12 +117,13 @@ function drawAll(){
   drawCompass(heading);
 }
 
+Bangle.setGPSPower(1);
 g.clear();
 Bangle.setLCDBrightness(1);
 Bangle.loadWidgets();
 Bangle.drawWidgets();
 drawAll();
 startTimers();
+Bangle.on('GPS', onGPS);
 // Show launcher when middle button pressed
 setWatch(Bangle.showLauncher, BTN2, {repeat:false,edge:"falling"});
-Bangle.on('GPS', onGPS);
