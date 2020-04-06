@@ -202,7 +202,7 @@
   },
   { "id": "gpsnav",
     "name": "GPS Navigation",
-    "icon": "app.png",
+    "icon": "icon.png",
     "version":"0.01",
     "description": "Displays GPS Course snd Speed",
     "tags": "tool,outdoors,gps",
