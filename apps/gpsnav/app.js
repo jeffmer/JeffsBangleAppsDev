@@ -117,11 +117,12 @@ function drawAll(){
   drawCompass(heading);
 }
 
-Bangle.setGPSPower(1);
 g.clear();
 Bangle.setLCDBrightness(1);
 Bangle.loadWidgets();
 Bangle.drawWidgets();
+// load widgets can turn off GPS
+Bangle.setGPSPower(1);
 drawAll();
 startTimers();
 Bangle.on('GPS', onGPS);
