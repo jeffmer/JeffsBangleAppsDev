@@ -1,9 +1,9 @@
 
 var pal2color = new Uint16Array([0x0000,0xffff],0,2);
-var buf = Graphics.createArrayBuffer(240,50,1,{msb:true})
+var buf = Graphics.createArrayBuffer(240,50,1,{msb:true});
 
 function flip(b,y) {
- g.drawImage({width:240,height:60,bpp:1,buffer:b.buffer, palette:pal2color},0,y);
+ g.drawImage({width:240,height:50,bpp:1,buffer:b.buffer, palette:pal2color},0,y);
  b.clear();
 }
 
@@ -31,7 +31,7 @@ function drawCompass(course) {
     }
     xpos+=15;
   }
-  flip(buf,60);
+  flip(buf,78);
 }
 
 //displayed heading
@@ -110,8 +110,8 @@ Bangle.on('lcdPower',function(on) {
 
 function drawAll(){
   g.setColor(1,0.5,0.5);
-  g.fillRect(116,146,124,166);
-  g.fillPoly([120,115,105,146,135,146]);
+  g.fillRect(118,150,122,165);
+  g.fillPoly([120,130,110,150,130,150]);
   g.setColor(1,1,1);
   drawN();
   drawCompass(heading);
@@ -128,3 +128,4 @@ startTimers();
 Bangle.on('GPS', onGPS);
 // Show launcher when middle button pressed
 setWatch(Bangle.showLauncher, BTN2, {repeat:false,edge:"falling"});
+
