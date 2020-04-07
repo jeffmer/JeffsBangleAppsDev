@@ -99,7 +99,7 @@ function distance(a,b){
   return Math.round(Math.sqrt(x*x + y*y) * 6371000);
 }
 
-ffunction drawN(){
+function drawN(){
   buf.setColor(1);
   buf.setFont("Vector",48);
   var cs = course.toString();
@@ -111,7 +111,9 @@ ffunction drawN(){
   buf.setColor(1);
   buf.setFont("Vector",20);
   buf.drawString(wp.name,140,0);
-  buf.drawString("Brg : "+brg,0,0);
+  var bs = brg.toString();
+  bs = brg<10?"00"+bs : brg<100 ?"0"+bs : bs;
+  buf.drawString("Brg : "+bs,0,0);
   buf.drawString("Dist: "+dist.toString()+"m",0,30);
   flip(buf,Yoff+130);
   g.setFont("6x8",1);
