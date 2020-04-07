@@ -1,13 +1,15 @@
-const Yoff = 65;
-var pal2color = new Uint16Array([0x0000,0xffff],0,2);
-var buf = Graphics.createArrayBuffer(240,50,1,{msb:true});
+const Yoff = 40;
+var pal2color = new Uint16Array([0x0000,0xffff,0x07ff,0x07e0],0,2);
+var buf = Graphics.createArrayBuffer(240,50,2,{msb:true});
 
 function flip(b,y) {
- g.drawImage({width:240,height:50,bpp:1,buffer:b.buffer, palette:pal2color},0,y);
+ g.drawImage({width:240,height:50,bpp:2,buffer:b.buffer, palette:pal2color},0,y);
  b.clear();
 }
 
 var labels = ["N","NE","E","SE","S","SW","W","NW"];
+
+var brg=0;
 
 function drawCompass(course) {
   buf.setColor(1);
@@ -31,6 +33,16 @@ function drawCompass(course) {
     }
     xpos+=15;
   }
+  if (brg!==undefined) {
+    var bpos = brg - course;
+    if (bpos>180) bpos -=360;
+    if (bpos<-180) bpos +=360;
+    bpos+=120;
+    if (bpos<30) bpos = 14;
+    if (bpos>210) bpos = 226;
+    buf.setColor(2);
+    buf.fillCircle(bpos,40,8);
+    }
   flip(buf,Yoff);
 }
 
@@ -53,12 +65,41 @@ function newHeading(m,h){
     return heading;
 }
 
-var gpsfix;
 var course =0;
 var speed = 0;
 var satellites = 0;
+var wp = {name:"HOME",
+          lat:51.4370,
+          lon:-0.3198
+         };
+var dist=0;
 
-function drawN(){
+function radians(a) {
+  return a*Math.PI/180;
+}
+
+function degrees(a) {
+  var d = a*180/Math.PI;
+  return (d+360)%360;
+}
+
+function bearing(a,b){
+  var delta = radians(b.lon-a.lon);
+  var alat = radians(a.lat);
+  var blat = radians(b.lat);
+  var y = Math.sin(delta) * Math.cos(blat);
+  var x = Math.cos(alat)*Math.sin(blat) -
+        Math.sin(alat)*Math.cos(blat)*Math.cos(delta);
+  return Math.round(degrees(Math.atan2(y, x)));
+}
+
+function distance(a,b){
+  var x = radians(a.lon-b.lon) * Math.cos(radians((a.lat+b.lat)/2));
+  var y = radians(b.lat-a.lat);
+  return Math.round(Math.sqrt(x*x + y*y) * 6371000);
+}
+
+ffunction drawN(){
   buf.setColor(1);
   buf.setFont("Vector",48);
   var cs = course.toString();
@@ -67,7 +108,13 @@ function drawN(){
   var txt = (speed<10) ? speed.toFixed(1) : Math.round(speed);
   buf.drawString(txt,140,0);
   flip(buf,Yoff+70);
-  g.setFont("4x6",2);
+  buf.setColor(1);
+  buf.setFont("Vector",20);
+  buf.drawString(wp.name,140,0);
+  buf.drawString("Brg : "+brg,0,0);
+  buf.drawString("Dist: "+dist.toString()+"m",0,30);
+  flip(buf,Yoff+130);
+  g.setFont("6x8",1);
   g.setColor(0,0,0);
   g.fillRect(10,230,60,239);
   g.setColor(1,1,1);
@@ -75,13 +122,20 @@ function drawN(){
 }
 
 function onGPS(fix) {
-  gpsfix = fix;
-  if (gpsfix!==undefined){
+  if (fix!==undefined){
     course = isNaN(fix.course) ? course : Math.round(fix.course);
     speed  = isNaN(fix.speed) ? speed : fix.speed;
     satellites = fix.satellites;
   }
-  if (Bangle.isLCDOn()) drawN();
+  if (Bangle.isLCDOn()) {
+    if (fix!==undefined && fix.fix==1){
+      dist = distance(fix,wp);
+      if (isNaN(dist)) dist = 0;
+      brg = bearing(fix,wp);
+      if (isNaN(brg)) brg = 0;
+    }
+    drawN();
+  }
 }
 
 var intervalRef;
