@@ -1,4 +1,4 @@
-
+const Yoff = 65;
 var pal2color = new Uint16Array([0x0000,0xffff],0,2);
 var buf = Graphics.createArrayBuffer(240,50,1,{msb:true});
 
@@ -31,7 +31,7 @@ function drawCompass(course) {
     }
     xpos+=15;
   }
-  flip(buf,78);
+  flip(buf,Yoff);
 }
 
 //displayed heading
@@ -66,12 +66,12 @@ function drawN(){
   buf.drawString(cs,10,0);
   var txt = (speed<10) ? speed.toFixed(1) : Math.round(speed);
   buf.drawString(txt,140,0);
-  flip(buf,170);
-  g.setFont("6x8",2);
+  flip(buf,Yoff+70);
+  g.setFont("4x6",2);
   g.setColor(0,0,0);
-  g.fillRect(25,25,100,35);
+  g.fillRect(10,230,60,239);
   g.setColor(1,1,1);
-  g.drawString("Sats " + satellites.toString(),25,25);     
+  g.drawString("Sats " + satellites.toString(),10,230);     
 }
 
 function onGPS(fix) {
@@ -110,8 +110,7 @@ Bangle.on('lcdPower',function(on) {
 
 function drawAll(){
   g.setColor(1,0.5,0.5);
-  g.fillRect(118,150,122,165);
-  g.fillPoly([120,130,110,150,130,150]);
+  g.fillPoly([120,Yoff+50,110,Yoff+70,130,Yoff+70]);
   g.setColor(1,1,1);
   drawN();
   drawCompass(heading);
