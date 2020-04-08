@@ -10,6 +10,7 @@ function flip(b,y) {
 var labels = ["N","NE","E","SE","S","SW","W","NW"];
 
 var brg=0;
+var wpindex=0;
 
 function drawCompass(course) {
   buf.setColor(1);
@@ -33,7 +34,7 @@ function drawCompass(course) {
     }
     xpos+=15;
   }
-  if (brg!==undefined) {
+  if (wpindex!=0) {
     var bpos = brg - course;
     if (bpos>180) bpos -=360;
     if (bpos<-180) bpos +=360;
@@ -68,10 +69,7 @@ function newHeading(m,h){
 var course =0;
 var speed = 0;
 var satellites = 0;
-var wp = {name:"HOME",
-          lat:51.4370,
-          lon:-0.3198
-         };
+var wp;
 var dist=0;
 
 function radians(a) {
@@ -99,6 +97,8 @@ function distance(a,b){
   return Math.round(Math.sqrt(x*x + y*y) * 6371000);
 }
 
+var selected = false;
+
 function drawN(){
   buf.setColor(1);
   buf.setFont("6x8",2);
@@ -119,6 +119,7 @@ function drawN(){
   buf.setColor(3);
   buf.drawString("Brg: ",0,0);
   buf.drawString("Dist: ",0,30);
+  if (selected) buf.setColor(1);
   buf.drawString(wp.name,140,0);
   buf.setColor(1);
   buf.drawString(bs,60,0);
@@ -180,6 +181,18 @@ function drawAll(){
   drawCompass(heading);
 }
 
+var waypoints = require("Storage").readJSON("waypoints.json")||[{name:"NONE"}];
+wp=waypoints[0];
+
+function nextwp(inc){
+  if (!selected) return;
+  wpindex+=inc;
+  if (wpindex>=waypoints.length) wpindex=0;
+  if (wpindex<0) wpindex = waypoints.length-1;
+  wp = waypoints[wpindex];
+  drawN();
+}
+
 g.clear();
 Bangle.setLCDBrightness(1);
 Bangle.loadWidgets();
@@ -189,6 +202,9 @@ Bangle.setGPSPower(1);
 drawAll();
 startTimers();
 Bangle.on('GPS', onGPS);
-// Show launcher when middle button pressed
-setWatch(Bangle.showLauncher, BTN2, {repeat:false,edge:"falling"});
+// Toggle selected
+setWatch(nextwp.bind(null,-1), BTN1, {repeat:true,edge:"falling"});
+setWatch(()=>{selected=!selected;drawN();}, BTN2, {repeat:true,edge:"falling"});
+setWatch(nextwp.bind(null,1), BTN3, {repeat:true,edge:"falling"});
+
 
