@@ -1,5 +1,5 @@
 const Yoff = 40;
-var pal2color = new Uint16Array([0x0000,0xffff,0x07ff,0x07e0],0,2);
+var pal2color = new Uint16Array([0x0000,0xffff,0x07ff,0xC618],0,2);
 var buf = Graphics.createArrayBuffer(240,50,2,{msb:true});
 
 function flip(b,y) {
@@ -101,20 +101,28 @@ function distance(a,b){
 
 function drawN(){
   buf.setColor(1);
-  buf.setFont("Vector",48);
+  buf.setFont("6x8",2);
+  buf.drawString("o",100,0);
+  buf.setFont("6x8",1);
+  buf.drawString("kph",220,40);
+  buf.setFont("Vector",40);
   var cs = course.toString();
   cs = course<10?"00"+cs : course<100 ?"0"+cs : cs;
   buf.drawString(cs,10,0);
   var txt = (speed<10) ? speed.toFixed(1) : Math.round(speed);
-  buf.drawString(txt,140,0);
+  buf.drawString(txt,140,4);
   flip(buf,Yoff+70);
   buf.setColor(1);
   buf.setFont("Vector",20);
-  buf.drawString(wp.name,140,0);
   var bs = brg.toString();
   bs = brg<10?"00"+bs : brg<100 ?"0"+bs : bs;
-  buf.drawString("Brg : "+bs,0,0);
-  buf.drawString("Dist: "+dist.toString()+"m",0,30);
+  buf.setColor(3);
+  buf.drawString("Brg: ",0,0);
+  buf.drawString("Dist: ",0,30);
+  buf.drawString(wp.name,140,0);
+  buf.setColor(1);
+  buf.drawString(bs,60,0);
+  buf.drawString(dist.toString()+"m",60,30);
   flip(buf,Yoff+130);
   g.setFont("6x8",1);
   g.setColor(0,0,0);
