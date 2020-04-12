@@ -20,7 +20,6 @@ Bangle.on('lcdPower',function(on) {
   }
 });
 
-Bangle.setLCDTimeout(0);
 Bangle.setLCDBrightness(1);
 g.clear();
 Bangle.loadWidgets();
