@@ -1,5 +1,5 @@
 const Yoff = 40;
-var pal2color = new Uint16Array([0x0000,0xffff,0x07ff,0xC618],0,2);
+var pal2color = new Uint16Array([0x0000,0xffff,0x07ff,0xC618],0,4);
 var buf = Graphics.createArrayBuffer(240,50,2,{msb:true});
 
 function flip(b,y) {
