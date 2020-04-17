@@ -208,6 +208,7 @@
     "tags": "tool,outdoors,gps",
     "storage": [
       {"name":"gpsnav.app.js","url":"app.js"},
+      {"name":"waypoints.json","url":"waypoints.json"},
       {"name":"gpsnav.img","url":"app-icon.js","evaluate":true}
     ]
   },
