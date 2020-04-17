@@ -1,5 +1,97 @@
+LOADING ...
+Found BANGLEJS, 2v05
+>
+Connected to Web Bluetooth, Bangle.js bf9b
+>
+>
+> 
+RAM▼
+1
+var  on = false;
+2
+setInterval(function() {
+3
+  on = !on;
+4
+  LED1.write(on);
+5
+}, 500);
+BANGLE.JS BF9B
+DEVICE STORAGE
+Upload a file
+Download from RAM
+.boot0
+.bootcde
+boot.info
+setting.app.js
+setting.img
+setting.info
+files.app.js
+files.img
+files.info
+widbat.wid.js
+widbat.info
+widbt.wid.js
+widbt.info
+hrm.info
+hrm.app.js
+hrm.img
+jcompass.app.js
+jcompass.img
+jcompass.info
+toucher.app.js
+toucher.info
+astrocalc.app.js
+suncalc.js
+astrocalc.img
+first-quarter.img
+last-quarter.img
+waning-crescent.img
+waning-gibbous.img
+full.img
+new.img
+waxing-gibbous.img
+waxing-crescent.img
+astrocalc.info
+digiclock.app.js
+digiclock.img
+digiclock.info
+anaclock.app.js
+anaclock.img
+anaclock.info
+waypoints.json
+gpsnav.app.js
+gpsnav.img
+gpsnav.info
+alarm.app.js
+alarm.boot.js
+alarm.js
+alarm.img
+alarm.wid.js
+alarm.info
+alarm.json
+bigclock.app.js
+bigclock.img
+bigclock.info
+setting.json
+gpsrec.app.js
+gpsrec.img
+gpsrec.wid.js
+gpsrec.info
+gpsrec.json
+.gpsrc2 (StorageFile)
+.gpsrc3 (StorageFile)
+.gpsrc4 (StorageFile)
+.gpsrc5 (StorageFile)
+.gpsrc6 (StorageFile)
+.gpsrc7 (StorageFile)
+.gpsrc8 (StorageFile)
+.gpsrc0 (StorageFile)
+.gpsrc1 (StorageFile)
+.gpsrc9 (StorageFile)
+CONTENTS OF GPSNAV.APP.JS
 const Yoff = 40;
-var pal2color = new Uint16Array([0x0000,0xffff,0x07ff,0xC618],0,4);
+var pal2color = new Uint16Array([0x0000,0xffff,0x07ff,0xC618],0,2);
 var buf = Graphics.createArrayBuffer(240,50,2,{msb:true});
 
 function flip(b,y) {
@@ -119,11 +211,14 @@ function drawN(){
   buf.setColor(3);
   buf.drawString("Brg: ",0,0);
   buf.drawString("Dist: ",0,30);
-  if (selected) buf.setColor(1);
+  buf.setColor(selected?1:2);
   buf.drawString(wp.name,140,0);
   buf.setColor(1);
   buf.drawString(bs,60,0);
-  buf.drawString(dist.toString()+"m",60,30);
+  if (dist<1000)
+    buf.drawString(dist.toString()+"m",60,30);
+  else
+    buf.drawString((dist/1000).toFixed(2)+"Km",60,30);
   flip(buf,Yoff+130);
   g.setFont("6x8",1);
   g.setColor(0,0,0);
@@ -132,7 +227,10 @@ function drawN(){
   g.drawString("Sats " + satellites.toString(),10,230);     
 }
 
+var savedfix;
+
 function onGPS(fix) {
+  savedfix = fix;
   if (fix!==undefined){
     course = isNaN(fix.course) ? course : Math.round(fix.course);
     speed  = isNaN(fix.speed) ? speed : fix.speed;
@@ -193,6 +291,16 @@ function nextwp(inc){
   drawN();
 }
 
+function doselect(){
+  if (selected && waypoints[wpindex].mark===undefined && savedfix.fix) {
+     waypoints[wpindex] ={mark:1, name:"@"+wp.name, lat:savedfix.lat, long:savedfix.long};
+     wp = waypoints[wpindex];
+     require("Storage").write("waypoints.json", waypoints);
+  }
+  selected=!selected;
+  drawN();
+}
+
 g.clear();
 Bangle.setLCDBrightness(1);
 Bangle.loadWidgets();
@@ -208,3 +316,4 @@ setWatch(()=>{selected=!selected;drawN();}, BTN2, {repeat:true,edge:"falling"});
 setWatch(nextwp.bind(null,1), BTN3, {repeat:true,edge:"falling"});
 
 
+SaveCopy to EditorOk

@@ -44,7 +44,7 @@ NRF.on('disconnect',function(reason){
 
 When connected the watch can display the iPhones bluetooth address for the ANCS service. As can be seen from the screen photo this is a private resolvable address. Note that the watch does not start advertising until it is disconnected from the Web IDE - the first disconnect in the photo.
 
-![](screendump.jpg)
+![](https://raw.githubusercontent.com/jeffmer/JeffsBangleAppsDev/master/apps/ancsapp/screendump.jpg)
 
 Now for the problem. Bluetooth specifies both that a device may be Master/Central or Peripheral/Slave as well as whether it is a Client or Server. The Espruino examples all have the Master as Client and the Slave as Server. The Master initiates the connection and the Client accesses the data provided by the Server. The problem is that the ANCS has the Master as Server and the Client as Slave. In other words, the iPhone initiates the connection and also provide the ANCS service. The watch is the Slave which responds to the connection and then accesses the ANCS service as a client. The Espruino API as far as I can ascertain does not have  away to let you create a BluetoothDevice and then a BluetoothRemoteGATTServer to access the remote server for this Slave/Peripheral - Client combination. I tried an NRF.connect() to the private address, however, this immediately drops the connection. 
 
