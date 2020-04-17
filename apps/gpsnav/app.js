@@ -203,7 +203,7 @@ function doselect(){
   if (selected && waypoints[wpindex].mark===undefined && savedfix.fix) {
      waypoints[wpindex] ={mark:1, name:"@"+wp.name, lat:savedfix.lat, long:savedfix.long};
      wp = waypoints[wpindex];
-     require("Storage").write("waypoints.json", waypoints);
+     require("Storage").writeJSON("waypoints.json", waypoints);
   }
   selected=!selected;
   drawN();
@@ -220,6 +220,6 @@ startTimers();
 Bangle.on('GPS', onGPS);
 // Toggle selected
 setWatch(nextwp.bind(null,-1), BTN1, {repeat:true,edge:"falling"});
-setWatch(()=>{selected=!selected;drawN();}, BTN2, {repeat:true,edge:"falling"});
+setWatch(doselect, BTN2, {repeat:true,edge:"falling"});
 setWatch(nextwp.bind(null,1), BTN3, {repeat:true,edge:"falling"});
 
