@@ -8,7 +8,7 @@ function getFN(n) {
 }
 
 function updateSettings() {
-  require("Storage").write("gpsrec.json", settings);
+  require("Storage").writeJSON("gpsrec.json", waypoints);
   if (WIDGETS["gpsrec"])
     WIDGETS["gpsrec"].reload();
 }
