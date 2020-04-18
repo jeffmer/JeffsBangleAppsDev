@@ -7,10 +7,9 @@ function flip(b,y) {
  b.clear();
 }
 
-var labels = ["N","NE","E","SE","S","SW","W","NW"];
-
 var brg=0;
 var wpindex=0;
+const labels = ["N","NE","E","SE","S","SW","W","NW"];
 
 function drawCompass(course) {
   buf.setColor(1);
