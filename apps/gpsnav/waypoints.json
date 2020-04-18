@@ -15,19 +15,9 @@
   "lat":51.1788,
   "lon":-1.8260
   },
-  {
-  "name":"WP0"
-  },
-  {
-    "name":"WP1"
-  },
-  {
-    "name":"WP2"
-  },
-  {
-    "name":"WP3"
-  },
-  {
-    "name":"WP4"
-  }
+  { "name":"WP0" },
+  { "name":"WP1" },
+  { "name":"WP2" },
+  { "name":"WP3" },
+  { "name":"WP4" }
 ]
