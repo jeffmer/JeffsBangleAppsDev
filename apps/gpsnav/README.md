@@ -22,7 +22,7 @@ Bearing and distance are both zero as WP1 has currently no GPS location associat
 
 ![](marked_screen.jpg)
 
-The distance should be small as shown in the screen shot as you have just marked your current location.
+The app indicates that WP2 is now marked by adding the prefix @ to it's name. The distance should be small as shown in the screen shot as you have just marked your current location.
 
 ### Waypoint JSON file
 
