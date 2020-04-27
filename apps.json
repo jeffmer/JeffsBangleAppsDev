@@ -205,6 +205,7 @@
     "icon": "icon.png",
     "version":"0.01",
     "description": "Displays GPS Course snd Speed",
+    "readme": "README.md",
     "tags": "tool,outdoors,gps",
     "storage": [
       {"name":"gpsnav.app.js","url":"app.js"},
