@@ -41,6 +41,7 @@
       }
   };   
   
+  if (typeof SCREENACCESS!='undefined') 
   NRF.on('connect',function(addr){
       var gatt;
       drawIcon(1); //connect from iPhone
