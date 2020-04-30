@@ -127,7 +127,7 @@
     Bangle.setLCDPower(true);
     if (state.current.cat!=1){
       E.showAlert(message,title).then (
-        function(){SCREENACCESS.release();}
+        function () { setTimeout(() => { SCREENACCESS.release(); }, 1000); }
       );
     } else {
       E.showPrompt(message,{title:title,buttons:{"Accept":true,"Cancel":false}}).then

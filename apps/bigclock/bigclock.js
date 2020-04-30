@@ -15,6 +15,7 @@ function drawTime() {
 intervalRef = null;
 
 function startdraw(){
+  g.reset();
   g.clear();
   intervalRef = setInterval(drawTime,60*1000);
   drawTime(); 
