@@ -70,8 +70,8 @@ function startdraw() {
   minuteDate = new Date();
   secondDate = new Date();
   intervalRefSec = setInterval(onSecond,1000);
-  Bangle.drawWidgets()
   drawAll();
+  Bangle.drawWidgets();
 }
 
 var SCREENACCESS = {
