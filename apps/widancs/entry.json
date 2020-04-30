@@ -1,0 +1,12 @@
+{ "id": "ancs",
+    "name": "Apple Notification Widget",
+    "shortName":"ANCS",
+    "icon": "widget.png",
+    "version":"0.01",
+    "description": "Displays calls and messages from a paired iPhone",
+    "tags": "widget",
+    "type": "widget",
+    "storage": [
+      {"name":"ancs.wid.js","url":"widget.js"}
+    ]
+  }

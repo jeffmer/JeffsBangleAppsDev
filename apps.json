@@ -475,5 +475,17 @@
     "storage": [
       {"name":"widid.wid.js","url":"widget.js"}
     ]
+  },
+  { "id": "widancs",
+    "name": "Apple Notification Widget",
+    "shortName":"ANCS",
+    "icon": "widget.png",
+    "version":"0.01",
+    "description": "Displays calls and messages from a paired iPhone. You can also accept or reject calls. Needs modified clock apps",
+    "tags": "widget",
+    "type": "widget",
+    "storage": [
+      {"name":"ancs.wid.js","url":"widget.js"}
+    ]
   }
 ]
