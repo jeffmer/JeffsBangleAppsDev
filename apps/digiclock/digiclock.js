@@ -26,8 +26,8 @@ function drawTime() {
 var intervalRef = null;
 
 function startdraw(){
-  intervalRef = setInterval(drawTime, 1000);
   Bangle.drawWidgets();
+  intervalRef = setInterval(drawTime, 1000);
   drawTime();  
 }
 
@@ -35,18 +35,26 @@ function stopdraw(){
   clearInterval(intervalRef);
 }
 
+function setButtons(){
+  setWatch(Bangle.showLauncher, BTN2, {repeat:false,edge:"falling"});
+  setWatch(function(){load("anaclock.app.js");}, BTN1, {repeat:false,edge:"rising"});
+  setWatch(function(){load("bigclock.app.js");}, BTN3, {repeat:false,edge:"rising"});
+};
+
 var SCREENACCESS = {
       withApp:true,
       request:function(){
         this.withApp=false;
         stopdraw();
+        clearWatch();
       },
       release:function(){
         this.withApp=true;
         startdraw(); 
+        setButtons();
       }
 } 
-
+ 
 Bangle.on('lcdPower',function(on) {
   if (!SCREENACCESS.withApp) return;
   if (on) {
@@ -58,16 +66,5 @@ Bangle.on('lcdPower',function(on) {
 
 g.clear();
 Bangle.loadWidgets();
-Bangle.drawWidgets();
-// Update time once a second
-intervalRef = setInterval(drawTime, 1000);
-drawTime();
-
-// Show launcher when middle button pressed
-setWatch(Bangle.showLauncher, BTN2, {repeat:false,edge:"falling"});
-setWatch(function(){
-    load("bigclock.app.js");
-}, BTN1, {repeat:false,edge:"rising"});
-setWatch(function(){
-    load("anaclock.app.js");
-}, BTN3, {repeat:false,edge:"rising"});
+startdraw();
+setButtons();

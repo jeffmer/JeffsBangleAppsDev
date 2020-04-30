@@ -75,15 +75,23 @@ function startdraw() {
   drawAll();
 }
 
+function setButtons(){
+  setWatch(Bangle.showLauncher, BTN2, {repeat:false,edge:"falling"});
+  setWatch(function(){load("bigclock.app.js");}, BTN1, {repeat:false,edge:"rising"});
+  setWatch(function(){load("digiclock.app.js");}, BTN3, {repeat:false,edge:"rising"});
+};
+
 var SCREENACCESS = {
       withApp:true,
       request:function(){
         this.withApp=false;
         stopdraw();
+        clearWatch();
       },
       release:function(){
         this.withApp=true;
         startdraw(); 
+        setButtons();
       }
 } 
 
@@ -100,13 +108,5 @@ g.clear();
 Bangle.setLCDBrightness(1);
 Bangle.loadWidgets();
 startdraw();
-// Show launcher when middle button pressed
-setWatch(Bangle.showLauncher, BTN2, {repeat:false,edge:"falling"});
-setWatch(function(){
-    load("digiclock.app.js");
-}, BTN1, {repeat:false,edge:"rising"});
-setWatch(function(){
-    load("bigclock.app.js");
-}, BTN3, {repeat:false,edge:"rising"});
-
+setButtons();
 
