@@ -14,36 +14,42 @@ function drawTime() {
 
 intervalRef = null;
 
+function startdraw(){
+  g.clear();
+  Bangle.drawWidgets();
+  intervalRef = setInterval(drawTime,60*1000);
+  drawTime();  
+}
+
+function stopdraw(){
+  clearInterval(intervalRef);
+}
+
 var SCREENACCESS = {
       withApp:true,
-      requested:function(){
-        withApp=false;
-        clearInterval(intervalRef);
+      request:function(){
+        this.withApp=false;
+        stopdraw();
       },
       released:function(){
-        withApp=true;
-        g.clear();
-        Bangle.drawWidgets();
-        intervalRef = setInterval(drawTime,60*1000);
-        drawTime();
+        this.withApp=true;
+        startdraw(); 
       }
 } 
 
 Bangle.on('lcdPower',function(on) {
   if (!SCREENACCESS.withApp) return;
   if (on) {
-    SCREENACCESS.released();
+    startdraw();
   } else {
-    SCREENACCESS.requested();
+    stopdraw();
   }
 });
 
+
 Bangle.setLCDBrightness(1);
-g.clear();
 Bangle.loadWidgets();
-Bangle.drawWidgets();
-drawTime();
-intervalRef = setInterval(drawTime,60*1000);
+startdraw();
 // Show launcher when middle button pressed
 setWatch(Bangle.showLauncher, BTN2, {repeat:false,edge:"falling"});
 // change watch

@@ -25,26 +25,34 @@ function drawTime() {
 
 var intervalRef = null;
 
+function startdraw(){
+  intervalRef = setInterval(drawTime, 1000);
+  Bangle.drawWidgets();
+  drawTime();  
+}
+
+function stopdraw(){
+  clearInterval(intervalRef);
+}
+
 var SCREENACCESS = {
       withApp:true,
-      requested:function(){
+      request:function(){
         this.withApp=false;
-        clearInterval(intervalRef);
+        stopdraw();
       },
       released:function(){
         this.withApp=true;
-        intervalRef = setInterval(drawTime, 1000);
-        Bangle.drawWidgets();
-        drawTime();  
+        startdraw(); 
       }
 } 
 
 Bangle.on('lcdPower',function(on) {
   if (!SCREENACCESS.withApp) return;
   if (on) {
-    SCREENACCESS.released();
+    startdraw();
   } else {
-    SCREENACCESS.requested();
+    stopdraw();
   }
 });
 

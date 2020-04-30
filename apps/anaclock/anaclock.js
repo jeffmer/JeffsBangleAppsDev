@@ -62,47 +62,43 @@ function onSecond() {
   g.fillCircle(120,134,2);
 }
 
-function clearTimers() {
+function stopdraw() {
   if(intervalRefSec) {clearInterval(intervalRefSec);}
 }
 
-function startTimers() {
+function startdraw() {
   minuteDate = new Date();
   secondDate = new Date();
   intervalRefSec = setInterval(onSecond,1000);
+  drawWidgets()
   drawAll();
 }
 
 var SCREENACCESS = {
       withApp:true,
-      requested:function(){
-        withApp=false;
-        clearTimers();
+      request:function(){
+        this.withApp=false;
+        stopdraw();
       },
       released:function(){
-        withApp=true;
-        g.clear();
-        Bangle.drawWidgets();
-        startTimers();    
+        this.withApp=true;
+        startdraw(); 
       }
 } 
 
 Bangle.on('lcdPower',function(on) {
   if (!SCREENACCESS.withApp) return;
   if (on) {
-    SCREENACCESS.released();
+    startdraw();
   } else {
-    SCREENACCESS.requested();
+    stopdraw();
   }
 });
-
 
 g.clear();
 Bangle.setLCDBrightness(1);
 Bangle.loadWidgets();
-Bangle.drawWidgets();
-drawAll();
-startTimers();
+startdraw();
 // Show launcher when middle button pressed
 setWatch(Bangle.showLauncher, BTN2, {repeat:false,edge:"falling"});
 setWatch(function(){
