@@ -67,11 +67,12 @@ function stopdraw() {
 }
 
 function startdraw() {
+  g.clear();
+  Bangle.drawWidgets();
   minuteDate = new Date();
   secondDate = new Date();
   intervalRefSec = setInterval(onSecond,1000);
   drawAll();
-  Bangle.drawWidgets();
 }
 
 var SCREENACCESS = {
