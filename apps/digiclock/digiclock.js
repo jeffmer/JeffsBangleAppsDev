@@ -26,10 +26,13 @@ function drawTime() {
 var intervalRef = null;
 
 var SCREENACCESS = {
+      withApp:true,
       requested:function(){
+        this.withApp=false;
         clearInterval(intervalRef);
       },
       released:function(){
+        this.withApp=true;
         intervalRef = setInterval(drawTime, 1000);
         Bangle.drawWidgets();
         drawTime();  
@@ -37,6 +40,7 @@ var SCREENACCESS = {
 } 
 
 Bangle.on('lcdPower',function(on) {
+  if (!SCREENACCESS.withApp) return;
   if (on) {
     SCREENACCESS.released();
   } else {

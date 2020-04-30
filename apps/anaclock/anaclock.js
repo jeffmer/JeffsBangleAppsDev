@@ -74,10 +74,13 @@ function startTimers() {
 }
 
 var SCREENACCESS = {
+      withApp:true,
       requested:function(){
+        withApp=false;
         clearTimers();
       },
       released:function(){
+        withApp=true;
         g.clear();
         Bangle.drawWidgets();
         startTimers();    
@@ -85,6 +88,7 @@ var SCREENACCESS = {
 } 
 
 Bangle.on('lcdPower',function(on) {
+  if (!SCREENACCESS.withApp) return;
   if (on) {
     SCREENACCESS.released();
   } else {
