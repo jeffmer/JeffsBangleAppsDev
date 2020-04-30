@@ -107,11 +107,15 @@
         Terminal.println("ERROR "+e);
     });
   }
-  
+
+  var intervalRef = null;
+
   function do_buzz(n){
+      if (intervalRef) return;
       Bangle.buzz(500);
-      var intervalRef = setInterval(function(){Bangle.buzz(500);},1000);
+      intervalRef = setInterval(function(){Bangle.buzz(500);},1000);
       setTimeout(function(){clearInterval(intervalRef);},n*1000);
+      intervalRef = null;
   }
   
   function printmsg(buf,inds){
