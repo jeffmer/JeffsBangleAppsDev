@@ -41,7 +41,7 @@ var SCREENACCESS = {
         this.withApp=false;
         stopdraw();
       },
-      released:function(){
+      release:function(){
         this.withApp=true;
         startdraw(); 
       }
