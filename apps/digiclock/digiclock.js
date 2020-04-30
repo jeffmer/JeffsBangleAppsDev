@@ -25,17 +25,23 @@ function drawTime() {
   flip();
 }
 
+var intervalRef = null;
+
 
 Bangle.on('lcdPower',function(on) {
-  if (on)
+  if (on){
+    intervalRef = setInterval(drawTime, 1000);
+    Bangle.drawWidgets();
     drawTime();
+  } else if (intervalRef)
+    clearInterval(intervalRef);
 });
 
 g.clear();
 Bangle.loadWidgets();
 Bangle.drawWidgets();
 // Update time once a second
-setInterval(drawTime, 1000);
+intervalRef = setInterval(drawTime, 1000);
 drawTime();
 
 // Show launcher when middle button pressed

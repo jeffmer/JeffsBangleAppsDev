@@ -12,11 +12,16 @@ function drawTime() {
   g.drawString(minutes,50,135,true);
 }
 
+intervalRef = null;
+
 Bangle.on('lcdPower',function(on) {
   if (on) {
     g.clear();
     Bangle.drawWidgets();
+    intervalRef = setInterval(drawTime,60*1000);
     drawTime();
+  } else {
+      clearInterval(intervalRef);
   }
 });
 
@@ -25,7 +30,7 @@ g.clear();
 Bangle.loadWidgets();
 Bangle.drawWidgets();
 drawTime();
-intervalRefMin = setInterval(drawTime,60*1000);
+intervalRef = setInterval(drawTime,60*1000);
 // Show launcher when middle button pressed
 setWatch(Bangle.showLauncher, BTN2, {repeat:false,edge:"falling"});
 // change watch

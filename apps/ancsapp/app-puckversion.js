@@ -23,30 +23,30 @@ var state = {
     notuid:0,
     com:new Uint8Array([0,0,0,0,0,1,32,0,3,64,0]),
     buf:new Uint8Array(108),
-    vw :Dataview(this.buf),
     inp:0,
     store:function(b){
         var i = this.inp;
         if (i<107){
-            this.buf.set(this,i);
+            this.buf.set(b,i);
             this.inp+=b.length;
         }
     },
     gotmsg:function(){
         var n = this.inp;
-        if (n<8) return false;
-        var tn=this.vw.getUint16(6,true);
-        if (n<(tn+8)) return false;
-        var mn=this.vw.getUint16(9+tn,true);
-        if (n<(mn+tn+11)) return false;
-        return true;  
+        var vw = DataView(this.buf.buffer);
+        if (n<8) return null;
+        var tn=vw.getUint16(6,true);
+        if (n<(tn+8)) return null;
+        var mn=vw.getUint16(9+tn,true);
+        if (n<(mn+tn+11)) return null;
+        return {msg:true, tlen:tn, mlen:mn}; 
     }
 };   
 
 NRF.on('connect',function(addr){
-    var gatt;6
+    var gatt;
     console.log("**= Red ",addr);
-    NRF.connect(addr,{minInterval:100,maxInterval:1000}).then(function(g) {
+    NRF.connect(addr,{minInterval:30,maxInterval:200}).then(function(g) {
     gatt = g;
     gatt.device.on('gattserverdisconnected', function(reason) {
        console.log("*** Grey ",reason);
@@ -56,7 +56,6 @@ NRF.on('connect',function(addr){
     }).then(function(){
       var ival = setInterval(function(){
           var sec = gatt.getSecurityStatus();
-          console.log(sec);
           if (!sec.connected) {clearInterval(ival); return;}
           if (sec.connected && sec.encrypted){
             clearInterval(ival);  
@@ -85,14 +84,14 @@ function do_ancs() {
   }).then(function(c) {
     ancs.data =c;
     state.ancs=ancs;
-    console.log("Got Services");
+    console.log("*** yellow");
     ancs.notify.on('characteristicvaluechanged', function(ev) {
       printnotify(ev.target.value);
     });
     ancs.data.on('characteristicvaluechanged', function(e) {
-      console.log(e.target.value);
       state.store(e.target.value.buffer);
-      if (state.gotmsg()) console.log("Got the entire message");        
+      var inds = state.gotmsg();
+      if (inds) printmsg(state.buf,inds);        
     });
     state.ignore=true;
     ancs.notify.startNotifications().then(function(){
@@ -101,11 +100,21 @@ function do_ancs() {
          ancs.data.startNotifications().then(function(){
             console.log("*** Green");
          });  
-      },5000);
+      },3000);
     });
   }).catch(function() {
      console.log("Something's broken.");
   });
+}
+
+function printmsg(buf,inds){
+  console.log("text "+inds.tlen+" "+inds.mlen);
+  var title = "";
+  for (var i=8;i<8+inds.tlen; ++i) title+=String.fromCharCode(buf[i]);
+  console.log("Title:\n",title);
+  var message = "";
+  for (var j=8+inds.tlen;j<11+inds.tlen+inds.mlen;++j) message+=String.fromCharCode(buf[j]);
+  console.log("Message:\n",message);
 }
 
 const category = ["Other","Call ","Missd","Vmail","Msg  ","Sched","Email","News ","Fitn ","Busn ","Locn ","Entn "];
@@ -137,6 +146,7 @@ function getnotify(d){
 function get(uid){
   var v = DataView(state.com.buffer);
   v.setUint32(1,uid,true);
+  state.inp=0;
   state.ancs.control.writeValue(state.com).then(function(){
      console.log("Requested",uid);
   });
