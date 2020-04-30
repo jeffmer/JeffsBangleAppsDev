@@ -177,7 +177,7 @@
     WIDGETS["ancs"].draw();
   }
   
-  if (SCREENACCESS){
+  if (typeof SCREENACCESS!='undefined') {
     NRF.disconnect();
     advert();
   }
