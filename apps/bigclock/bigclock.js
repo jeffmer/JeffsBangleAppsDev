@@ -14,14 +14,23 @@ function drawTime() {
 
 intervalRef = null;
 
+var SCREENACCESS = {
+      requested:function(){
+        clearInterval(intervalRef);
+      },
+      released:function(){
+        g.clear();
+        Bangle.drawWidgets();
+        intervalRef = setInterval(drawTime,60*1000);
+        drawTime();
+      }
+} 
+
 Bangle.on('lcdPower',function(on) {
   if (on) {
-    g.clear();
-    Bangle.drawWidgets();
-    intervalRef = setInterval(drawTime,60*1000);
-    drawTime();
+    SCREENACCESS.released();
   } else {
-      clearInterval(intervalRef);
+    SCREENACCESS.requested();
   }
 });
 

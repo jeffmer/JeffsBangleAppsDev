@@ -73,15 +73,25 @@ function startTimers() {
   drawAll();
 }
 
+var SCREENACCESS = {
+      requested:function(){
+        clearTimers();
+      },
+      released:function(){
+        g.clear();
+        Bangle.drawWidgets();
+        startTimers();    
+      }
+} 
+
 Bangle.on('lcdPower',function(on) {
   if (on) {
-    g.clear();
-    Bangle.drawWidgets();
-    startTimers();
-  }else {
-    clearTimers();
+    SCREENACCESS.released();
+  } else {
+    SCREENACCESS.requested();
   }
 });
+
 
 g.clear();
 Bangle.setLCDBrightness(1);

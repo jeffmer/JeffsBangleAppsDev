@@ -164,7 +164,7 @@ function getnotify(d){
 //  Terminal.println("Eid: "+eid+" "+category[cat]+" "+uid +" "+state.ignore);
   if (state.ignore) return;
   if (eid!=0) return;
-  if(cat!=1 && cat!=2 && cat!=4) return; 
+  if(cat!=1 && cat!=2 && cat!=4) return; //calls & messages only
   state.current.cat=cat;
   state.current.uid=uid;
   var v = DataView(state.com.buffer);
@@ -177,5 +177,6 @@ function getnotify(d){
 
 //Terminal.println("Starting ANCS test prog");
 drawIcon(0);
+NRF.disconnect();
 advert();
 

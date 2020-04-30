@@ -5,8 +5,6 @@ function flip() {
   g.drawImage({width:buf.getWidth(),height:buf.getHeight(),buffer:buf.buffer},0,77);
 }
 
-
-
 /* Draw a transition between lastText and thisText.
  'n' is the amount - 0..1 */
 function drawTime() {
@@ -27,14 +25,23 @@ function drawTime() {
 
 var intervalRef = null;
 
+var SCREENACCESS = {
+      requested:function(){
+        clearInterval(intervalRef);
+      },
+      released:function(){
+        intervalRef = setInterval(drawTime, 1000);
+        Bangle.drawWidgets();
+        drawTime();  
+      }
+} 
 
 Bangle.on('lcdPower',function(on) {
-  if (on){
-    intervalRef = setInterval(drawTime, 1000);
-    Bangle.drawWidgets();
-    drawTime();
-  } else if (intervalRef)
-    clearInterval(intervalRef);
+  if (on) {
+    SCREENACCESS.released();
+  } else {
+    SCREENACCESS.requested();
+  }
 });
 
 g.clear();
