@@ -16,9 +16,9 @@ intervalRef = null;
 
 function startdraw(){
   g.clear();
-  Bangle.drawWidgets();
   intervalRef = setInterval(drawTime,60*1000);
-  drawTime();  
+  drawTime(); 
+  Bangle.drawWidgets(); 
 }
 
 function stopdraw(){

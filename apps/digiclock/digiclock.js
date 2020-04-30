@@ -37,8 +37,8 @@ function stopdraw(){
 
 function setButtons(){
   setWatch(Bangle.showLauncher, BTN2, {repeat:false,edge:"falling"});
-  setWatch(function(){load("anaclock.app.js");}, BTN1, {repeat:false,edge:"rising"});
-  setWatch(function(){load("bigclock.app.js");}, BTN3, {repeat:false,edge:"rising"});
+  setWatch(function(){load("bigclock.app.js");}, BTN1, {repeat:false,edge:"rising"});
+  setWatch(function(){load("anaclock.app.js");}, BTN3, {repeat:false,edge:"rising"});
 };
 
 var SCREENACCESS = {
