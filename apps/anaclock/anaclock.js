@@ -70,7 +70,7 @@ function startdraw() {
   minuteDate = new Date();
   secondDate = new Date();
   intervalRefSec = setInterval(onSecond,1000);
-  drawWidgets()
+  Bangle.drawWidgets()
   drawAll();
 }
 
