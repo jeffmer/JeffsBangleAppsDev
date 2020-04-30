@@ -107,16 +107,6 @@
         Terminal.println("ERROR "+e);
     });
   }
-
-  var intervalRef = null;
-
-  function do_buzz(n){
-      if (intervalRef) return;
-      Bangle.buzz(500);
-      intervalRef = setInterval(function(){Bangle.buzz(500);},1000);
-      setTimeout(function(){clearInterval(intervalRef);},n*1000);
-      intervalRef = null;
-  }
   
   function printmsg(buf,inds){
     var title="";
@@ -127,7 +117,7 @@
       message+=String.fromCharCode(buf[j]);
       if (j>18*lines) {++lines; message+="\n";}
     } 
-    do_buzz(3);
+    Bangle.buzz(500);
     SCREENACCESS.request();
     Bangle.setLCDPower(true);
     if (state.current.cat!=1){
