@@ -161,11 +161,11 @@
     });
   }
     
-  var stage = 0;
+  var stage = 5;
     
   //grey, red, lightblue, yellow, green
   function draw(){
-    var colors = new Uint16Array([0xc618,0xf800,0x3ff,0xffe0,0x07e0]);
+    var colors = new Uint16Array([0xc618,0xf800,0x3ff,0xffe0,0x07e0,0x0000]);
     var img = E.toArrayBuffer(atob("GBgBAAAABAAADgAAHwAAPwAAf4AAP4AAP4AAP4AAHwAAH4AAD8AAB+AAA/AAAfgAAf3gAH/4AD/8AB/+AA/8AAf4AAHwAAAgAAAA"));
     g.setColor(colors[stage]);
     g.drawImage(img,this.x,this.y);
@@ -179,6 +179,7 @@
   }
   
   if (typeof SCREENACCESS!='undefined') {
+    stage = 0;
     NRF.disconnect();
     advert();
   }
