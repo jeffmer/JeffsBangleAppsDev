@@ -1,5 +1,8 @@
 (() => {
 
+  var settings = require("Storage").readJSON("widancs.json",1)||{};
+  settings.enabled = settings.enable||false;
+
   function advert(){
   NRF.setAdvertising([
       0x02, //length
@@ -41,7 +44,7 @@
       }
   };   
   
-  if (typeof SCREENACCESS!='undefined') 
+  if (settings.enabled && typeof SCREENACCESS!='undefined') 
   NRF.on('connect',function(addr){
       var gatt;
       drawIcon(1); //connect from iPhone
@@ -109,6 +112,24 @@
     });
   }
   
+  function wordwrap(s){
+    var txt = s.split("\n");
+    var MAXCHARS = 18;
+    for (var i = 0; i < txt.length; i++) {
+      txt[i] = txt[i].trim();
+      var l = txt[i];
+      if (l.length > MAXCHARS) {
+        var p = MAXCHARS;
+        while (p > MAXCHARS - 8 && !" \t-_".includes(l[p]))
+          p--;
+        if (p == MAXCHARS - 8) p = MAXCHARS;
+        txt[i] = l.substr(0, p);
+        txt.splice(i + 1, 0, l.substr(p));
+      }
+    }
+    return txt.join("\n");
+  }
+
   function printmsg(buf,inds){
     var title="";
     for (var i=8;i<8+inds.tlen; ++i) title+=String.fromCharCode(buf[i]);
@@ -116,8 +137,8 @@
     var lines = 1;
     for (var j=8+inds.tlen;j<11+inds.tlen+inds.mlen;++j) { 
       message+=String.fromCharCode(buf[j]);
-      if (j>18*lines) {++lines; message+="\n";}
     } 
+    message = wordwrap(message);
     Bangle.buzz(500);
     SCREENACCESS.request();
     Bangle.setLCDPower(true);
@@ -178,7 +199,7 @@
     WIDGETS["ancs"].draw();
   }
   
-  if (typeof SCREENACCESS!='undefined') {
+  if (settings.enabled && typeof SCREENACCESS!='undefined') {
     stage = 0;
     NRF.disconnect();
     advert();

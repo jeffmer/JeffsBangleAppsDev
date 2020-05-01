@@ -485,7 +485,8 @@
     "tags": "widget",
     "type": "widget",
     "storage": [
-      {"name":"ancs.wid.js","url":"widget.js"}
+      {"name":"widancs.wid.js","url":"widget.js"},
+      {"name":"widancs.settings.js","url":"settings.js"}
     ]
   }
 ]
