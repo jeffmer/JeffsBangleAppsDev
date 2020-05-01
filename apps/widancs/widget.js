@@ -1,7 +1,7 @@
 (() => {
 
-  var settings = require("Storage").readJSON("widancs.json",1)||{};
-  settings.enabled = settings.enable||false;
+  var s = require("Storage").readJSON("widancs.json",1)||{};
+  var ENABLED = s.settings.enabled||false;
 
   function advert(){
   NRF.setAdvertising([
@@ -44,7 +44,7 @@
       }
   };   
   
-  if (settings.enabled && typeof SCREENACCESS!='undefined') 
+  if (ENABLED && typeof SCREENACCESS!='undefined') 
   NRF.on('connect',function(addr){
       var gatt;
       drawIcon(1); //connect from iPhone
@@ -139,9 +139,11 @@
       message+=String.fromCharCode(buf[j]);
     } 
     message = wordwrap(message);
-    Bangle.buzz(500);
-    SCREENACCESS.request();
+    //we may already be diplaying a prompt, so clear it
+    E.showPrompt();
     Bangle.setLCDPower(true);
+    SCREENACCESS.request();
+    Bangle.buzz(500).then(function(){
     if (state.current.cat!=1){
       E.showAlert(message,title).then (
         function () { setTimeout(() => { SCREENACCESS.release(); }, 1000); }
@@ -160,6 +162,7 @@
             });        
         });
     }
+    });
   }
   
   //const category = ["Other","Call ","Missd","Vmail","Msg  ","Sched","Email","News ","Fitn ","Busn ","Locn ","Entn "];
@@ -199,7 +202,7 @@
     WIDGETS["ancs"].draw();
   }
   
-  if (settings.enabled && typeof SCREENACCESS!='undefined') {
+  if (ENABLED && typeof SCREENACCESS!='undefined') {
     stage = 0;
     NRF.disconnect();
     advert();
