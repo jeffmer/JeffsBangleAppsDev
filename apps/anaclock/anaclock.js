@@ -78,7 +78,7 @@ function startdraw() {
 function setButtons(){
   setWatch(Bangle.showLauncher, BTN2, {repeat:false,edge:"falling"});
   setWatch(function(){load("digiclock.app.js");}, BTN1, {repeat:false,edge:"rising"});
-  setWatch(function(){load("big.app.js");}, BTN3, {repeat:false,edge:"rising"});
+  setWatch(function(){load("bigclock.app.js");}, BTN3, {repeat:false,edge:"rising"});
 };
 
 var SCREENACCESS = {
