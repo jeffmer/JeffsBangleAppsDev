@@ -11,7 +11,7 @@ This widget allows you to answer or cancel iPhone incoming calls and also displa
 
 This beta version can be installed from this [repository's](https://github.com/jeffmer/JeffsBangleAppsDev) app loader - [https://jeffmer.github.io/JeffsBangleAppsDev/](https://jeffmer.github.io/JeffsBangleAppsDev/). The widget will only run with a compatible clock app - see below. There are three listed in the App loader so install one or all three as they are linked and pressing BTN1 or BTN3 if they are not all installed will cause a black screen of death. Once installed, the widget will only appear in a compatible app when enabled in the Bangle Settings app - `ANCS Widget` will appear in `APP/Widget settings`.
 
-###iPhone Pairing
+### iPhone Pairing
 Once enabled, the widget icon should be displayed coloured grey (its green in the photo). Go to the phone's Bluetooth settings menu and your Bangle should appear under Other devices. If this is the first time you have connected with the Bangle from your iPhone, it may be named Accessory. Click on the name and the iPhone should connect and start pairing. The widget icon will turn red and the iPhone will ask you to enter a pairing code - the traditional 123456. After that, the iPhone may also ask to allow the device access to ANCS. Once pairing is complete, the widget icon should go blue and eventually green.  The range of colours is:
 
 * **Grey** - not connected - advertising
@@ -24,7 +24,7 @@ After pairing the first time, the Bangle should connect automatically when the w
 
 ![](message_pic.jpg)
 
-###Messages & Calls
+### Messages & Calls
 Messages are displayed as shown above until BTN2 is pressed to dismiss it. I strongly advise disabling the BTN2 LCD wake function in the Settings App as otherwise when the screen times out and you press BTN2 to wake the LCD, the screen will turn on and the Message Alert will be dismissed!. Calls can be answered or dropped.
 
 ![](call_pic.jpg)   ![](missed_pic.jpg)
