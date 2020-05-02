@@ -1,6 +1,8 @@
 (() => {
 
-  var s = require("Storage").readJSON("widancs.json",1)||{};
+  var s = require("Storage").readJSON("widancs.json",1)||{settings:{enabled:false}};
+  var ENABLED = s.settings.enabled;
+
   var ENABLED = s.settings.enabled||false;
 
   function advert(){
