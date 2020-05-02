@@ -27,7 +27,7 @@ After pairing the first time, the Bangle should connect automatically when the w
 ###Messages & Calls
 Messages are displayed as shown above until BTN2 is pressed to dismiss it. I strongly advise disabling the BTN2 LCD wake function in the Settings App as otherwise when the screen times out and you press BTN2 to wake the LCD, the screen will turn on and the Message Alert will be dismissed!. Calls can be answered or dropped.
 
-![](call_pic.jpg)![](missed_pic.jpg)
+![](call_pic.jpg)   ![](missed_pic.jpg)
 
 
 ### Issues
