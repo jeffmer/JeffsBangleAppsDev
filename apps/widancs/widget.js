@@ -3,7 +3,8 @@
   var s = require("Storage").readJSON("widancs.json",1)||{settings:{enabled:false}};
   var ENABLED = s.settings.enabled;
 
-  var ENABLED = s.settings.enabled||false;
+  //const category = ["Other","Call ","Missd","Vmail","Msg  ","Sched","Email","News ","Fitn ","Busn ","Locn ","Entn "];
+  var CATEGORY = new Uint8Array([1,2,4,7,11]);
 
   function advert(){
   NRF.setAdvertising([
@@ -180,17 +181,15 @@
     var eid = d.getUint8(0);
     var cat = d.getUint8(2);
     var uid = d.getUint32(4,true);
-  //  Terminal.println("Eid: "+eid+" "+category[cat]+" "+uid +" "+state.ignore);
     if (state.ignore) return;
     if (eid!=0) return;
-    if(cat!=1 && cat!=2 && cat!=4) return; //calls & messages only
+    if(!CATEGORY.includes(cat)) return; 
     state.current.cat=cat;
     state.current.uid=uid;
     var v = DataView(state.com.buffer);
     v.setUint32(1,uid,true);
     state.inp=0;
     state.ancs.control.writeValue(state.com).then(function(){
-   // Terminal.println("Requested"+uid);
     });
   }
     
