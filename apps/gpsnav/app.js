@@ -156,7 +156,7 @@ function onGPS(fix) {
 
 var intervalRef;
 
-function clearTimers() {
+function stopdraw() {
   if(intervalRef) {clearInterval(intervalRef);}
 }
 
@@ -167,17 +167,6 @@ function startTimers() {
   },200);
 }
 
-Bangle.on('lcdPower',function(on) {
-  if (on) {
-    g.clear();
-    Bangle.drawWidgets();
-    startTimers();
-    drawAll();
-  }else {
-    clearTimers();
-  }
-});
-
 function drawAll(){
   g.setColor(1,0.5,0.5);
   g.fillPoly([120,Yoff+50,110,Yoff+70,130,Yoff+70]);
@@ -185,6 +174,42 @@ function drawAll(){
   drawN();
   drawCompass(heading);
 }
+
+function startdraw(){
+  g.clear();
+  Bangle.drawWidgets();
+  startTimers();
+  drawAll();
+}
+
+function setButtons(){
+  setWatch(nextwp.bind(null,-1), BTN1, {repeat:true,edge:"falling"});
+  setWatch(doselect, BTN2, {repeat:true,edge:"falling"});
+  setWatch(nextwp.bind(null,1), BTN3, {repeat:true,edge:"falling"});
+};
+
+var SCREENACCESS = {
+      withApp:true,
+      request:function(){
+        this.withApp=false;
+        stopdraw();
+        clearWatch();
+      },
+      release:function(){
+        this.withApp=true;
+        startdraw(); 
+        setButtons();
+      }
+} 
+ 
+Bangle.on('lcdPower',function(on) {
+  if (!SCREENACCESS.withApp) return;
+  if (on) {
+    startdraw();
+  } else {
+    stopdraw();
+  }
+});
 
 var waypoints = require("Storage").readJSON("waypoints.json")||[{name:"NONE"}];
 wp=waypoints[0];
@@ -218,7 +243,4 @@ drawAll();
 startTimers();
 Bangle.on('GPS', onGPS);
 // Toggle selected
-setWatch(nextwp.bind(null,-1), BTN1, {repeat:true,edge:"falling"});
-setWatch(doselect, BTN2, {repeat:true,edge:"falling"});
-setWatch(nextwp.bind(null,1), BTN3, {repeat:true,edge:"falling"});
-
+setButtons();
