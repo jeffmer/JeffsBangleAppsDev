@@ -16,7 +16,7 @@
       0x0F,0xA4,
       0x99,0x4E,
       0xCE,0xB5,
-      0x31,0xF4,0x05,0x79],{});
+      0x31,0xF4,0x05,0x79],{connectable:true,discoverable:true,interval:375});
   }
   
   var state = {
@@ -44,7 +44,13 @@
           if (n<(mn+tn+11)) return null;
           return {msg:true, tlen:tn, mlen:mn}; 
       }
-  };   
+  };  
+  
+  //stop advertising when peripheral link disconnected
+  if (ENABLED && typeof SCREENACCESS!='undefined') 
+  NRF.on('disconnect',function(reason){
+    NRF.setAdvertising({},{connectable:false,discoverable:false,interval:5000});
+  });
   
   if (ENABLED && typeof SCREENACCESS!='undefined') 
   NRF.on('connect',function(addr){
@@ -54,6 +60,7 @@
       gatt = g;
       gatt.device.on('gattserverdisconnected', function(reason) {
          drawIcon(0); //disconnect from iPhone
+         advert();
       });
       E.on("kill",function(){
         gatt.disconnect().then(function(){NRF.disconnect();});
