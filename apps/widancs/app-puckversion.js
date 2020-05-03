@@ -43,17 +43,22 @@ var state = {
     }
 };   
 
+
+NRF.on('disconnect',function(reason){
+  console.log("*** Grey", reason);
+});
+
+
 NRF.on('connect',function(addr){
-    var gatt;
+    var gatt = NRF.getGattforCentralServer(addr);
     console.log("**= Red ",addr);
-    NRF.connect(addr,{minInterval:30,maxInterval:200}).then(function(g) {
-    gatt = g;
+   // NRF.connect(addr,{minInterval:30,maxInterval:200}).then(function(g) {
+   // gatt = g;
     gatt.device.on('gattserverdisconnected', function(reason) {
        console.log("*** Grey ",reason);
     });  
     NRF.setSecurity({passkey:"123456",mitm:1,display:1});
-    return gatt.startBonding();
-    }).then(function(){
+    gatt.startBonding().then(function(){
       var ival = setInterval(function(){
           var sec = gatt.getSecurityStatus();
           if (!sec.connected) {clearInterval(ival); return;}
@@ -151,3 +156,4 @@ function get(uid){
      console.log("Requested",uid);
   });
 }
+
