@@ -1,10 +1,8 @@
 (() => {
 
-  var s = require("Storage").readJSON("widancs.json",1)||{settings:{enabled:false}};
+  var s = require("Storage").readJSON("widancs.json",1)||{settings:{enabled:false, category:[1,2,4]}};
   var ENABLED = s.settings.enabled;
-
-  //const category = ["Other","Call ","Missd","Vmail","Msg  ","Sched","Email","News ","Fitn ","Busn ","Locn ","Entn "];
-  var CATEGORY = new Uint8Array([1,2,4,7,11]);
+  var CATEGORY = s.settings.category;
 
   function advert(){
   NRF.setAdvertising([
