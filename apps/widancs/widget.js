@@ -173,8 +173,6 @@
     });
   }
   
-  //const category = ["Other","Call ","Missd","Vmail","Msg  ","Sched","Email","News ","Fitn ","Busn ","Locn ","Entn "];
-  
   function getnotify(d){
     var eid = d.getUint8(0);
     var cat = d.getUint8(2);
@@ -185,6 +183,7 @@
     state.current.cat=cat;
     state.current.uid=uid;
     var v = DataView(state.com.buffer);
+    if (cat==6) v.setUint8(8,2); else v.setUint8(8,3);//get email title
     v.setUint32(1,uid,true);
     state.inp=0;
     state.ancs.control.writeValue(state.com).then(function(){
