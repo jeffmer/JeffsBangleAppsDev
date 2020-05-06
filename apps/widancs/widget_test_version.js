@@ -130,6 +130,16 @@
     }
     return txt.join("\n");
   }
+  
+  
+  var buzzing =false;  
+  var screentimeout = null;
+  
+  function release_screen(){
+    screentimeout= setTimeout(() => { 
+        SCREENACCESS.release(); screentimeout = null;
+    }, 500);
+  }
 
   function printmsg(buf,inds){
     var title="";
@@ -140,15 +150,17 @@
       message+=String.fromCharCode(buf[j]);
     } 
     message = wordwrap(message);
-    //we may already be diplaying a prompt, so clear it
+    //we may already be displaying a prompt, so clear it
     E.showPrompt();
+    if (screentimeout) clearTimeout(screentimeout);
     Bangle.setLCDPower(true);
     SCREENACCESS.request();
-    Bangle.buzz(500).then(function(){
+    if (!buzzing){
+        buzzing=true;
+        Bangle.buzz(500).then(()=>{buzzing=false;});
+    }
     if (state.current.cat!=1){
-      E.showAlert(message,title).then (
-        function () { setTimeout(() => { SCREENACCESS.release(); }, 1000); }
-      );
+      E.showAlert(message,title).then (release_screen);
     } else {
       E.showPrompt(message,{title:title,buttons:{"Accept":true,"Cancel":false}}).then
         (function(tf){
@@ -157,13 +169,9 @@
           v.setUint8(0,2);
           v.setUint32(1,state.current.uid,true);
           v.setUint8(5,tf?0:1 );
-          state.ancs.control.writeValue(bb).then(
-            function(){
-            SCREENACCESS.release();
-            });        
+          state.ancs.control.writeValue(bb).then(release_screen);        
         });
     }
-    });
   }
   
   function getnotify(d){

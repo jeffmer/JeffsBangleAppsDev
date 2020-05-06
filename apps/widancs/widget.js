@@ -48,7 +48,8 @@
   //stop advertising when peripheral link disconnected
   if (ENABLED && typeof SCREENACCESS!='undefined') 
   NRF.on('disconnect',function(reason){
-    NRF.setAdvertising({},{connectable:false,discoverable:false,interval:5000});
+    //NRF.setAdvertising({},{connectable:false,discoverable:false,interval:5000});
+    NRF.sleep();
   });
   
   if (ENABLED && typeof SCREENACCESS!='undefined') 
@@ -59,6 +60,7 @@
       gatt = g;
       gatt.device.on('gattserverdisconnected', function(reason) {
          drawIcon(0); //disconnect from iPhone
+         NRF.wake();
          advert();
       });
       E.on("kill",function(){
@@ -138,6 +140,7 @@
     return txt.join("\n");
   }
 
+  var buzzing = false;
   function printmsg(buf,inds){
     var title="";
     for (var i=8;i<8+inds.tlen; ++i) title+=String.fromCharCode(buf[i]);
@@ -151,7 +154,10 @@
     E.showPrompt();
     Bangle.setLCDPower(true);
     SCREENACCESS.request();
-    Bangle.buzz(500).then(function(){
+    if (!buzzing){
+        buzzing=true;
+        Bangle.buzz(500).then(()=>{buzzing=false;});
+    }
     if (state.current.cat!=1){
       E.showAlert(message,title).then (
         function () { setTimeout(() => { SCREENACCESS.release(); }, 1000); }
@@ -170,7 +176,6 @@
             });        
         });
     }
-    });
   }
   
   function getnotify(d){
@@ -209,7 +214,8 @@
   
   if (ENABLED && typeof SCREENACCESS!='undefined') {
     stage = 0;
-    NRF.disconnect();
+    NRF.sleep();
+    NRF.wake();
     advert();
   }
   
