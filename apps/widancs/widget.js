@@ -181,7 +181,6 @@
         });
     }
   }
-  }
   
   function getnotify(d){
     var eid = d.getUint8(0);
