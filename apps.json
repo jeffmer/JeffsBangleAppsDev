@@ -77,7 +77,7 @@
     "name": "Apple Notification Widget",
     "shortName":"ANCS Widget",
     "icon": "widget.png",
-    "version":"0.01",
+    "version":"0.02",
     "description": "Displays calls and messages from a paired iPhone. You can also accept or reject calls. Needs modified clock apps",
     "tags": "widget",
     "type": "widget",
