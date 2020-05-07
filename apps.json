@@ -79,11 +79,27 @@
     "icon": "widget.png",
     "version":"0.02",
     "description": "Displays calls and messages from a paired iPhone. You can also accept or reject calls. Needs modified clock apps",
+    "readme": "README.md",
     "tags": "widget",
     "type": "widget",
     "storage": [
       {"name":"widancs.wid.js","url":"widget.js"},
       {"name":"widancs.settings.js","url":"settings.js"}
     ]
+  },
+  { "id": "widancsq",
+    "name": "Apple Notification Widget",
+    "shortName":"ANCS Widget",
+    "icon": "widget.png",
+    "version":"0.02",
+    "description": "*** WARNING development version that requires modified firmware",
+    "readme": "README.md",
+    "tags": "widget",
+    "type": "widget",
+    "storage": [
+      {"name":"widancs.wid.js","url":"widancsq.js"},
+      {"name":"widancs.settings.js","url":"settings.js"}
+    ]
   }
+]
 ]
