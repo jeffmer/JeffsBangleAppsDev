@@ -24,6 +24,7 @@
       ignore:true,
       current:{cat:0,uid:0},
       notqueue:[],
+      msgTO = undefined;
       com:new Uint8Array([0,0,0,0,0,1,20,0,3,64,0]),
       buf:new Uint8Array(96),
       inp:0,
@@ -134,20 +135,20 @@
   
   
   var buzzing =false;  
-  var screentimeout = null;
+  var screentimeout = undefined;
   var inalert = false;
   
   function release_screen(){
     screentimeout= setTimeout(() => { 
         SCREENACCESS.release(); 
-        screentimeout = null; 
+        screentimeout = undefined; 
         inalert=false; 
         next_notify();
     }, 500);
   }
 
   function printmsg(buf,inds){
-    inalert = true;
+    if (state.msgTO) clearTimeout(state.msgTO); 
     var title="";
     for (var i=8;i<8+inds.tlen; ++i) title+=String.fromCharCode(buf[i]);
     var message = "";
@@ -205,6 +206,11 @@
       v.setUint32(1,state.current.uid,true);
        state.inp=0;
        state.ancs.control.writeValue(state.com).then(function(){
+            state.msgto=setTimeout(()=>{
+               inalert=false;
+               state.msgto=undefined;
+               next_notify();
+               },1000);
        });
   }
 
