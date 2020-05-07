@@ -24,7 +24,7 @@
       ignore:true,
       current:{cat:0,uid:0},
       notqueue:[],
-      msgTO = undefined;
+      msgTO:undefined,
       com:new Uint8Array([0,0,0,0,0,1,20,0,3,64,0]),
       buf:new Uint8Array(96),
       inp:0,
