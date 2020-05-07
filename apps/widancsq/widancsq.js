@@ -207,7 +207,7 @@
        state.ancs.control.writeValue(state.com).then(function(){
             state.msgTO=setTimeout(()=>{
                inalert=false;
-               state.msgto=undefined;
+               state.msgTO=undefined;
                next_notify();
                },1000);
        });
