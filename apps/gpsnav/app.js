@@ -1,6 +1,7 @@
 const Yoff = 40;
 var pal2color = new Uint16Array([0x0000,0xffff,0x07ff,0xC618],0,2);
 var buf = Graphics.createArrayBuffer(240,50,2,{msb:true});
+var candraw = true;
 
 function flip(b,y) {
  g.drawImage({width:240,height:50,bpp:2,buffer:b.buffer, palette:pal2color},0,y);
@@ -12,6 +13,7 @@ var wpindex=0;
 const labels = ["N","NE","E","SE","S","SW","W","NW"];
 
 function drawCompass(course) {
+  if (!candraw) return;
   buf.setColor(1);
   buf.setFont("Vector",16);
   var start = course-90;
@@ -143,7 +145,7 @@ function onGPS(fix) {
     speed  = isNaN(fix.speed) ? speed : fix.speed;
     satellites = fix.satellites;
   }
-  if (Bangle.isLCDOn()) {
+  if (candraw) {
     if (fix!==undefined && fix.fix==1){
       dist = distance(fix,wp);
       if (isNaN(dist)) dist = 0;
@@ -157,10 +159,12 @@ function onGPS(fix) {
 var intervalRef;
 
 function stopdraw() {
+  candraw=false;
   if(intervalRef) {clearInterval(intervalRef);}
 }
 
 function startTimers() {
+  candraw=true;
   intervalRefSec = setInterval(function() {
     newHeading(course,heading);
     if (course!=heading) drawCompass(heading);
