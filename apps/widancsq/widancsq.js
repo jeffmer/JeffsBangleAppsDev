@@ -230,6 +230,7 @@
   
   if (ENABLED && typeof SCREENACCESS!='undefined') {
     stage = 0;
+    NRF.sleep();
     NRF.wake();
     advert();
   }

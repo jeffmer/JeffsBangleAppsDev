@@ -1,15 +1,9 @@
-Bangle.setLCDPower(1);
-Bangle.setLCDTimeout(0);
-g.clear();
-g.setColor(0,1,1);
-g.fillCircle(120,130,100);
-g.setColor(0,0,0);
-g.fillCircle(120,130,90);
 
 var buf = Graphics.createArrayBuffer(128,128,2,{msb:true});
 var pal4color = new Uint16Array([0x0000,0x07ff,0xffff,0xffff],0,4);
 function flip() {
  g.drawImage({width:128,height:128,bpp:2,buffer:buf.buffer, palette:pal4color},56,66);
+ buf.clear();
 }
 
 function arrow(r,c) {
@@ -43,8 +37,10 @@ function newHeading(m,h){
     return heading;
 }
 
+var candraw = false;
 
 Bangle.on('mag', function(m) {
+  if (!candraw) return;
   if (isNaN(m.heading)) return;
   newHeading(m.heading,heading);
   g.setFont("6x8",3);
@@ -53,9 +49,46 @@ Bangle.on('mag', function(m) {
   g.setColor(0xffff);
   g.setFontAlign(0,0);
   g.drawString(Math.round(heading),120,12);
-  buf.clear();
   arrow(heading,1);
   arrow(heading+180,2);
   flip();
 });
+
+function startdraw(){
+  g.clear();
+  g.setColor(0,1,1);
+  g.fillCircle(120,130,100);
+  g.setColor(0,0,0);
+  g.fillCircle(120,130,90);
+  Bangle.drawWidgets();
+  candraw = true;
+}
+
+function stopdraw(){
+   candraw=false;
+}
+
+var SCREENACCESS = {
+      withApp:true,
+      request:function(){
+        this.withApp=false;
+        stopdraw();
+      },
+      release:function(){
+        this.withApp=true;
+        startdraw(); 
+      }
+}; 
+ 
+Bangle.on('lcdPower',function(on) {
+  if (!SCREENACCESS.withApp) return;
+  if (on) {
+    startdraw();
+  } else {
+    stopdraw();
+  }
+});
+
+Bangle.loadWidgets();
+startdraw();
 Bangle.setCompassPower(1);
