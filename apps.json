@@ -36,6 +36,17 @@
       {"name":"jcompass.img","url":"jcompass-icon.js","evaluate":true}
     ]
   },
+  { "id": "compnav",
+    "name": "Navigation Compass",
+    "icon": "compnav.png",
+    "version":"0.01",
+    "description": "Compass with the same linear display as GPSNAV",
+    "tags": "tool,outdoors",
+    "storage": [
+      {"name":"compnav.app.js","url":"compnav.js"},
+      {"name":"compnav.img","url":"compnav.js","evaluate":true}
+    ]
+  },
   { "id": "gpstrack",
     "name": "GPS Track",
     "icon": "app.png",
