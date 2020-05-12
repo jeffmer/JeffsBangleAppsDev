@@ -44,7 +44,7 @@
     "tags": "tool,outdoors",
     "storage": [
       {"name":"compnav.app.js","url":"compnav.js"},
-      {"name":"compnav.img","url":"compnav.js","evaluate":true}
+      {"name":"compnav.img","url":"compnav-icon.js","evaluate":true}
     ]
   },
   { "id": "gpstrack",
