@@ -154,7 +154,7 @@
     for (var i=8;i<8+inds.tlen; ++i) title+=String.fromCharCode(buf[i]);
     var message = "";
     var lines = 1;
-    for (var j=8+inds.tlen;j<11+inds.tlen+inds.mlen;++j) { 
+    for (var j=11+inds.tlen;j<11+inds.tlen+inds.mlen;++j) { 
       message+=String.fromCharCode(buf[j]);
     } 
     message = wordwrap(message);
