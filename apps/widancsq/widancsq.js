@@ -25,12 +25,12 @@
       current:{cat:0,uid:0},
       notqueue:[],
       msgTO:undefined,
-      com:new Uint8Array([0,0,0,0,0,1,20,0,3,64,0]),
-      buf:new Uint8Array(96),
+      com:new Uint8Array([0,0,0,0,0,1,20,0,3,100,0]),
+      buf:new Uint8Array(132),
       inp:0,
       store:function(b){
           var i = this.inp;
-          if (i+b.length<=96){
+          if (i+b.length<=132){
               this.buf.set(b,i);
               this.inp+=b.length;
           }
