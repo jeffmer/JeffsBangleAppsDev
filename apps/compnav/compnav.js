@@ -37,8 +37,7 @@ function drawCompass(course) {
 }
 
 var heading = 0;
-
-function newHeading(m,h){
+function newHeading(m,h){ 
     var s = Math.abs(m - h);
     var delta = 1;
     if (s<2) return h;
@@ -56,11 +55,11 @@ function newHeading(m,h){
 }
 
 var candraw = false;
-
+// Note actual mag is 360-m, error in firmware
 Bangle.on('mag', function(m) {
   if (!candraw) return;
   if (isNaN(m.heading)) return;
-  newHeading(m.heading,heading);
+  newHeading(-m.heading,heading);
   drawCompass(heading);
   buf.setColor(1);
   buf.setFont("6x8",2);
