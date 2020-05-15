@@ -26,10 +26,10 @@
           <input class="form-input input-sm" type="text" id="add_waypoint_name" placeholder="Name">
         </div>
         <div class="column col-4 col-xs-12">
-          <input class="form-input input-sm" value="0.0000" type="number" step="any" id="add_latitude" placeholder="Lat">
+          <input class="form-input input-sm" value="0.0000" type="number" step="0.0001" id="add_latitude" placeholder="Lat">
         </div>
         <div class="column col-4 col-xs-12">
-            <input class="form-input input-sm" value="0.0000" type="number" step="any" id="add_longtitude" placeholder="Long">
+            <input class="form-input input-sm" value="0.0000" type="number" step="0.0001" id="add_longtitude" placeholder="Long">
           </div>
         <div class="column col-4 col-xs-12">
           <button id="add_waypoint_button" class="btn btn-primary btn-sm">Add</button>
@@ -66,12 +66,12 @@
         
         var name = $name.value.trim()
         if(!name) return;
-        var latitude = parseInt($latitude.value)
-        var longtitude = parseInt($longtitude.value)
+        var lat = parseFloat($latitude.value)
+        var lon = parseFloat($longtitude.value)
 
         waypoints.push({
-          name, latitude,longtitude,
-          mark: false
+          mark: 1,
+          name, lat,lon,
         })
 
         renderWaypoints()
@@ -102,7 +102,7 @@
         waypoints.forEach((waypoint,index) => {
           var $waypoint = document.createElement('tr')
           
-          $waypoint.innerHTML = `<td>${waypoint.name}</td><td>${waypoint.latitude}</td><td>${waypoint.longtitude}</td><td><button class="btn btn-error" onclick="removeProduct(${index})">remove</button></td>`
+          $waypoint.innerHTML = `<td>${waypoint.name}</td><td>${waypoint.lat}</td><td>${waypoint.lon}</td><td><button class="btn btn-error" onclick="removeProduct(${index})">remove</button></td>`
           $list.appendChild($waypoint)
         })
 
