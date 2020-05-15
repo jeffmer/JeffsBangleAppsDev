@@ -26,10 +26,10 @@
           <input class="form-input input-sm" type="text" id="add_waypoint_name" placeholder="Name">
         </div>
         <div class="column col-4 col-xs-12">
-          <input class="form-input input-sm" value="0.0000" type="number" id="add_latitude" placeholder="Lat">
+          <input class="form-input input-sm" value="0.0000" type="number" step="any" id="add_latitude" placeholder="Lat">
         </div>
         <div class="column col-4 col-xs-12">
-            <input class="form-input input-sm" value="0.0000" type="number" id="add_longitude" placeholder="Lat">
+            <input class="form-input input-sm" value="0.0000" type="number" step="any" id="add_longitude" placeholder="Lat">
           </div>
         <div class="column col-4 col-xs-12">
           <button id="add_waypoint_button" class="btn btn-primary btn-sm">Add</button>
@@ -43,10 +43,10 @@
 
     <script>
 
-      var waypoint_list = []
+      var waypoints = []
       try{
         var stored = localStorage.getItem('waypoint_list')
-        if(stored) products = JSON.parse(stored);
+        if(stored) waypoints = JSON.parse(stored);
       }catch(e){}
 
       var $name = document.getElementById('add_waypoint_name')
@@ -82,7 +82,7 @@
       })
 
       function save(){
-        localStorage.setItem('waypoint-list',JSON.stringify(waypoints));
+        localStorage.setItem('waypoint_list',JSON.stringify(waypoints));
       }
 
       function reset(){
@@ -113,7 +113,7 @@
       document.getElementById("upload").addEventListener("click", function() {
 
 
-        var data =  ${JSON.stringify(waypoints)}
+        var data =  JSON.stringify(waypoints);
 
           sendCustomizedApp({
           storage:[
