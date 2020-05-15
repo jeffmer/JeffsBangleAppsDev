@@ -1,0 +1,126 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="../../css/spectre.min.css">
+  </head>
+  <body>
+
+    <h4>List of waypoints</h4>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Lat.</th>
+          <th>Long.</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="waypoints">
+        
+      </tbody>
+    </table>
+    <br><br>
+    <h4>Add a new waypoint</h4>
+    <form id="add_waypoint_form">
+      <div class="columns">
+        <div class="column col-4 col-xs-12">
+          <input class="form-input input-sm" type="text" id="add_waypoint_name" placeholder="Name">
+        </div>
+        <div class="column col-4 col-xs-12">
+          <input class="form-input input-sm" value="0.0000" type="number" id="add_latitude" placeholder="Lat">
+        </div>
+        <div class="column col-4 col-xs-12">
+            <input class="form-input input-sm" value="0.0000" type="number" id="add_longitude" placeholder="Lat">
+          </div>
+        <div class="column col-4 col-xs-12">
+          <button id="add_waypoint_button" class="btn btn-primary btn-sm">Add</button>
+        </div>
+      </div>
+    </form>
+    <br><br>
+    <button id="reset" class="btn btn-error">Reset</button> <button id="upload" class="btn btn-primary">Upload</button>
+    
+    <script src="../../lib/customize.js"></script>
+
+    <script>
+
+      var waypoint_list = []
+      try{
+        var stored = localStorage.getItem('waypoint_list')
+        if(stored) products = JSON.parse(stored);
+      }catch(e){}
+
+      var $name = document.getElementById('add_waypoint_name')
+      var $form = document.getElementById('add_waypoint_form')
+      var $button = document.getElementById('add_waypoint_button')
+      var $latitude = document.getElementById('add_latitude')
+      var $logtitude = document.getElementById('add_longtitude')
+      var $list = document.getElementById('waypoints')
+      var $reset = document.getElementById('reset')
+
+      renderWaypoints()
+      
+      $reset.addEventListener('click', reset)
+
+      $form.addEventListener('submit', event => {
+        event.preventDefault()
+        
+        var name = $name.value.trim()
+        if(!name) return;
+        var latitude = parseInt($latitude.value)
+        var longtitude = parseInt($longtitude.value)
+
+        waypoints.push({
+          name, latitude,longtitude,
+          mark: false
+        })
+
+        renderWaypoints()
+        $name.value = ''
+        $latitude.value = 0.0000
+        $longtitude.value = 0.0000
+        save()
+      })
+
+      function save(){
+        localStorage.setItem('waypoint-list',JSON.stringify(waypoints));
+      }
+
+      function reset(){
+        waypoints = []
+        save()
+        renderWaypoints()
+      }
+
+      function removeWaypoint(index){
+        waypoints = waypoints.filter((p,i) => i!==index)
+        save()
+        renderWaypoints()
+      }
+
+      function renderWaypoints(){
+        $list.innerHTML = ''
+        products.forEach((waypoint,index) => {
+          var $product = document.createElement('tr')
+          
+          $waypoint.innerHTML = `<td>${waypoint.name}</td><td>${waypoint.latitude}</td><td>${waypoint.longtitude}</td><td><button class="btn btn-error" onclick="removeProduct(${index})">remove</button></td>`
+          $list.appendChild($waypoint)
+        })
+
+        $name.focus()
+        
+      }
+
+      document.getElementById("upload").addEventListener("click", function() {
+
+
+        var data =  ${JSON.stringify(waypoints)}
+
+          sendCustomizedApp({
+          storage:[
+            {name:"test.json",content:data,evaluate:false}
+          ]
+        });
+      });
+    </script>
+  </body>
+</html>
