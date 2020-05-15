@@ -102,7 +102,7 @@
         waypoints.forEach((waypoint,index) => {
           var $waypoint = document.createElement('tr')
           
-          $waypoint.innerHTML = `<td>${waypoint.name}</td><td>${waypoint.lat}</td><td>${waypoint.lon}</td><td><button class="btn btn-error" onclick="removeProduct(${index})">remove</button></td>`
+          $waypoint.innerHTML = `<td>${waypoint.name}</td><td>${waypoint.lat}</td><td>${waypoint.lon}</td><td><button class="btn btn-error" onclick="removeWaypoint(${index})">remove</button></td>`
           $list.appendChild($waypoint)
         })
 
