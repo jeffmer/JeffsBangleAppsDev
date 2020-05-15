@@ -71,6 +71,20 @@
       {"name":"gpsnav.img","url":"app-icon.js","evaluate":true}
     ]
   },
+  {
+    "id": "waypts",
+    "name": "Waypoints",
+    "icon": "icon.png",
+    "version":"0.01",
+    "description": "Waypoint Editor.",
+    "tags": "tool,outdoors",
+    "type": "app",
+    "custom":"waypoints.html",
+    "storage": [
+      {"name":"grocery"}
+    ]
+  },
+
   { "id": "bigclock",
     "name": "Big Clock",
     "icon": "bigclock.png",
