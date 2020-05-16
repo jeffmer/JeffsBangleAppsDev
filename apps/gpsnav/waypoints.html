@@ -110,7 +110,7 @@
 
       function downloadJSONfile(fileid, callback) {
         Puck.write(`\x10(function() {
-          var f = require("Storage").open(".gpsrc${fileid}","r");
+          var f = require("Storage").open("${fileid}","r");
           var l = f.readLine();
           while (l!==undefined) { Bluetooth.print(l); l = f.readLine(); }
          })()\n`,contents=>{
