@@ -26,10 +26,10 @@
           <input class="form-input input-sm" type="text" id="add_waypoint_name" placeholder="Name">
         </div>
         <div class="column col-4 col-xs-12">
-          <input class="form-input input-sm" value="0.0000" type="number" step="0.0001" id="add_latitude" placeholder="Lat">
+          <input class="form-input input-sm" value="0.0000" type="number" step="0.00001" id="add_latitude" placeholder="Lat">
         </div>
         <div class="column col-4 col-xs-12">
-            <input class="form-input input-sm" value="0.0000" type="number" step="0.0001" id="add_longtitude" placeholder="Long">
+            <input class="form-input input-sm" value="0.0000" type="number" step="0.00001" id="add_longtitude" placeholder="Long">
           </div>
         <div class="column col-4 col-xs-12">
           <button id="add_waypoint_button" class="btn btn-primary btn-sm">Add</button>
@@ -44,11 +44,6 @@
     <script>
 
       var waypoints = []
-     // try{
-     //   var stored = localStorage.getItem('waypoint_list')
-     //   if(stored) waypoints = JSON.parse(stored);
-     // }catch(e){}
-
 
       var $name = document.getElementById('add_waypoint_name')
       var $form = document.getElementById('add_waypoint_form')
@@ -57,43 +52,28 @@
       var $longtitude = document.getElementById('add_longtitude')
       var $list = document.getElementById('waypoints')
 
-      //renderWaypoints()
-
       $form.addEventListener('submit', event => {
-        event.preventDefault()
-        
+        event.preventDefault()       
         var name = $name.value.trim()
         if(!name) return;
         var lat = parseFloat($latitude.value)
         var lon = parseFloat($longtitude.value)
 
         waypoints.push({
-          mark: 1,
           name, lat,lon,
-        })
+        });
 
         renderWaypoints()
         $name.value = ''
         $latitude.value = 0.0000
         $longtitude.value = 0.0000
-        save()
-      })
-
-      /*
-      function save(){
-        localStorage.setItem('waypoint_list',JSON.stringify(waypoints));
-      }
-
-      function reset(){
-        waypoints = []
-        save()
-        renderWaypoints()
-      }
-      */
+      });
 
       function removeWaypoint(index){
+        $name.value = waypoints[index].name
+        $latitude.value = waypoints[index].lat
+        $longtitude.value = waypoints[index].long
         waypoints = waypoints.filter((p,i) => i!==index)
-        //save()
         renderWaypoints()
       }
 
@@ -102,7 +82,7 @@
         waypoints.forEach((waypoint,index) => {
           var $waypoint = document.createElement('tr')
           
-          $waypoint.innerHTML = `<td>${waypoint.name}</td><td>${waypoint.lat}</td><td>${waypoint.lon}</td><td><button class="btn btn-error" onclick="removeWaypoint(${index})">remove</button></td>`
+          $waypoint.innerHTML = `<td>${waypoint.name}</td><td>${waypoint.lat}</td><td>${waypoint.lon}</td><td><button class="btn btn-error" onclick="removeWaypoint(${index})">Edit</button></td>`
           $list.appendChild($waypoint)
         })
         $name.focus()    

@@ -228,8 +228,8 @@ function nextwp(inc){
 }
 
 function doselect(){
-  if (selected && waypoints[wpindex].mark===undefined && savedfix.fix) {
-     waypoints[wpindex] ={mark:1, name:"@"+wp.name, lat:savedfix.lat, lon:savedfix.lon};
+  if (selected && waypoints[wpindex].lat===undefined && savedfix.fix) {
+     waypoints[wpindex] ={name:"@"+wp.name, lat:savedfix.lat, lon:savedfix.lon};
      wp = waypoints[wpindex];
      require("Storage").writeJSON("waypoints.json", waypoints);
   }

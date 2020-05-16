@@ -31,17 +31,14 @@ When the app is loaded from the app loader, a file named waypoints.json is loade
 ~~~
 [
   {
-  "mark":0,
   "name":"NONE"
   },
   {
-  "mark":1,
   "name":"No10",
   "lat":51.5032,
   "lon":-0.1269
   },
   {
-  "mark":1,
   "name":"Stone",
   "lat":51.1788,
   "lon":-1.8260
