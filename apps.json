@@ -50,7 +50,7 @@
   { "id": "gpsnav",
     "name": "GPS Navigation",
     "icon": "icon.png",
-    "version":"0.01",
+    "version":"0.03",
     "description": "Displays GPS Course snd Speed",
     "readme": "README.md",
     "tags": "tool,outdoors,gps",
