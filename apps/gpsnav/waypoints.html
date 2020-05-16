@@ -72,7 +72,7 @@
       function removeWaypoint(index){
         $name.value = waypoints[index].name
         $latitude.value = waypoints[index].lat
-        $longtitude.value = waypoints[index].long
+        $longtitude.value = waypoints[index].lon
         waypoints = waypoints.filter((p,i) => i!==index)
         renderWaypoints()
       }
