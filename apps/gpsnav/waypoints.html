@@ -81,7 +81,13 @@
         $list.innerHTML = ''
         waypoints.forEach((waypoint,index) => {
           var $waypoint = document.createElement('tr')  
+          if (index==0){
+              $waypoint.innerHTML = `<td>${waypoint.name}</td>`
+          } else if(waypoint.lat==undefined){
+          $waypoint.innerHTML = `<td>${waypoint.name}</td><td>------</td><td>-----</td><td><button class="btn btn-error" onclick="removeWaypoint(${index})">Edit</button></td>`
+          } else {
           $waypoint.innerHTML = `<td>${waypoint.name}</td><td>${waypoint.lat}</td><td>${waypoint.lon}</td><td><button class="btn btn-error" onclick="removeWaypoint(${index})">Edit</button></td>`
+          }
           $list.appendChild($waypoint)
         })
         $name.focus()    
