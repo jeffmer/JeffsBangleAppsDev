@@ -39,15 +39,15 @@
     <br><br>
     <button id="reset" class="btn btn-error">Reset</button> <button id="upload" class="btn btn-primary">Upload</button>
     
-    <script src="../../lib/customize.js"></script>
+    <script src="../../lib/interface.js"></script>
 
     <script>
 
       var waypoints = []
-      try{
-        var stored = localStorage.getItem('waypoint_list')
-        if(stored) waypoints = JSON.parse(stored);
-      }catch(e){}
+     // try{
+     //   var stored = localStorage.getItem('waypoint_list')
+     //   if(stored) waypoints = JSON.parse(stored);
+     // }catch(e){}
 
       var $name = document.getElementById('add_waypoint_name')
       var $form = document.getElementById('add_waypoint_form')
@@ -57,7 +57,7 @@
       var $list = document.getElementById('waypoints')
       var $reset = document.getElementById('reset')
 
-      renderWaypoints()
+      //renderWaypoints()
       
       $reset.addEventListener('click', reset)
 
@@ -105,21 +105,38 @@
           $waypoint.innerHTML = `<td>${waypoint.name}</td><td>${waypoint.lat}</td><td>${waypoint.lon}</td><td><button class="btn btn-error" onclick="removeWaypoint(${index})">remove</button></td>`
           $list.appendChild($waypoint)
         })
+        $name.focus()    
+      }
 
-        $name.focus()
-        
+      function downloadJSONfile(fileid, callback) {
+        showModal("Downloading File...");
+        Puck.write(`\x10(function() {
+          var f = require("Storage").open(".gpsrc${fileid}","r");
+          var l = f.readLine();
+          while (l!==undefined) { Bluetooth.print(l); l = f.readLine(); }
+         })()\n`,contents=>{
+              hideModal();
+              var storedpts = JSON.parse(contents);
+              callback(storedpts);
+        });
+      }
+
+      function gotStored(pts){
+          waypoints = pts;
+          renderWaypoints();
+      }
+
+      function onInit() {
+         downloadJSONfile("waypoints.json", gotStored);
       }
 
       document.getElementById("upload").addEventListener("click", function() {
-
-
         var data =  JSON.stringify(waypoints);
-
-          sendCustomizedApp({
-          storage:[
-            {name:"test.json",content:data,evaluate:false}
-          ]
-        });
+   //       sendCustomizedApp({
+   //       storage:[
+   //         {name:"test.json",content:data,evaluate:false}
+   //       ]
+   //     });
       });
     </script>
   </body>
