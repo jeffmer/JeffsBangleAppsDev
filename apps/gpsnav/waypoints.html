@@ -37,7 +37,7 @@
       </div>
     </form>
     <br><br>
-    <button id="reset" class="btn btn-error">Reset</button> <button id="upload" class="btn btn-primary">Upload</button>
+    <button id="Download" class="btn btn-error">Reset</button> <button id="Upload" class="btn btn-primary">Upload</button>
     
     <script src="../../lib/interface.js"></script>
 
@@ -49,17 +49,15 @@
      //   if(stored) waypoints = JSON.parse(stored);
      // }catch(e){}
 
+
       var $name = document.getElementById('add_waypoint_name')
       var $form = document.getElementById('add_waypoint_form')
       var $button = document.getElementById('add_waypoint_button')
       var $latitude = document.getElementById('add_latitude')
       var $longtitude = document.getElementById('add_longtitude')
       var $list = document.getElementById('waypoints')
-      var $reset = document.getElementById('reset')
 
       //renderWaypoints()
-      
-      $reset.addEventListener('click', reset)
 
       $form.addEventListener('submit', event => {
         event.preventDefault()
@@ -81,6 +79,7 @@
         save()
       })
 
+      /*
       function save(){
         localStorage.setItem('waypoint_list',JSON.stringify(waypoints));
       }
@@ -90,6 +89,7 @@
         save()
         renderWaypoints()
       }
+      */
 
       function removeWaypoint(index){
         waypoints = waypoints.filter((p,i) => i!==index)
@@ -123,7 +123,7 @@
           require("Storage").write("${fileid}",'${contents}');
           Bluetooth.print("OK");
          })()\n`,ret=>{
-            console.log("uploadJSONfile",ret);
+            console.log("uploadFile",ret);
         });
       }
 
@@ -136,9 +136,13 @@
          downloadJSONfile("waypoints.json", gotStored);
       }
 
-      document.getElementById("upload").addEventListener("click", function() {
+      document.getElementById("Download").addEventListener("click", function() {
+        downloadJSONfile("waypoints.json", gotStored);
+      });
+
+      document.getElementById("Upload").addEventListener("click", function() {
         var data =  JSON.stringify(waypoints);
-        uploadFile("test.json",data); 
+        uploadFile("waypoints.json",data); 
       });
     </script>
   </body>
