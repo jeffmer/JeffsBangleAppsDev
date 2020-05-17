@@ -71,8 +71,8 @@
         event.preventDefault()       
         var name = $name.value.trim()
         if(!name) return;
-        var lat = parseFloat($latitude.value)
-        var lon = parseFloat($longtitude.value)
+        var lat = parseFloat($latitude.value).toPrecision(5);
+        var lon = parseFloat($longtitude.value).toPrecision(5);
 
         waypoints.push({
           name, lat,lon,
@@ -82,8 +82,8 @@
 
         renderWaypoints()
         $name.value = ''
-        $latitude.value = 0.0000
-        $longtitude.value = 0.0000
+        $latitude.value = (0).toPrecision(5);
+        $longtitude.value = (0).toPrecision(5);
       });
 
       $name_button.addEventListener('click', event => {
