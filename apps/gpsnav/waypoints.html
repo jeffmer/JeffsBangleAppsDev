@@ -118,9 +118,9 @@
           if (index==0){
               $waypoint.innerHTML = `<td>${waypoint.name}</td>`
           } else if(waypoint.lat==undefined){
-          $waypoint.innerHTML = `<td>${waypoint.name}</td><td>------</td><td>-----</td><td><button class="btn btn-action" onclick="removeWaypoint(${index})"><i class="icon icon-edit"></i></button></td>`
+          $waypoint.innerHTML = `<td>${waypoint.name}</td><td>------</td><td>-----</td><td><button class="btn btn-action btn-primary" onclick="removeWaypoint(${index})"><i class="icon icon-edit"></i></button></td>`
           } else {
-          $waypoint.innerHTML = `<td>${waypoint.name}</td><td>${waypoint.lat}</td><td>${waypoint.lon}</td><td><button class="btn btn-action" onclick="removeWaypoint(${index})"><i class="icon icon-edit"></i></button></td>`
+          $waypoint.innerHTML = `<td>${waypoint.name}</td><td>${waypoint.lat}</td><td>${waypoint.lon}</td><td><button class="btn btn-action btn-primary" onclick="removeWaypoint(${index})"><i class="icon icon-edit"></i></button></td>`
           }
           $list.appendChild($waypoint)
         })
