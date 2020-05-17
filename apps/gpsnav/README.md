@@ -26,9 +26,9 @@ The app indicates that WP2 is now marked by adding the prefix @ to it's name. Th
 
 ### Waypoint JSON file
 
-When the app is loaded from the app loader, a file named waypoints.json is loaded along with the javascript etc. The file has the following contents:
+When the app is loaded from the app loader, a file named `waypoints.json` is loaded along with the javascript etc. The file has the following contents:
 
-~~~
+```
 [
   {
   "name":"NONE"
@@ -49,15 +49,14 @@ When the app is loaded from the app loader, a file named waypoints.json is loade
   { "name":"WP3" },
   { "name":"WP4" }
 ]
-~~~
+```
 
 The file contains the initial NONE waypoint which is useful if you just want to display course and speed. The next two entries are waypoints to No 10 Downing Street and to Stone Henge - obtained from Google Maps. The last five entries are entries which can be *marked*.
 
 You add and delete entries using the Web IDE to load and then save the file from and to watch storage. The app itself does not limit the number of entries although it does load the entire file into RAM which will obviously limit this. 
 
-I plan to release an accompanying watch app to edit waypoint files in the near future and a way to download your own waypoint file using the app loader.
+### Waypoint Editor
 
+Clicking on the download icon of gpsnav in the app loader invokes the waypoint editor.  The editor downloads and displays the current `waypoints.json` file. Clicking the `Edit` button beside an entry causes the entry to be deleted from the list and displayed in the edit boxes. It can be restored -  by clicking the `Add waypoint` button. A new markable entry is created by using the `Add name` button. The edited `waypoints.json` file is uploaded to the Bangle by clicking the `Upload` button. 
 
-
-
-
+*Please report bugs etc. by raising an issue [here](https://github.com/jeffmer/JeffsBangleAppsDev). *
