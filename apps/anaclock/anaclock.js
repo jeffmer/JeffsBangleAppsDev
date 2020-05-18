@@ -91,7 +91,7 @@ var widgetVis = {
     if (!Bangle.isLCDOn() || !this.saved) return;
     for (var wd of WIDGETS) wd.draw = this.saved.shift();
     Bangle.drawWidgets(); 
-    saved=null;
+    this.saved=null;
   },
   setup:()=>{
     setWatch(this.hide, BTN4, {repeat:true,edge:"rising"});
