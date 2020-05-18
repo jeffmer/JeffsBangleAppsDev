@@ -26,11 +26,34 @@ function stopdraw(){
   clearInterval(intervalRef);
 }
 
+var saved = null;
+
+function hideWidgets(){
+  if (!Bangle.isLCDOn()) return;
+  if (saved) return;
+  saved = [];
+  var i = 0;
+  for (var wd of WIDGETS) {saved[i++]=wd.draw; wd.draw=()=>{};}
+  g.setColor(0,0,0);
+  g.fillRect(0,0,239,23);
+}
+
+function revealWidgets(){
+  if (!Bangle.isLCDOn()) return;
+  if (!saved) return;
+  var i = 0;
+  for (var wd of WIDGETS) {wd.draw = saved[i++];} 
+  Bangle.drawWidgets(); 
+  saved=null;
+}
+
 function setButtons(){
   setWatch(Bangle.showLauncher, BTN2, {repeat:false,edge:"falling"});
   setWatch(function(){load("anaclock.app.js");}, BTN1, {repeat:false,edge:"rising"});
   setWatch(function(){load("digiclock.app.js");}, BTN3, {repeat:false,edge:"rising"});
-};
+  setWatch(hideWidgets, BTN4, {repeat:true,edge:"rising"});
+  setWatch(revealWidgets, BTN5, {repeat:true,edge:"rising"});
+}
 
 var SCREENACCESS = {
       withApp:true,
@@ -44,7 +67,7 @@ var SCREENACCESS = {
         startdraw(); 
         setButtons();
       }
-} 
+}; 
 
 Bangle.on('lcdPower',function(on) {
   if (!SCREENACCESS.withApp) return;
