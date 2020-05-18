@@ -144,9 +144,21 @@
         inalert=false; 
         next_notify();
     }, 500);
-  }
+  } 
+
+
 
   function printmsg(buf,inds){
+
+    function send_action(tf){
+      var bb = new Uint8Array(6);
+      var v = DataView(bb.buffer);
+      v.setUint8(0,2);
+      v.setUint32(1,state.current.uid,true);
+      v.setUint8(5,tf?0:1 );
+      state.ancs.control.writeValue(bb).then(release_screen);        
+    }
+
     if (state.msgTO) clearTimeout(state.msgTO); 
     var title="";
     for (var i=8;i<8+inds.tlen; ++i) title+=String.fromCharCode(buf[i]);
@@ -165,17 +177,9 @@
         Bangle.buzz(500).then(()=>{buzzing=false;});
     }
     if (state.current.cat!=1){
-      E.showAlert(message,title).then (release_screen);
+      E.showAlert(message,title).then(release_screen.bind(null,false));
     } else {
-      E.showPrompt(message,{title:title,buttons:{"Accept":true,"Cancel":false}}).then
-        (function(tf){
-          var bb = new Uint8Array(6);
-          var v = DataView(bb.buffer);
-          v.setUint8(0,2);
-          v.setUint32(1,state.current.uid,true);
-          v.setUint8(5,tf?0:1 );
-          state.ancs.control.writeValue(bb).then(release_screen);        
-        });
+      E.showPrompt(message,{title:title,buttons:{"Accept":true,"Cancel":false}}).then(send_action);
     }
   }
 
