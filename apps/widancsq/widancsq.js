@@ -175,7 +175,7 @@
         Bangle.buzz(500).then(()=>{buzzing=false;});
     }
     if (state.current.cat!=1){
-      E.showAlert(message,title).then(release_screen.bind(null,false));
+      E.showAlert(message,title).then(release_screen.bind(null,true));
     } else {
       E.showPrompt(message,{title:title,buttons:{"Accept":true,"Cancel":false}}).then(send_action);
     }
