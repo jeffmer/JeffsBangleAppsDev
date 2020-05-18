@@ -146,8 +146,6 @@
     }, 500);
   } 
 
-
-
   function printmsg(buf,inds){
 
     function send_action(tf){
