@@ -32,7 +32,7 @@
     setup();
   }
     
-  WIDGETS["viz"] ={area:"tl", width:24,draw:draw};
+  WIDGETS["viz"] ={area:"tl", width:24,draw:draw,setup:setup};
   setup();
     
 })();

@@ -140,6 +140,8 @@
   function release_screen(){
     screentimeout= setTimeout(() => { 
         SCREENACCESS.release(); 
+        var viz = WIDGETS["viz"];
+        if (viz) viz.setup();
         screentimeout = undefined; 
         inalert=false; 
         next_notify();
