@@ -27,8 +27,8 @@
   function setup(){
     if(id4) clearWatch(id4);
     if(id5) clearWatch(id5);
-    id4 = setWatch(hide, BTN4, {repeat:false,edge:"rising"});
-    id5 = setWatch(reveal, BTN5, {repeat:false,edge:"rising"});
+    id4 = setWatch(hide, BTN4, {repeat:true,edge:"rising"});
+    id5 = setWatch(reveal, BTN5, {repeat:true,edge:"rising"});
   }
   
   function draw(){
