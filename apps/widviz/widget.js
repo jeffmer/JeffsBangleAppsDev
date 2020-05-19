@@ -3,10 +3,10 @@
   var saved = null;
   
   function hide(){
-    if (!Bangle.isLCDOn() || this.saved) return;
-    this.saved = [];
+    if (!Bangle.isLCDOn() || saved) return;
+    saved = [];
     for (var wd of WIDGETS) {
-      this.saved.push(wd.draw); 
+      saved.push(wd.draw); 
       wd.draw=()=>{};
     }
     WIDGETS["viz"].draw=setup;
@@ -15,15 +15,20 @@
   }
   
   function reveal(){
-    if (!Bangle.isLCDOn() || !this.saved) return;
-    for (var wd of WIDGETS) wd.draw = this.saved.shift();
+    if (!Bangle.isLCDOn() || !saved) return;
+    for (var wd of WIDGETS) wd.draw = saved.shift();
     Bangle.drawWidgets(); 
-    this.saved=null;
+    saved=null;
   }
   
+  var id4=null;
+  var id5=null;
+  
   function setup(){
-    setWatch(hide, BTN4, {repeat:true,edge:"rising"});
-    setWatch(reveal, BTN5, {repeat:true,edge:"rising"});
+    if(id4) clearWatch(id4);
+    if(id5) clearWatch(id5);
+    id4 = setWatch(hide, BTN4, {repeat:false,edge:"rising"});
+    id5 = setWatch(reveal, BTN5, {repeat:false,edge:"rising"});
   }
   
   function draw(){

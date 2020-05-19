@@ -106,8 +106,8 @@
     "name": "Widget Visibility Widget",
     "shortName":"Viz Widget",
     "icon": "eye.png",
-    "version":"0.02",
-    "description": "Touch left screen to hide top bar widgets, right screen to,redisplay",
+    "version":"0.01",
+    "description": "Touch left screen to hide top bar widgets, right screen to redisplay. Will not work with apps that use BTN4 & BTN5.",
     "tags": "widget",
     "type": "widget",
     "storage": [
