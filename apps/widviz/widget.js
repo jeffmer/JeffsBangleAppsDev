@@ -27,7 +27,7 @@
   }
   
   function draw(){
-    var img = E.toArrayBuffer(atob("GBgBAAAAAAAAAAAAAAAAAAAAAAAAAP8AB//gH//4P//8f//+/f+/+f+fef+eGP8YDP8wDjxwBwDgA4HAAf+AAH4AAAAAAAAAAAAA"));
+    var img = E.toArrayBuffer(atob("GBgBAAAAAAAAAAAAAAAAAH4AAf+AB4HgDgBwHDw4OH4cMOcMYMMGYMMGMOcMOH4cHDw4DgBwB4HgAf+AAH4AAAAAAAAAAAAAAAAA"));
     g.setColor(0x07ff);
     g.drawImage(img,this.x,this.y);
     setup();
