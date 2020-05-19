@@ -1,15 +1,13 @@
 (() => {
 
   var saved = null;
-
-  function nodraw(){};
   
   function hide(){
     if (!Bangle.isLCDOn() || saved) return;
     saved = [];
     for (var wd of WIDGETS) {
       saved.push(wd.draw); 
-      wd.draw=nodraw;
+      wd.draw=()=>{};
     }
     g.setColor(0,0,0);
     g.fillRect(0,0,239,23);
@@ -31,7 +29,6 @@
     var img = E.toArrayBuffer(atob("GBgBAAAAAAAAAAAAAAAAAH4AAf+AB4HgDgBwHDw4OH4cMOcMYMMGYMMGMOcMOH4cHDw4DgBwB4HgAf+AAH4AAAAAAAAAAAAAAAAA"));
     g.setColor(0x07ff);
     g.drawImage(img,this.x,this.y);
-    setup();
   }
     
   WIDGETS["viz"] ={area:"tl", width:24,draw:draw,setup:setup};
