@@ -101,6 +101,18 @@
       {"name":"widancs.wid.js","url":"widancsq.js"},
       {"name":"widancs.settings.js","url":"settings.js"}
     ]
+  },
+  { "id": "widviz",
+    "name": "Widget Visibility Widget",
+    "shortName":"Viz Widget",
+    "icon": "eye.png",
+    "version":"0.02",
+    "description": "Touch left screen to hide top bar widgets, right screen to,redisplay",
+    "tags": "widget",
+    "type": "widget",
+    "storage": [
+      {"name":"widviz.wid.js","url":"widviz.js"}
+    ]
   }
 ]
 

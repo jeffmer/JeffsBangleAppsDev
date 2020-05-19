@@ -26,35 +26,10 @@ function stopdraw(){
   clearInterval(intervalRef);
 }
 
-var widgetVis = {
-  saved:null,
-  hide:()=>{
-    if (!Bangle.isLCDOn() || this.saved) return;
-    this.saved = [];
-    for (var wd of WIDGETS) {
-      this.saved.push(wd.draw); 
-      wd.draw=()=>{};
-    }
-    g.setColor(0,0,0);
-    g.fillRect(0,0,239,23);
-  },
-  reveal:()=>{
-    if (!Bangle.isLCDOn() || !this.saved) return;
-    for (var wd of WIDGETS) wd.draw = this.saved.shift();
-    Bangle.drawWidgets(); 
-    this.saved=null;
-  },
-  setup:()=>{
-    setWatch(this.hide, BTN4, {repeat:true,edge:"rising"});
-    setWatch(this.reveal, BTN5, {repeat:true,edge:"rising"});
-  }
-};
-
 function setButtons(){
   setWatch(Bangle.showLauncher, BTN2, {repeat:false,edge:"falling"});
   setWatch(function(){load("anaclock.app.js");}, BTN1, {repeat:false,edge:"rising"});
   setWatch(function(){load("digiclock.app.js");}, BTN3, {repeat:false,edge:"rising"});
-  widgetVis.setup();
 }
 
 var SCREENACCESS = {
