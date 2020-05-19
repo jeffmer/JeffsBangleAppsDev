@@ -9,7 +9,6 @@
       saved.push(wd.draw); 
       wd.draw=()=>{};
     }
-    WIDGETS["viz"].draw=setup;
     g.setColor(0,0,0);
     g.fillRect(0,0,239,23);
   }
@@ -21,14 +20,9 @@
     saved=null;
   }
   
-  var id4=null;
-  var id5=null;
-  
   function setup(){
-    if(id4) clearWatch(id4);
-    if(id5) clearWatch(id5);
-    id4 = setWatch(hide, BTN4, {repeat:true,edge:"rising"});
-    id5 = setWatch(reveal, BTN5, {repeat:true,edge:"rising"});
+    setWatch(hide, BTN4, {repeat:true,edge:"rising"});
+    setWatch(reveal, BTN5, {repeat:true,edge:"rising"});
   }
   
   function draw(){
@@ -39,5 +33,6 @@
   }
     
   WIDGETS["viz"] ={area:"tl", width:24,draw:draw};
+  setup();
     
 })();
