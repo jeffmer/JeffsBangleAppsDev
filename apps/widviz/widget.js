@@ -1,13 +1,15 @@
 (() => {
 
   var saved = null;
+
+  function nodraw(){};
   
   function hide(){
     if (!Bangle.isLCDOn() || saved) return;
     saved = [];
     for (var wd of WIDGETS) {
       saved.push(wd.draw); 
-      wd.draw=()=>{};
+      wd.draw=nodraw;
     }
     g.setColor(0,0,0);
     g.fillRect(0,0,239,23);
