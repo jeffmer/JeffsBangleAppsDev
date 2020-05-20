@@ -98,7 +98,7 @@
     "tags": "widget",
     "type": "widget",
     "storage": [
-      {"name":"widancs.wid.js","url":"widancsq.js"},
+      {"name":"widancs.wid.js","url":"widget.js"},
       {"name":"widancs.settings.js","url":"settings.js"}
     ]
   },
