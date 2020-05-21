@@ -59,7 +59,8 @@
       E.on("kill",function(){
         gatt.disconnect().then(function(){
           //NRF.setSecurity(mitm:false, display:false);
-          //NRF.sleep();});
+          //NRF.sleep();
+        });
       });      
       NRF.setSecurity({passkey:"123456",mitm:1,display:1});
       gatt.startBonding().then(function(){
