@@ -53,6 +53,7 @@
       gatt.device.on('gattserverdisconnected', function(reason) {
          drawIcon(0); //disconnect from iPhone
          delete state.gatt;
+         delete state.ancs;
          NRF.wake();
          advert();
       });
