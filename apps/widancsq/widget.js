@@ -52,14 +52,14 @@
       drawIcon(1); //connect from iPhone
       gatt.device.on('gattserverdisconnected', function(reason) {
          drawIcon(0); //disconnect from iPhone
-         NRF.setSecurity(mitm:false, display:false);
-         NRF.wake();
-         advert();
+         //NRF.setSecurity(mitm:false, display:false);
+         //NRF.wake();
+         //advert();
       });
       E.on("kill",function(){
         gatt.disconnect().then(function(){
-          NRF.setSecurity(mitm:false, display:false);
-          NRF.sleep();});
+          //NRF.setSecurity(mitm:false, display:false);
+          //NRF.sleep();});
       });      
       NRF.setSecurity({passkey:"123456",mitm:1,display:1});
       gatt.startBonding().then(function(){
