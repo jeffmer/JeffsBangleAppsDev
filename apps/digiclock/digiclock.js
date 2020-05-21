@@ -13,7 +13,7 @@ function drawTime() {
   var d = new Date();
   var da = d.toString().split(" ");
   var time = da[4];
-  buf.setFont("Vector",48);
+  buf.setFont("Vector",44);
   buf.setFontAlign(0,-1);
   buf.drawString(time,buf.getWidth()/2,0);
   buf.setFont("Vector",18);
