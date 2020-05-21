@@ -106,7 +106,7 @@ function drawN(){
   buf.drawString("o",100,0);
   buf.setFont("6x8",1);
   buf.drawString("kph",220,40);
-  buf.setFont("Vector",40);
+  buf.setFont("Vector",36);
   var cs = course.toString();
   cs = course<10?"00"+cs : course<100 ?"0"+cs : cs;
   buf.drawString(cs,10,0);
@@ -114,7 +114,7 @@ function drawN(){
   buf.drawString(txt,140,4);
   flip(buf,Yoff+70);
   buf.setColor(1);
-  buf.setFont("Vector",20);
+  buf.setFont("Vector",18);
   var bs = brg.toString();
   bs = brg<10?"00"+bs : brg<100 ?"0"+bs : bs;
   buf.setColor(3);
