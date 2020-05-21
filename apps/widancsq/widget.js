@@ -48,26 +48,25 @@
   
   if (ENABLED && typeof SCREENACCESS!='undefined') 
   NRF.on('connect',function(addr){
-      var gatt = NRF.getGattforCentralServer(addr);
+      state.gatt = NRF.getGattforCentralServer(addr);
       drawIcon(1); //connect from iPhone
-      gatt.device.on('gattserverdisconnected', function(reason) {
+      state.gatt.device.on('gattserverdisconnected', function(reason) {
          drawIcon(0); //disconnect from iPhone
          delete state.gatt;
          delete state.ancs;
          NRF.wake();
-         advert();
+         //advert();
       });
       E.on("kill",function(){
-        gatt.disconnect().then(function(){NRF.sleep();});
+        state.gatt.disconnect().then(function(){NRF.sleep();});
       });      
       NRF.setSecurity({passkey:"123456",mitm:1,display:1});
-      gatt.startBonding().then(function(){
+      state.gatt.startBonding().then(function(){
         var ival = setInterval(function(){
-            var sec = gatt.getSecurityStatus();
+            var sec = state.gatt.getSecurityStatus();
             if (!sec.connected) {clearInterval(ival); return;}
             if (sec.connected && sec.encrypted){
               clearInterval(ival);  
-              state.gatt=gatt;
               drawIcon(2); //bonded to iPhone
               do_ancs(); 
               return;
@@ -79,30 +78,29 @@
   });
   
   function do_ancs() {
-    var ancs = {primary:null, notify:null, control:null, data:null};
+    state.ancs = {primary:null, notify:null, control:null, data:null};
     state.gatt.getPrimaryService("7905F431-B5CE-4E99-A40F-4B1E122D00D0").then(function(s) {
-      ancs.primary=s;
+      state.ancs.primary=s;
       return s.getCharacteristic("9FBF120D-6301-42D9-8C58-25E699A21DBD");
     }).then(function(c) {
-      ancs.notify=c;
-      return ancs.primary.getCharacteristic("69D1D8F3-45E1-49A8-9821-9BBDFDAAD9D9");      
+      state.ancs.notify=c;
+      return state.ancs.primary.getCharacteristic("69D1D8F3-45E1-49A8-9821-9BBDFDAAD9D9");      
     }).then(function(c) {
-      ancs.control=c;
-      return ancs.primary.getCharacteristic("22EAC6E9-24D6-4BB5-BE44-B36ACE7C7BFB");
+      state.ancs.control=c;
+      return state.ancs.primary.getCharacteristic("22EAC6E9-24D6-4BB5-BE44-B36ACE7C7BFB");
     }).then(function(c) {
-      ancs.data =c;
-      state.ancs=ancs;
+      state.ancs.data =c;
       drawIcon(3);//got remote services
-      ancs.notify.on('characteristicvaluechanged', function(ev) {
+      state.ancs.notify.on('characteristicvaluechanged', function(ev) {
         getnotify(ev.target.value);
       });
-      ancs.data.on('characteristicvaluechanged', function(e) {
+      state.ancs.data.on('characteristicvaluechanged', function(e) {
         state.store(e.target.value.buffer);
         var inds = state.gotmsg();
         if (inds) printmsg(state.buf,inds);        
       });
-      ancs.notify.startNotifications().then(function(){
-           ancs.data.startNotifications().then(function(){
+      state.ancs.notify.startNotifications().then(function(){
+           state.ancs.data.startNotifications().then(function(){
               drawIcon(4); //ready for messages
            });  
       });
