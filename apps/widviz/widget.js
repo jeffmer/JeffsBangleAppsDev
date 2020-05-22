@@ -21,8 +21,11 @@
   }
   
   function setup(){
-    setWatch(hide, BTN4, {repeat:true,edge:"rising"});
-    setWatch(reveal, BTN5, {repeat:true,edge:"rising"});
+    //setWatch(hide, BTN4, {repeat:true,edge:"rising"});
+    //setWatch(reveal, BTN5, {repeat:true,edge:"rising"});
+    Bangle.on('swipe',(dir)=>{
+      if (dir<0) hide(); else reveal();
+    });
   }
   
   function draw(){
