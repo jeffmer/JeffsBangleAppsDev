@@ -42,7 +42,7 @@
           if (n<(tn+8)) return null;
           var mn=vw.getUint16(9+tn,true);
           if (n<(mn+tn+11)) return null;
-          return {msg:true, tlen:tn, mlen:mn}; 
+          return {tlen:tn, mlen:mn}; 
       }
   };  
   
