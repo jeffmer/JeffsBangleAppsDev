@@ -226,6 +226,7 @@
   
   if (ENABLED && typeof SCREENACCESS!='undefined') {
     stage = 0;
+    NRF.setServices(undefined,{uart:false});
     NRF.sleep();
     NRF.wake();
     advert();
