@@ -3,6 +3,7 @@ const Yoff = 80;
 var pal2color = new Uint16Array([0x0000,0xffff,0x07ff,0xC618],0,2);
 var buf = Graphics.createArrayBuffer(240,50,2,{msb:true});
 var candraw = true;
+Bangle.setLCDTimeout(30);
 
 function flip(b,y) {
  g.drawImage({width:240,height:50,bpp:2,buffer:b.buffer, palette:pal2color},0,y);
@@ -58,17 +59,26 @@ var candraw = false;
 // Note actual mag is 360-m, error in firmware
 Bangle.on('mag', function(m) {
   if (!candraw) return;
-  if (isNaN(m.heading)) return;
+  if (isNaN(m.heading)) {
+    buf.setColor(1);
+    buf.setFont("Vector",24);
+    buf.setFontAlign(0,-1);
+    buf.drawString("Rotate to",120,0);
+    buf.drawString("Calibrate",120,26);
+    flip(buf,Yoff);
+    return;
+  }
   newHeading(-m.heading,heading);
   drawCompass(heading);
   buf.setColor(1);
   buf.setFont("6x8",2);
+  buf.setFontAlign(-1,-1);
   buf.drawString("o",170,0);
   buf.setFont("Vector",40);
   var course = Math.round(heading);
   var cs = course.toString();
   cs = course<10?"00"+cs : course<100 ?"0"+cs : cs;
-  buf.drawString(cs,80,0);
+  buf.drawString(cs,70,10);
   flip(buf,Yoff+80);
 });
 
