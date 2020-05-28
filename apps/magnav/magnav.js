@@ -24,8 +24,10 @@ function drawCompass(course) {
   for (var i=frag;i<=180-frag;i+=15){
     var res = start + i;
     if (res%90==0) {
+      buf.setColor(2);
       buf.drawString(labels[Math.floor(res/45)%8],xpos-8,0);
       buf.fillRect(xpos-2,25,xpos+2,45);
+      buf.setColor(1);
     } else if (res%45==0) {
       buf.drawString(labels[Math.floor(res/45)%8],xpos-12,0);
       buf.fillRect(xpos-2,30,xpos+2,45);
