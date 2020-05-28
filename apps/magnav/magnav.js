@@ -51,19 +51,13 @@ function drawCompass(course) {
 var heading = 0;
 function newHeading(m,h){ 
     var s = Math.abs(m - h);
-    var delta = 1;
+    var delta = (m>h)?1:-1;
+    if (s>=180){s=360-s; delta = -delta;} 
     if (s<2) return h;
-    if (m > h){
-        if (s >= 180) { delta = -1; s = 360 - s;}
-    } else {
-        if (s < 180) delta = -1; 
-        else s = 360 -s;
-    }
-    delta = delta * (1 + Math.round(s/15));
-    heading+=delta;
-    if (heading<0) heading += 360;
-    if (heading>360) heading -= 360;
-    return heading;
+    var hd = h + delta*(1 + Math.round(s/5));
+    if (hd<0) hd+=360;
+    if (hd>360)hd-= 360;
+    return hd;
 }
 
 var candraw = false;
@@ -79,7 +73,7 @@ Bangle.on('mag', function(m) {
     flip(buf,Yoff);
     return;
   }
-  newHeading(-m.heading,heading);
+  heading = newHeading(360-m.heading,heading);
   drawCompass(heading);
   buf.setColor(1);
   buf.setFont("6x8",2);
