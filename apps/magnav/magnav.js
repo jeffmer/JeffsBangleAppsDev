@@ -11,6 +11,7 @@ function flip(b,y) {
 }
 
 const labels = ["N","NE","E","SE","S","SW","W","NW"];
+var brg=null;
 
 function drawCompass(course) {
   buf.setColor(1);
@@ -24,10 +25,8 @@ function drawCompass(course) {
   for (var i=frag;i<=180-frag;i+=15){
     var res = start + i;
     if (res%90==0) {
-      buf.setColor(2);
       buf.drawString(labels[Math.floor(res/45)%8],xpos-8,0);
       buf.fillRect(xpos-2,25,xpos+2,45);
-      buf.setColor(1);
     } else if (res%45==0) {
       buf.drawString(labels[Math.floor(res/45)%8],xpos-12,0);
       buf.fillRect(xpos-2,30,xpos+2,45);
@@ -36,6 +35,16 @@ function drawCompass(course) {
     }
     xpos+=15;
   }
+  if (brg) {
+    var bpos = brg - course;
+    if (bpos>180) bpos -=360;
+    if (bpos<-180) bpos +=360;
+    bpos+=120;
+    if (bpos<30) bpos = 14;
+    if (bpos>210) bpos = 226;
+    buf.setColor(2);
+    buf.fillCircle(bpos,40,8);
+    }
   flip(buf,Yoff);
 }
 
@@ -83,6 +92,12 @@ Bangle.on('mag', function(m) {
   buf.drawString(cs,70,10);
   flip(buf,Yoff+80);
 });
+
+Bangle.on('touch', function(b) { 
+    if(!candraw) return;
+    if(b==1) brg=heading;
+    if(b==2) brg=null;
+ });
 
 function startdraw(){
   g.clear();
