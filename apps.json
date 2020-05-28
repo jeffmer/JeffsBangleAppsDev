@@ -36,15 +36,15 @@
       {"name":"jcompass.img","url":"jcompass-icon.js","evaluate":true}
     ]
   },
-  { "id": "compnav",
+  { "id": "magnav",
     "name": "Navigation Compass",
-    "icon": "compnav.png",
+    "icon": "magnav.png",
     "version":"0.01",
     "description": "Compass with the same linear display as GPSNAV",
     "tags": "tool,outdoors",
     "storage": [
-      {"name":"compnav.app.js","url":"compnav.js"},
-      {"name":"compnav.img","url":"compnav-icon.js","evaluate":true}
+      {"name":"magnav.app.js","url":"magnav.js"},
+      {"name":"magnav.img","url":"magnav-icon.js","evaluate":true}
     ]
   },
   { "id": "gpsnav",
