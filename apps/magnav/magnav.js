@@ -55,7 +55,7 @@ function newHeading(m,h){
     if (s<2) return h;
     if (m > h){
         if (s >= 180) { delta = -1; s = 360 - s;}
-    } else if (m <= h){
+    } else {
         if (s < 180) delta = -1; 
         else s = 360 -s;
     }
