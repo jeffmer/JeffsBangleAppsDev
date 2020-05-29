@@ -25,19 +25,8 @@
       {"name":"anaclock.img","url":"anaclock-icon.js","evaluate":true}
     ]
   },
-  { "id": "jcompass",
-    "name": "J's Compass",
-    "icon": "jcompass.png",
-    "version":"0.01",
-    "description": "Simple compass that points North - smooth needle animation",
-    "tags": "tool,outdoors",
-    "storage": [
-      {"name":"jcompass.app.js","url":"jcompass.js"},
-      {"name":"jcompass.img","url":"jcompass-icon.js","evaluate":true}
-    ]
-  },
   { "id": "magnav",
-    "name": "Navigation Compass",
+    "name": "Nav. Compass",
     "icon": "magnav.png",
     "version":"0.01",
     "description": "Compass with the same linear display as GPSNAV",
