@@ -50,21 +50,15 @@ function drawCompass(course) {
 
 //displayed heading
 var heading = 0;
-function newHeading(m,h){
+function newHeading(m,h){ 
     var s = Math.abs(m - h);
-    var delta = 1;
+    var delta = (m>h)?1:-1;
+    if (s>=180){s=360-s; delta = -delta;} 
     if (s<2) return h;
-    if (m > h){
-        if (s >= 180) { delta = -1; s = 360 - s;}
-    } else if (m <= h){
-        if (s < 180) delta = -1; 
-        else s = 360 -s;
-    }
-    delta = delta * (1 + Math.round(s/15));
-    heading+=delta;
-    if (heading<0) heading += 360;
-    if (heading>360) heading -= 360;
-    return heading;
+    var hd = h + delta*(1 + Math.round(s/5));
+    if (hd<0) hd+=360;
+    if (hd>360)hd-= 360;
+    return hd;
 }
 
 var course =0;
@@ -166,7 +160,7 @@ function stopdraw() {
 function startTimers() {
   candraw=true;
   intervalRefSec = setInterval(function() {
-    newHeading(course,heading);
+    heading = newHeading(course,heading);
     if (course!=heading) drawCompass(heading);
   },200);
 }
