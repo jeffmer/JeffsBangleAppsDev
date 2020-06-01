@@ -1,6 +1,6 @@
 [
   { "id": "digiclock",
-    "name": "Digital Watch",
+    "name": "Digital Clock",
     "icon": "digiclock.png",
     "version":"0.02",
     "description": "simple digital clock display with Vector font",
