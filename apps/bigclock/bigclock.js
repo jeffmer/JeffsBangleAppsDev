@@ -27,9 +27,12 @@ function stopdraw(){
 }
 
 function setButtons(){
+  function myload(clockapp){
+     if (require("Storage").read(clockapp)) load(clockapp);
+  }
   setWatch(Bangle.showLauncher, BTN2, {repeat:false,edge:"falling"});
-  setWatch(function(){load("anaclock.app.js");}, BTN1, {repeat:false,edge:"rising"});
-  setWatch(function(){load("digiclock.app.js");}, BTN3, {repeat:false,edge:"rising"});
+  setWatch(function(){myload("anaclock.app.js");}, BTN1, {repeat:false,edge:"rising"});
+  setWatch(function(){myload("digiclock.app.js");}, BTN3, {repeat:false,edge:"rising"});
 }
 
 var SCREENACCESS = {
