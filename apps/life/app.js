@@ -10,24 +10,6 @@ function flip() {
 var genA = new Uint8Array(324);
 var genB = new Uint8Array(324);
 
-function next(cur,fut){
-    "memory"
-    var count=(p)=>{return cur[p-19]+cur[p-18]+cur[p-17]+cur[p-1]+cur[p+1]+cur[p+17]+cur[p+18]+cur[p+19];};
-    for (let y = 1; y<17; ++y)
-    for (let x = 1; x<17; ++x){
-        var ind = x+y*18;
-        var nc = count(ind);
-        var r = (cur[ind]==1 && nc==2 || nc==3)?1:0;
-        fut[ind]=r;
-        if (r==1){
-          var Xr=10*(x-1);
-          var Yr=10*(y-1);
-          buf.fillRect(Xr,Yr, Xr+7,Yr+7);
-        }
-    }
-    flip();
-}
-
 function initDraw(gen){
     for (let y = 1; y<17; ++y)
     for (let x = 1; x<17; ++x) {
@@ -43,11 +25,29 @@ function initDraw(gen){
 }
 
 var turn =true;
-var first = next.bind(null,genA,genB);
-var second = next.bind(null,genB,genA);
+
 function alternate(){
-  if (turn) first(); else second();
-  turn = !turn;
+    "memory"
+    function next(cur,fut){
+        var count=(p)=>{return cur[p-19]+cur[p-18]+cur[p-17]+cur[p-1]+cur[p+1]+cur[p+17]+cur[p+18]+cur[p+19];};
+        for (let y = 1; y<17; ++y)
+        for (let x = 1; x<17; ++x){
+            var ind = x+y*18;
+            var nc = count(ind);
+            var r = (cur[ind]==1 && nc==2 || nc==3)?1:0;
+            fut[ind]=r;
+            if (r==1){
+            var Xr=10*(x-1);
+            var Yr=10*(y-1);
+            buf.fillRect(Xr,Yr, Xr+7,Yr+7);
+            }
+        }
+        flip();
+    }
+    var first = next.bind(null,genA,genB);
+    var second = next.bind(null,genB,genA);  
+    if (turn) first(); else second();
+    turn = !turn;
 }
 
 var generation = 0;
