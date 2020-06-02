@@ -1,9 +1,9 @@
-Bangle.setLCDTimeout(0);
+Bangle.setLCDTimeout(30);
 var pal1color = new Uint16Array([0x0000,0xffff]);
 var buf = Graphics.createArrayBuffer(160,160,1,{msb:true});
 
 function flip() {
- g.drawImage({width:160,height:160,bpp:1,buffer:buf.buffer, palette:pal1color},40,60);
+ g.drawImage({width:160,height:160,bpp:1,buffer:buf.buffer, palette:pal1color},40,40);
  buf.clear();
 }
 
@@ -28,18 +28,6 @@ function next(cur,fut){
     flip();
 }
 
-function draw(gen){
-    buf.setColor(1);
-    for (let y = 1; y<17; ++y)
-        for (let x = 1; x<17; ++x) 
-            if (gen[x+y*18]==1){
-                var Xr=10*(x-1);
-                var Yr=10*(y-1);
-                buf.fillRect(Xr,Yr, Xr+7,Yr+7);
-            }
-    flip();    
-}
-
 function initDraw(gen){
     for (let y = 1; y<17; ++y)
     for (let x = 1; x<17; ++x) {
@@ -62,19 +50,25 @@ function alternate(){
   turn = !turn;
 }
 
+var generation = 0;
+
 function reset(){
+  g.setColor(1,1,1);
   initDraw(genA);
   turn=true;
+  generation = 0;
 }
 
-/*
 function howlong(){
+  g.setColor(1,1,1);
   var start=Date.now();
   alternate();
+  ++generation;
   const duration = Math.floor(Date.now()-start);
-  console.log('Render: '+duration+'ms');
+  g.setFont("6x8",2);
+  g.setFontAlign(-1,-1,0);
+  g.drawString('Gen:'+generation+'  '+duration+'ms  ',20,220,true);
 }
-*/
 
 var intervalRef = null;
 
@@ -89,13 +83,14 @@ function startdraw() {
     g.setFont("6x8",2);
     g.setFontAlign(0,0,3);
     g.drawString("Reset",230,200);
-    intervalRefSec = setInterval(alternate,1000);
+    howlong();
+    intervalRef = setInterval(howlong,1000);
   }
   
   function setButtons(){
     setWatch(Bangle.showLauncher, BTN2, {repeat:false,edge:"falling"});
     setWatch(reset, BTN3, {repeat:true,edge:"rising"});
-  };
+  }
   
   var SCREENACCESS = {
         withApp:true,
@@ -109,7 +104,7 @@ function startdraw() {
           startdraw(); 
           setButtons();
         }
-  } 
+  }; 
   
   Bangle.on('lcdPower',function(on) {
     if (!SCREENACCESS.withApp) return;
