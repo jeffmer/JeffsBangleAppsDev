@@ -27,7 +27,7 @@ function initDraw(gen){
 var turn =true;
 
 function alternate(){
-    "memory"
+    "memory";
     function next(cur,fut){
         var count=(p)=>{return cur[p-19]+cur[p-18]+cur[p-17]+cur[p-1]+cur[p+1]+cur[p+17]+cur[p+18]+cur[p+19];};
         for (let y = 1; y<17; ++y)
