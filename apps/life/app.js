@@ -1,9 +1,9 @@
 Bangle.setLCDTimeout(30);
-var pal1color = new Uint16Array([0x0000,0xffff]);
+
 var buf = Graphics.createArrayBuffer(160,160,1,{msb:true});
 
 function flip() {
- g.drawImage({width:160,height:160,bpp:1,buffer:buf.buffer, palette:pal1color},40,40);
+ g.drawImage({width:160,height:160,bpp:1,buffer:buf.buffer},40,40);
  buf.clear();
 }
 
@@ -43,10 +43,8 @@ function next(cur,fut){
 }
 
 var turn =true;
-var first = next.bind(null,genA,genB);
-var second = next.bind(null,genB,genA); 
 function alternate(){
-    if (turn) first(); else second();
+    if (turn) next(genA,genB); else next(genB,genA);
     turn = !turn;
 }
 
@@ -80,6 +78,7 @@ function startdraw() {
     g.clear();
     Bangle.drawWidgets();
     g.reset();
+    g.setColor(1,1,1);
     g.setFont("6x8",2);
     g.setFontAlign(0,0,3);
     g.drawString("Reset",230,200);
