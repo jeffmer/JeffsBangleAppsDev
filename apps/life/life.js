@@ -3,6 +3,7 @@ Bangle.setLCDTimeout(30);
 var buf = Graphics.createArrayBuffer(160,160,1,{msb:true});
 
 function flip() {
+ g.setColor(1,1,1);
  g.drawImage({width:160,height:160,bpp:1,buffer:buf.buffer},40,40);
  buf.clear();
 }
@@ -31,7 +32,6 @@ function howlong(){
   var now = Date.now();
   const duration = Math.floor(now-start);
   start=now;
-  g.setColor(1,1,1);
   ++generation;
   g.setFont("6x8",2);
   g.setFontAlign(-1,-1,0);
