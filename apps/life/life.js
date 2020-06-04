@@ -11,7 +11,7 @@ function flip() {
 var genA = new Uint8Array(324);
 var genB = new Uint8Array(324);
 var generation=0;
-var start=Date.now();
+//var start=Date.now();
 var currentY=1;
 
 function initDraw(gen){
@@ -29,13 +29,14 @@ function initDraw(gen){
 }
 
 function howlong(){
-  var now = Date.now();
-  const duration = Math.floor(now-start);
-  start=now;
+ //  var now = Date.now();
+ // const duration = Math.floor(now-start);
+ // start=now;
   ++generation;
   g.setFont("6x8",2);
   g.setFontAlign(-1,-1,0);
-  g.drawString('Gen:'+generation+'  '+duration+'ms  ',20,220,true);
+ // g.drawString('Gen:'+generation+'  '+duration+'ms  ',20,220,true);
+  g.drawString('Gen:'+generation+'   ',20,220,true);
 }
 
 function next(){
