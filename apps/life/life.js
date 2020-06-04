@@ -61,12 +61,6 @@ function next(){
     } else ++currentY;
 }
 
-function reset(){
-  g.setColor(1,1,1);
-  initDraw(genA);
-  currentY=1;
-  generation = 0;
-}
 
 var intervalRef = null;
 
@@ -74,18 +68,30 @@ function stopdraw() {
     if(intervalRef) {clearInterval(intervalRef);}
   }
   
-function startdraw() {
-    g.clear();
+function startdraw(init=false) {
+    if(!init) g.clear();
     Bangle.drawWidgets();
     g.reset();
     g.setColor(1,1,1);
-    g.setFont("6x8",2);
+    g.setFont("6x8",1);
     g.setFontAlign(0,0,3);
-    g.drawString("Reset",230,200);
-    intervalRef = setInterval(next,60);
+    g.drawString("RESET",230,200);
+    g.drawString("LAUNCH",230,130);
+    g.drawString("CLOCK",230,60);
+    if(!init) intervalRef = setInterval(next,65);
   }
+
+function reset(){
+  stopdraw();
+  g.setColor(1,1,1);
+  initDraw(genA);
+  currentY=1;
+  generation = 0;
+  intervalRef = setInterval(next,65);
+}
   
   function setButtons(){
+    setWatch(()=>{load();}, BTN1, {repeat:false,edge:"falling"});
     setWatch(Bangle.showLauncher, BTN2, {repeat:false,edge:"falling"});
     setWatch(reset, BTN3, {repeat:true,edge:"rising"});
   }
@@ -115,7 +121,7 @@ function startdraw() {
   
   g.clear();
   Bangle.loadWidgets();
-  startdraw();
-  setButtons();
   reset();
+  startdraw(true);
+  setButtons();
   
