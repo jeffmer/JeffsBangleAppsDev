@@ -63,7 +63,7 @@
       {"name":"bigclock.img","url":"bigclock-icon.js","evaluate":true}
     ]
   },
-  { "id": "widancsq",
+  { "id": "widancs",
     "name": "Apple Notification Widget",
     "shortName":"ANCS Widget",
     "icon": "widget.png",
@@ -73,7 +73,7 @@
     "tags": "widget",
     "type": "widget",
     "storage": [
-      {"name":"widancs.wid.js","url":"widget.js"},
+      {"name":"widancs.wid.js","url":"ancs.min.js"},
       {"name":"widancs.settings.js","url":"settings.js"}
     ]
   },

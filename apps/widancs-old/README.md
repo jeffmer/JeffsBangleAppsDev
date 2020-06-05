@@ -1,4 +1,4 @@
-## iPhone notifications for Bangle.js - Version for modified firmware
+## iPhone notifications for Bangle.js
 
 This widget allows you to answer or cancel iPhone incoming calls and also displays messages and notifications. It connects to the Apple Notification Center Service which is already on all iPhones, so you do not need to install any additional iPhone apps to use this widget.
 
@@ -7,7 +7,7 @@ This widget allows you to answer or cancel iPhone incoming calls and also displa
 ![](widget_pic.jpg)
 
 ### Installation
-*First,you must update to the special modified Bangle firmware which you can find in this directory.*
+*First,you must update to the latest Bangle firmware - v2.05v27 or later.*
 
 This beta version can be installed from this [repository's](https://github.com/jeffmer/JeffsBangleAppsDev) app loader - [https://jeffmer.github.io/JeffsBangleAppsDev/](https://jeffmer.github.io/JeffsBangleAppsDev/). The widget will only run with a compatible clock app - see below. There are three listed in the App loader so install one or all three as they are linked and pressing BTN1 or BTN3 if they are not all installed will cause a black screen of death. Once installed, the widget will only appear in a compatible app when enabled in the Bangle Settings app - `ANCS Widget` will appear in `APP/Widget settings`. There is also a menu in these settings to let you configure the categories of notifications that you want to be displayed. 
 
