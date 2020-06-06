@@ -124,7 +124,13 @@ function regen(){
   
   g.clear();
   Bangle.loadWidgets();
-  regen();
   startdraw(true);
   setButtons();
+  buf.setFont('Vector',40);
+  buf.setFontAlign(0,0);
+  buf.drawString('LIFE',80,80);
+  buf.setFont('6x8',2);
+  buf.drawString("Conway's",80,20);
+  buf.drawString('(Press RESET)',80,140);
+  flip();
   
