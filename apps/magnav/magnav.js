@@ -2,7 +2,6 @@
 const Yoff = 80;
 var pal2color = new Uint16Array([0x0000,0xffff,0x07ff,0xC618],0,2);
 var buf = Graphics.createArrayBuffer(240,50,2,{msb:true});
-var candraw = true;
 Bangle.setLCDTimeout(30);
 
 function flip(b,y) {
@@ -62,7 +61,8 @@ function newHeading(m,h){
 
 var candraw = false;
 // Note actual mag is 360-m, error in firmware
-Bangle.on('mag', function(m) {
+function reading() {
+  var m = Bangle.getCompass();
   if (!candraw) return;
   if (isNaN(m.heading)) {
     buf.setColor(1);
@@ -93,6 +93,8 @@ Bangle.on('touch', function(b) {
     if(b==2) brg=null;
  });
 
+var intervalRef;
+
 function startdraw(){
   g.clear();
   g.setColor(1,0.5,0.5);
@@ -100,10 +102,13 @@ function startdraw(){
   g.setColor(1,1,1);
   Bangle.drawWidgets();
   candraw = true;
+  intervalRef = setInterval(reading,200);
+
 }
 
-function stopdraw(){
-   candraw=false;
+function stopdraw() {
+  candraw=false;
+  if(intervalRef) {clearInterval(intervalRef);}
 }
 
 var SCREENACCESS = {
