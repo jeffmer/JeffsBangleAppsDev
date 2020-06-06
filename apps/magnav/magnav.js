@@ -60,20 +60,17 @@ function newHeading(m,h){
 }
 
 var candraw = false;
+var FSET;
+var SCALE;
+
 // Note actual mag is 360-m, error in firmware
 function reading() {
   var m = Bangle.getCompass();
   if (!candraw) return;
-  if (isNaN(m.heading)) {
-    buf.setColor(1);
-    buf.setFont("Vector",24);
-    buf.setFontAlign(0,-1);
-    buf.drawString("Rotate to",120,0);
-    buf.drawString("Calibrate",120,26);
-    flip(buf,Yoff);
-    return;
-  }
-  heading = newHeading(360-m.heading,heading);
+  var v = {x:(m.x-FSET.x)*SCALE.x, y:(m.y-FSET.y)*SCALE.y};
+  var d = Math.atan2(-v.x,v.y)*180/Math.PI;
+  if (d<0) d+=360;
+  heading = newHeading(d,heading);
   drawCompass(heading);
   buf.setColor(1);
   buf.setFont("6x8",2);
@@ -85,7 +82,31 @@ function reading() {
   cs = course<10?"00"+cs : course<100 ?"0"+cs : cs;
   buf.drawString(cs,70,10);
   flip(buf,Yoff+80);
-};
+}
+
+function calibrate(){
+  var max={x:-32000, y:-32000, z:-32000},
+      min={x:32000, y:32000, z:32000};
+  var ref = setInterval(()=>{
+      var m = Bangle.getCompass();
+      max.x = m.x>max.x?m.x:max.x;
+      max.y = m.y>max.y?m.y:max.y;
+      max.z = m.z>max.z?m.z:max.z;
+      min.x = m.x<min.x?m.x:min.x;
+      min.y = m.y<min.y?m.y:min.y;
+      min.z = m.z<min.z?m.z:min.z;
+  }, 100);
+  return new Promise((resolve) => {
+     setTimeout(()=>{
+       if(ref) clearInterval(ref);
+       var offset = {x:(max.x+min.x)/2,y:(max.y+min.y)/2,z:(max.z+min.z)/2};
+       var delta  = {x:(max.x-min.x)/2,y:(max.y-min.y)/2,z:(max.z-min.z)/2};
+       var avg = (delta.x+delta.y+delta.z)/3;
+       var scale = {x:avg/delta.x, y:avg/delta.y, z:avg/delta.z};
+       resolve({o:offset,s:scale});
+     },15000);
+  });
+}
 
 Bangle.on('touch', function(b) { 
     if(!candraw) return;
@@ -95,14 +116,15 @@ Bangle.on('touch', function(b) {
 
 var intervalRef;
 
-function startdraw(){
+function startdraw(init){
+  if (init===undefined) init=false;
   g.clear();
   g.setColor(1,0.5,0.5);
   g.fillPoly([120,Yoff+50,110,Yoff+70,130,Yoff+70]);
   g.setColor(1,1,1);
   Bangle.drawWidgets();
   candraw = true;
-  intervalRef = setInterval(reading,200);
+  if(!init) intervalRef = setInterval(reading,200);
 
 }
 
@@ -135,5 +157,18 @@ Bangle.on('lcdPower',function(on) {
 Bangle.on('kill',()=>{Bangle.setCompassPower(0);});
 
 Bangle.loadWidgets();
-startdraw();
+startdraw(true);
 Bangle.setCompassPower(1);
+buf.setColor(1);
+buf.setFont("Vector",24);
+buf.setFontAlign(0,-1);
+buf.drawString("Fig 8 to",120,0);
+buf.drawString("Calibrate",120,26);
+flip(buf,Yoff);
+calibrate().then((r)=>{
+  FSET=r.o;
+  SCALE=r.s;
+  console.log(FSET);
+  console.log(SCALE);
+  intervalRef = setInterval(reading,200);
+});
