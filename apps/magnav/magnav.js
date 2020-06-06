@@ -85,7 +85,7 @@ function reading() {
   cs = course<10?"00"+cs : course<100 ?"0"+cs : cs;
   buf.drawString(cs,70,10);
   flip(buf,Yoff+80);
-});
+};
 
 Bangle.on('touch', function(b) { 
     if(!candraw) return;
@@ -131,6 +131,8 @@ Bangle.on('lcdPower',function(on) {
     stopdraw();
   }
 });
+
+Bangle.on('kill',()=>{Bangle.setCompassPower(0);});
 
 Bangle.loadWidgets();
 startdraw();
