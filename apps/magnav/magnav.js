@@ -60,16 +60,29 @@ function newHeading(m,h){
 }
 
 var candraw = false;
-var FSET;
-var SCALE;
+var OFFSET = {x: -75, y: -22.5, z: 10 };
+
+function tiltfixread(O){
+  var start = Date.now();
+  var m = Bangle.getCompass();
+  var g = Bangle.getAccel();
+  m.dx =(m.x-O.x); m.dy=(m.y-O.y); m.dz=(m.z-O.z);
+  var d = Math.atan2(-m.dx,m.dy)*180/Math.PI;
+  if (d<0) d+=360;
+  var phi = Math.atan(-g.x/-g.z);
+  var cosphi = Math.cos(phi), sinphi = Math.sin(phi);
+  var theta = Math.atan(-g.y/(-g.x*sinphi-g.z*cosphi));
+  var costheta = Math.cos(theta), sintheta = Math.sin(theta);
+  var xh = m.dy*costheta + m.dx*sinphi*sintheta + m.dz*cosphi*sintheta;
+  var yh = m.dz*sinphi - m.dx*cosphi;
+  var psi = Math.atan2(yh,xh)*180/Math.PI;
+  if (psi<0) psi+=360;
+  return psi;
+}
 
 // Note actual mag is 360-m, error in firmware
 function reading() {
-  var m = Bangle.getCompass();
-  if (!candraw) return;
-  var v = {x:(m.x-FSET.x)*SCALE.x, y:(m.y-FSET.y)*SCALE.y};
-  var d = Math.atan2(-v.x,v.y)*180/Math.PI;
-  if (d<0) d+=360;
+  var d = tiltfixread(OFFSET);
   heading = newHeading(d,heading);
   drawCompass(heading);
   buf.setColor(1);
@@ -159,6 +172,8 @@ Bangle.on('kill',()=>{Bangle.setCompassPower(0);});
 Bangle.loadWidgets();
 startdraw(true);
 Bangle.setCompassPower(1);
+intervalRef = setInterval(reading,200);
+/*
 buf.setColor(1);
 buf.setFont("Vector",24);
 buf.setFontAlign(0,-1);
@@ -172,3 +187,4 @@ calibrate().then((r)=>{
   console.log(SCALE);
   intervalRef = setInterval(reading,200);
 });
+*/

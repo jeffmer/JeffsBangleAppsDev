@@ -27,22 +27,34 @@ function calibrate(){
     });
 }
 
-var O;
+var O = { x: -60, y: -14.5, z: 9 };
 
 function reading(){
+    var start = Date.now();
     var m = Bangle.getCompass();
     var g = Bangle.getAccel();
-    buf.setFont('6x8',2);
     m.dx =m.x-O.x; m.dy=m.y-O.y; m.dz=m.z-O.z;
-    buf.drawString("X:  "+m.y,20,0);buf.drawString("X:  "+Math.floor(g.y*1000),120,0);
-    buf.drawString("Y:  "+m.x,20,20);buf.drawString("Y:  "+Math.floor(-g.x*1000),120,20);
-    buf.drawString("Z:  "+m.z,20,40);buf.drawString("Z:  "+Math.floor(-g.z*1000),120,40);
-    buf.drawString("DX: "+m.dx,20,60);
-    buf.drawString("DY: "+m.dy,20,80);
-    buf.drawString("DZ: "+m.dz,20,100);
     var d = Math.atan2(-m.dx,m.dy)*180/Math.PI;
-    d = d<0?d+360:d>=360?d-360:d;
-    buf.drawString("HC: "+Math.floor(d),20,140);
+    if (d<0) d+=360;
+    var phi = Math.atan(-g.x/-g.z);
+    var cosphi = Math.cos(phi), sinphi = Math.sin(phi);
+    var theta = Math.atan(-g.y/(-g.x*sinphi-g.z*cosphi));
+    var costheta = Math.cos(theta), sintheta = Math.sin(theta);
+    var xh = m.dy*costheta + m.dx*sinphi*sintheta + m.dz*cosphi*sintheta;
+    var yh = m.dz*sinphi - m.dx*cosphi;
+    var psi = Math.atan2(yh,xh)*180/Math.PI;
+    if (psi<0) psi+=360;
+    // display
+    buf.setFont('6x8',2);
+    buf.drawString("BX: "+m.dy,20,0);buf.drawString("X: "+Math.floor(g.y*1000),120,0);
+    buf.drawString("BY: "+m.dx,20,20);buf.drawString("Y: "+Math.floor(-g.x*1000),120,20);
+    buf.drawString("BZ: "+m.dz,20,40);buf.drawString("Z: "+Math.floor(-g.z*1000),120,40);
+    buf.drawString("HC: "+Math.floor(d),20,60);
+    buf.drawString("Roll: "+Math.floor(phi*180/Math.PI),20,80);
+    buf.drawString("Pitch: "+Math.floor(theta*180/Math.PI),20,100);
+    buf.drawString("TC: "+Math.floor(psi),20,120);
+    var duration = Date.now()-start;
+    buf.drawString("Time: "+Math.floor(duration)+"ms",20,140);
     flip();
 }
 
@@ -51,6 +63,8 @@ Bangle.on('kill',()=>{Bangle.setCompassPower(0);});
 g.clear();
 g.setColor(1,1,1);
 Bangle.setCompassPower(1);
+setInterval(reading,330);
+/*
 buf.setFont('6x8',2);
 buf.drawString("Calibrate",20,40);
 flip();
@@ -59,4 +73,4 @@ calibrate().then((f)=>{
     console.log(O);
     setInterval(reading,200);
 });
-
+*/
