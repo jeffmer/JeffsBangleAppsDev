@@ -60,8 +60,7 @@ function newHeading(m,h){
 }
 
 var candraw = false;
-var CALIBDATA = require("Storage").readJSON("magnav.json",1)
-                ||{ offset:{ x:-58, y:-3.5, z:-3.5},scale: { x:1.01, y:1.05, z: 0.95}};
+var CALIBDATA = require("Storage").readJSON("magnav.json",1)||null;
 
 function tiltfixread(O,S){
   var start = Date.now();
@@ -122,10 +121,11 @@ function calibrate(){
   });
 }
 
-function docalibrate(){
+function docalibrate(first){
+  if (first===undefined) first=false;
   stopdraw();
   E.showPrompt(" takes 30 seconds",{title:"Calibrate",buttons:{"Start":true,"Cancel":false}}).then((b)=>{
-        if (b) {
+        if (b || first) {
           buf.setColor(1);
           buf.setFont("Vector",24);
           buf.setFontAlign(0,-1);
@@ -199,8 +199,14 @@ Bangle.on('lcdPower',function(on) {
 Bangle.on('kill',()=>{Bangle.setCompassPower(0);});
 
 Bangle.loadWidgets();
-startdraw();
-setButtons();
 Bangle.setCompassPower(1);
+if (!CALIBDATA) 
+  docalibrate(true);
+else {  
+  startdraw();
+  setButtons();
+}
+
+
 
 
