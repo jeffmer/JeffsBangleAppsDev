@@ -169,9 +169,10 @@ function stopdraw() {
 }
 
 function setButtons(){
-  setWatch(docalibrate, BTN1, {repeat:false,edge:"falling"});
+  setWatch(()=>{load();}, BTN1, {repeat:false,edge:"falling"});
+  setWatch(Bangle.showLauncher, BTN2, {repeat:false,edge:"falling"});
+  setWatch(docalibrate, BTN3, {repeat:false,edge:"falling"});
 }
-
 
 var SCREENACCESS = {
       withApp:true,
