@@ -32,7 +32,7 @@
     "description": "Compass with linear display as for GPSNAV. Has Tilt compensation and remembers calibration.",
     "tags": "tool,outdoors",
     "storage": [
-      {"name":"magnav.app.js","url":"magnav.js"},
+      {"name":"magnav.app.js","url":"magnav.min.js"},
       {"name":"magnav.img","url":"magnav-icon.js","evaluate":true}
     ]
   },
