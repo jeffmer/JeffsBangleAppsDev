@@ -7,11 +7,19 @@ function flip() {
  buf.clear();
 }
 
+var O = { x: -58, y: -3.5, z: -3.5};
+var S = { x: 1.01, y:1.05, z: 0.95};
+
 function calibrate(){
     var max={x:-32000, y:-32000, z:-32000},
         min={x:32000, y:32000, z:32000};
+    var mag = require("Storage").open("mags.csv","a");
     var ref = setInterval(()=>{
         var m = Bangle.getCompass();
+        if (mag) mag.write(
+           [((m.x-O.x)*S.x).toFixed(2),
+            ((m.y-O.y)*S.y).toFixed(2),
+            ((m.z-O.z)*S.z).toFixed(2)].join(",")+"\n");
         max.x = m.x>max.x?m.x:max.x;
         max.y = m.y>max.y?m.y:max.y;
         max.z = m.z>max.z?m.z:max.z;
@@ -22,13 +30,15 @@ function calibrate(){
     return new Promise((resolve) => {
        setTimeout(()=>{
          if(ref) clearInterval(ref);
-         resolve({x:(max.x+min.x)/2,y:(max.y+min.y)/2,z:(max.z+min.z)/2});
-       },15000);
+         var offset = {x:(max.x+min.x)/2,y:(max.y+min.y)/2,z:(max.z+min.z)/2};
+         var delta  = {x:(max.x-min.x)/2,y:(max.y-min.y)/2,z:(max.z-min.z)/2};
+         var avg = (delta.x+delta.y+delta.z)/3;
+         var scale = {x:avg/delta.x, y:avg/delta.y, z:avg/delta.z};
+         resolve({o:offset,s:scale});
+       },60000);
     });
-}
-
-var O = { x: -60, y: -14.5, z: 9 };
-
+  }
+  
 function reading(){
     var start = Date.now();
     var m = Bangle.getCompass();
@@ -63,14 +73,13 @@ Bangle.on('kill',()=>{Bangle.setCompassPower(0);});
 g.clear();
 g.setColor(1,1,1);
 Bangle.setCompassPower(1);
-setInterval(reading,330);
-/*
 buf.setFont('6x8',2);
 buf.drawString("Calibrate",20,40);
 flip();
 calibrate().then((f)=>{
-    O=f;
+    O=f.o;
+    S=f.s;
     console.log(O);
+    console.log(S);
     setInterval(reading,200);
 });
-*/

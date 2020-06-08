@@ -28,8 +28,8 @@
   { "id": "magnav",
     "name": "Nav. Compass",
     "icon": "magnav.png",
-    "version":"0.02",
-    "description": "Compass with the same linear display as GPSNAV",
+    "version":"0.03",
+    "description": "Compass with the same linear display as GPSNAV. Has Tilt compensation and remembers calibration",
     "tags": "tool,outdoors",
     "storage": [
       {"name":"magnav.app.js","url":"magnav.js"},

@@ -60,13 +60,14 @@ function newHeading(m,h){
 }
 
 var candraw = false;
-var OFFSET = {x: -75, y: -22.5, z: 10 };
+var CALIBDATA = require("Storage").readJSON("magnav.json",1)
+                ||{ offset:{ x:-58, y:-3.5, z:-3.5},scale: { x:1.01, y:1.05, z: 0.95}};
 
-function tiltfixread(O){
+function tiltfixread(O,S){
   var start = Date.now();
   var m = Bangle.getCompass();
   var g = Bangle.getAccel();
-  m.dx =(m.x-O.x); m.dy=(m.y-O.y); m.dz=(m.z-O.z);
+  m.dx =(m.x-O.x)*S.x; m.dy=(m.y-O.y)*S.y; m.dz=(m.z-O.z)*S.z;
   var d = Math.atan2(-m.dx,m.dy)*180/Math.PI;
   if (d<0) d+=360;
   var phi = Math.atan(-g.x/-g.z);
@@ -82,7 +83,7 @@ function tiltfixread(O){
 
 // Note actual mag is 360-m, error in firmware
 function reading() {
-  var d = tiltfixread(OFFSET);
+  var d = tiltfixread(CALIBDATA.offset,CALIBDATA.scale);
   heading = newHeading(d,heading);
   drawCompass(heading);
   buf.setColor(1);
@@ -116,9 +117,32 @@ function calibrate(){
        var delta  = {x:(max.x-min.x)/2,y:(max.y-min.y)/2,z:(max.z-min.z)/2};
        var avg = (delta.x+delta.y+delta.z)/3;
        var scale = {x:avg/delta.x, y:avg/delta.y, z:avg/delta.z};
-       resolve({o:offset,s:scale});
-     },15000);
+       resolve({offset:offset,scale:scale});
+     },30000);
   });
+}
+
+function docalibrate(){
+  stopdraw();
+  E.showPrompt(" takes 30 seconds",{title:"Calibrate",buttons:{"Start":true,"Cancel":false}}).then((b)=>{
+        if (b) {
+          buf.setColor(1);
+          buf.setFont("Vector",24);
+          buf.setFontAlign(0,-1);
+          buf.drawString("Fig 8s to",120,0);
+          buf.drawString("Calibrate",120,26);
+          flip(buf,Yoff);
+          calibrate().then((r)=>{
+            require("Storage").write("magnav.json",r);
+            CALIBDATA = r;
+            startdraw();
+            setButtons();
+          });
+        } else {
+          startdraw();
+          setButtons();
+        }
+      });
 }
 
 Bangle.on('touch', function(b) { 
@@ -129,16 +153,14 @@ Bangle.on('touch', function(b) {
 
 var intervalRef;
 
-function startdraw(init){
-  if (init===undefined) init=false;
+function startdraw(){
   g.clear();
   g.setColor(1,0.5,0.5);
   g.fillPoly([120,Yoff+50,110,Yoff+70,130,Yoff+70]);
   g.setColor(1,1,1);
   Bangle.drawWidgets();
   candraw = true;
-  if(!init) intervalRef = setInterval(reading,200);
-
+  intervalRef = setInterval(reading,200);
 }
 
 function stopdraw() {
@@ -146,17 +168,24 @@ function stopdraw() {
   if(intervalRef) {clearInterval(intervalRef);}
 }
 
+function setButtons(){
+  setWatch(docalibrate, BTN1, {repeat:false,edge:"falling"});
+}
+
+
 var SCREENACCESS = {
       withApp:true,
       request:function(){
         this.withApp=false;
         stopdraw();
+        clearWatch();
       },
       release:function(){
         this.withApp=true;
         startdraw(); 
+        setButtons();
       }
-}; 
+};
  
 Bangle.on('lcdPower',function(on) {
   if (!SCREENACCESS.withApp) return;
@@ -170,21 +199,8 @@ Bangle.on('lcdPower',function(on) {
 Bangle.on('kill',()=>{Bangle.setCompassPower(0);});
 
 Bangle.loadWidgets();
-startdraw(true);
+startdraw();
+setButtons();
 Bangle.setCompassPower(1);
-intervalRef = setInterval(reading,200);
-/*
-buf.setColor(1);
-buf.setFont("Vector",24);
-buf.setFontAlign(0,-1);
-buf.drawString("Fig 8 to",120,0);
-buf.drawString("Calibrate",120,26);
-flip(buf,Yoff);
-calibrate().then((r)=>{
-  FSET=r.o;
-  SCALE=r.s;
-  console.log(FSET);
-  console.log(SCALE);
-  intervalRef = setInterval(reading,200);
-});
-*/
+
+
