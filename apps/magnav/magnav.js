@@ -121,7 +121,7 @@ function calibrate(){
   });
 }
 
-function docalibrate(first){
+function docalibrate(e,first){
   if (first===undefined) first=false;
   stopdraw();
   E.showPrompt(" takes 30 seconds",{title:"Calibrate",buttons:{"Start":true,"Cancel":false}}).then((b)=>{
@@ -200,7 +200,7 @@ Bangle.on('kill',()=>{Bangle.setCompassPower(0);});
 Bangle.loadWidgets();
 Bangle.setCompassPower(1);
 if (!CALIBDATA) 
-  docalibrate(true);
+  docalibrate({},true);
 else {  
   startdraw();
   setButtons();
