@@ -1,211 +1,136 @@
-
-const Yoff = 80;
-var pal2color = new Uint16Array([0x0000,0xffff,0x07ff,0xC618],0,2);
-var buf = Graphics.createArrayBuffer(240,50,2,{msb:true});
 Bangle.setLCDTimeout(30);
 
-function flip(b,y) {
- g.drawImage({width:240,height:50,bpp:2,buffer:b.buffer, palette:pal2color},0,y);
- b.clear();
+var buf = Graphics.createArrayBuffer(160,160,1,{msb:true});
+
+function flip() {
+ g.setColor(1,1,1);
+ g.drawImage({width:160,height:160,bpp:1,buffer:buf.buffer},40,40);
+ buf.clear();
 }
 
-const labels = ["N","NE","E","SE","S","SW","W","NW"];
-var brg=null;
+var genA = new Uint8Array(324);
+var genB = new Uint8Array(324);
+var generation=0;
+var gentime=0;
+var currentY=1;
 
-function drawCompass(course) {
-  buf.setColor(1);
-  buf.setFont("Vector",16);
-  var start = course-90;
-  if (start<0) start+=360;
-  buf.fillRect(28,45,212,49);
-  var xpos = 30;
-  var frag = 15 - start%15;
-  if (frag<15) xpos+=frag; else frag = 0;
-  for (var i=frag;i<=180-frag;i+=15){
-    var res = start + i;
-    if (res%90==0) {
-      buf.drawString(labels[Math.floor(res/45)%8],xpos-8,0);
-      buf.fillRect(xpos-2,25,xpos+2,45);
-    } else if (res%45==0) {
-      buf.drawString(labels[Math.floor(res/45)%8],xpos-12,0);
-      buf.fillRect(xpos-2,30,xpos+2,45);
-    } else if (res%15==0) {
-      buf.fillRect(xpos,35,xpos+1,45);
-    }
-    xpos+=15;
-  }
-  if (brg) {
-    var bpos = brg - course;
-    if (bpos>180) bpos -=360;
-    if (bpos<-180) bpos +=360;
-    bpos+=120;
-    if (bpos<30) bpos = 14;
-    if (bpos>210) bpos = 226;
-    buf.setColor(2);
-    buf.fillCircle(bpos,40,8);
-    }
-  flip(buf,Yoff);
+function initDraw(gen){
+    for (let y = 1; y<17; ++y)
+    for (let x = 1; x<17; ++x) {
+        var r = Math.random()<0.5?1:0;
+        gen[x+y*18] = r;
+        if (r==1){
+            var Xr=10*(x-1);
+            var Yr=10*(y-1);
+            buf.fillRect(Xr,Yr, Xr+7,Yr+7);
+        } 
+    } 
+    flip();
 }
 
-var heading = 0;
-function newHeading(m,h){ 
-    var s = Math.abs(m - h);
-    var delta = (m>h)?1:-1;
-    if (s>=180){s=360-s; delta = -delta;} 
-    if (s<2) return h;
-    var hd = h + delta*(1 + Math.round(s/5));
-    if (hd<0) hd+=360;
-    if (hd>360)hd-= 360;
-    return hd;
+function howlong(){
+  ++generation;
+  g.setFont("6x8",2);
+  g.setFontAlign(-1,-1,0);
+  gentime = Math.floor(gentime);
+  g.drawString('Gen:'+generation+'  '+gentime+'ms  ',20,220,true);
+  gentime=0;
 }
 
-var candraw = false;
-var CALIBDATA = require("Storage").readJSON("magnav.json",1)||null;
-
-function tiltfixread(O,S){
-  var start = Date.now();
-  var m = Bangle.getCompass();
-  var g = Bangle.getAccel();
-  m.dx =(m.x-O.x)*S.x; m.dy=(m.y-O.y)*S.y; m.dz=(m.z-O.z)*S.z;
-  var d = Math.atan2(-m.dx,m.dy)*180/Math.PI;
-  if (d<0) d+=360;
-  var phi = Math.atan(-g.x/-g.z);
-  var cosphi = Math.cos(phi), sinphi = Math.sin(phi);
-  var theta = Math.atan(-g.y/(-g.x*sinphi-g.z*cosphi));
-  var costheta = Math.cos(theta), sintheta = Math.sin(theta);
-  var xh = m.dy*costheta + m.dx*sinphi*sintheta + m.dz*cosphi*sintheta;
-  var yh = m.dz*sinphi - m.dx*cosphi;
-  var psi = Math.atan2(yh,xh)*180/Math.PI;
-  if (psi<0) psi+=360;
-  return psi;
-}
-
-// Note actual mag is 360-m, error in firmware
-function reading() {
-  var d = tiltfixread(CALIBDATA.offset,CALIBDATA.scale);
-  heading = newHeading(d,heading);
-  drawCompass(heading);
-  buf.setColor(1);
-  buf.setFont("6x8",2);
-  buf.setFontAlign(-1,-1);
-  buf.drawString("o",170,0);
-  buf.setFont("Vector",40);
-  var course = Math.round(heading);
-  var cs = course.toString();
-  cs = course<10?"00"+cs : course<100 ?"0"+cs : cs;
-  buf.drawString(cs,70,10);
-  flip(buf,Yoff+80);
-}
-
-function calibrate(){
-  var max={x:-32000, y:-32000, z:-32000},
-      min={x:32000, y:32000, z:32000};
-  var ref = setInterval(()=>{
-      var m = Bangle.getCompass();
-      max.x = m.x>max.x?m.x:max.x;
-      max.y = m.y>max.y?m.y:max.y;
-      max.z = m.z>max.z?m.z:max.z;
-      min.x = m.x<min.x?m.x:min.x;
-      min.y = m.y<min.y?m.y:min.y;
-      min.z = m.z<min.z?m.z:min.z;
-  }, 100);
-  return new Promise((resolve) => {
-     setTimeout(()=>{
-       if(ref) clearInterval(ref);
-       var offset = {x:(max.x+min.x)/2,y:(max.y+min.y)/2,z:(max.z+min.z)/2};
-       var delta  = {x:(max.x-min.x)/2,y:(max.y-min.y)/2,z:(max.z-min.z)/2};
-       var avg = (delta.x+delta.y+delta.z)/3;
-       var scale = {x:avg/delta.x, y:avg/delta.y, z:avg/delta.z};
-       resolve({offset:offset,scale:scale});
-     },30000);
-  });
-}
-
-function docalibrate(e,init){
-  if (init===undefined) init=false;
-  stopdraw();
-  E.showPrompt(" takes 30 seconds",{title:"Calibrate",buttons:{"Start":true,"Cancel":false}}).then((b)=>{
-        if (b || init ) {
-          buf.setColor(1);
-          buf.setFont("Vector",24);
-          buf.setFontAlign(0,-1);
-          buf.drawString("Fig 8s to",120,0);
-          buf.drawString("Calibrate",120,26);
-          flip(buf,Yoff);
-          calibrate().then((r)=>{
-            require("Storage").write("magnav.json",r);
-            CALIBDATA = r;
-            startdraw();
-            setButtons();
-          });
-        } else {
-          startdraw();
-          setButtons();
+function next(){
+    "ram";
+    var start = Date.now();
+    var cur=genA, fut=genB, y=currentY;
+    var count=(p)=>{return cur[p-19]+cur[p-18]+cur[p-17]+cur[p-1]+cur[p+1]+cur[p+17]+cur[p+18]+cur[p+19];};
+    for (let x = 1; x<17; ++x){
+        var ind = x+y*18;
+        var nc = count(ind);
+        var r = (cur[ind]==1 && nc==2 || nc==3)?1:0;
+        fut[ind]=r;
+        if (r==1){
+        var Xr=10*(x-1);
+        var Yr=10*(y-1);
+        buf.fillRect(Xr,Yr, Xr+7,Yr+7);
         }
-      });
+    }
+    gentime+=(Date.now()-start);
+    if (y==16){
+      flip();
+      var tmp = genA; genA=genB; genB=tmp;
+      howlong();
+      currentY=1;
+    } else ++currentY;
 }
 
-Bangle.on('touch', function(b) { 
-    if(!candraw) return;
-    if(b==1) brg=heading;
-    if(b==2) brg=null;
- });
 
-var intervalRef;
-
-function startdraw(){
-  g.clear();
-  g.setColor(1,0.5,0.5);
-  g.fillPoly([120,Yoff+50,110,Yoff+70,130,Yoff+70]);
-  g.setColor(1,1,1);
-  Bangle.drawWidgets();
-  candraw = true;
-  intervalRef = setInterval(reading,200);
-}
+var intervalRef = null;
 
 function stopdraw() {
-  candraw=false;
-  if(intervalRef) {clearInterval(intervalRef);}
-}
-
-function setButtons(){
-  setWatch(docalibrate, BTN1, {repeat:false,edge:"falling"});
-}
-
-var SCREENACCESS = {
-      withApp:true,
-      request:function(){
-        this.withApp=false;
-        stopdraw();
-        clearWatch();
-      },
-      release:function(){
-        this.withApp=true;
-        startdraw(); 
-        setButtons();
-      }
-};
- 
-Bangle.on('lcdPower',function(on) {
-  if (!SCREENACCESS.withApp) return;
-  if (on) {
-    startdraw();
-  } else {
-    stopdraw();
+    if(intervalRef) {clearInterval(intervalRef);}
   }
-});
+  
+function startdraw(init) {
+    if (init===undefined) init=false;
+    if(!init) g.clear();
+    Bangle.drawWidgets();
+    g.reset();
+    g.setColor(1,1,1);
+    g.setFont("6x8",1);
+    g.setFontAlign(0,0,3);
+    g.drawString("RESET",230,200);
+    g.drawString("LAUNCH",230,130);
+    g.drawString("CLOCK",230,60);
+    if(!init) intervalRef = setInterval(next,65);
+  }
 
-Bangle.on('kill',()=>{Bangle.setCompassPower(0);});
-
-Bangle.loadWidgets();
-Bangle.setCompassPower(1);
-if (!CALIBDATA) 
-  docalibrate({},true);
-else {  
-  startdraw();
-  setButtons();
+function regen(){
+  stopdraw();
+  g.setColor(1,1,1);
+  initDraw(genA);
+  currentY=1;
+  generation = 0;
+  gentime=0;
+  intervalRef = setInterval(next,65);
 }
-
-
-
-
+  
+  function setButtons(){
+    setWatch(()=>{load();}, BTN1, {repeat:false,edge:"falling"});
+    setWatch(Bangle.showLauncher, BTN2, {repeat:false,edge:"falling"});
+    setWatch(regen, BTN3, {repeat:true,edge:"rising"});
+  }
+  
+  var SCREENACCESS = {
+        withApp:true,
+        request:function(){
+          this.withApp=false;
+          stopdraw();
+          clearWatch();
+        },
+        release:function(){
+          this.withApp=true;
+          startdraw(); 
+          setButtons();
+        }
+  }; 
+  
+  Bangle.on('lcdPower',function(on) {
+    if (!SCREENACCESS.withApp) return;
+    if (on) {
+      startdraw();
+    } else {
+      stopdraw();
+    }
+  });
+  
+  g.clear();
+  Bangle.loadWidgets();
+  startdraw(true);
+  setButtons();
+  buf.setFont('Vector',40);
+  buf.setFontAlign(0,0);
+  buf.drawString('LIFE',80,80);
+  buf.setFont('6x8',2);
+  buf.drawString("Conway's",80,20);
+  buf.drawString('(Press RESET)',80,140);
+  flip();
+  
