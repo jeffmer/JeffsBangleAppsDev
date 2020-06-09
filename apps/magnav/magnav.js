@@ -122,9 +122,9 @@ function calibrate(){
 }
 
 function docalibrate(e,first){
-  if (first===undefined) first=false;
-  stopdraw();
-  E.showPrompt(" takes 30 seconds",{title:"Calibrate",buttons:{"Start":true,"Cancel":false}}).then((b)=>{
+    const title = "Calibrate";
+    const msg = "takes 30 seconds"
+    function action(b){
         if (b || first) {
           buf.setColor(1);
           buf.setFont("Vector",24);
@@ -142,7 +142,13 @@ function docalibrate(e,first){
           startdraw();
           setButtons();
         }
-      });
+    }   
+    if (first===undefined) first=false;
+    stopdraw();
+    if (first) 
+        E.showAlert(msg,title).then(action.bind(null,true));
+    else 
+        E.showPrompt(msg,{title:title,buttons:{"Start":true,"Cancel":false}}).then(action);
 }
 
 Bangle.on('touch', function(b) { 
