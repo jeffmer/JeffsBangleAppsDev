@@ -1,6 +1,6 @@
 # Navigation Compass
 
-This is a tilt and roll compensated compass with a linear display. The compass will  display the same direction that it shows when flat as when it is tilted (rotation around the W-S axis) or rolled (rotation around the N-S) axis. 
+This is a tilt and roll compensated compass with a linear display. The compass will  display the same direction that it shows when flat as when it is tilted (rotation around the W-S axis) or rolled (rotation around the N-S) axis. *Even with compensation, it would be beyond foolish to rely solely on this app for any serious navigational purpose.*
 
 ![](screenshot.jpg)
 
