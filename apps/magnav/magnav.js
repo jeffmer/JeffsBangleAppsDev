@@ -123,9 +123,9 @@ function calibrate(){
 
 function docalibrate(e,first){
     const title = "Calibrate";
-    const msg = "takes 30 seconds"
+    const msg = "takes 30 seconds";
     function action(b){
-        if (b || first) {
+        if (b) {
           buf.setColor(1);
           buf.setFont("Vector",24);
           buf.setFontAlign(0,-1);
@@ -140,11 +140,12 @@ function docalibrate(e,first){
           });
         } else {
           startdraw();
-          setButtons();
+          setTimeout(setButtons,1000);
         }
     }   
     if (first===undefined) first=false;
     stopdraw();
+    clearWatch();
     if (first) 
         E.showAlert(msg,title).then(action.bind(null,true));
     else 
@@ -175,7 +176,9 @@ function stopdraw() {
 }
 
 function setButtons(){
-  setWatch(docalibrate, BTN1, {repeat:false,edge:"falling"});
+  setWatch(()=>{load();}, BTN1, {repeat:false,edge:"falling"});
+  setWatch(Bangle.showLauncher, BTN2, {repeat:false,edge:"falling"});
+  setWatch(docalibrate, BTN3, {repeat:false,edge:"falling"});
 }
 
 var SCREENACCESS = {

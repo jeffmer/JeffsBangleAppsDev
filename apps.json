@@ -34,7 +34,8 @@
     "storage": [
       {"name":"magnav.app.js","url":"magnav.min.js"},
       {"name":"magnav.img","url":"magnav-icon.js","evaluate":true}
-    ]
+    ],
+    "data":[{"name":"magnav.json"}]
   },
   { "id": "gpsnav",
     "name": "GPS Navigation",
