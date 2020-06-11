@@ -61,12 +61,23 @@
         state.gatt.disconnect().then(function(){NRF.sleep();});
       });      
       NRF.setSecurity({passkey:"123456",mitm:1,display:1});
+      var ival;
+      var tval = setTimeout(function(){
+          if (ival) clearInterval(ival);
+          state.gatt.disconnect().then(function(){
+            drawIcon(0);
+            delete state.gatt;
+            delete state.ancs;
+            NRF.wake();
+          });
+      },7000);        
       state.gatt.startBonding().then(function(){
-        var ival = setInterval(function(){
+        ival = setInterval(function(){
             var sec = state.gatt.getSecurityStatus();
-            if (!sec.connected) {clearInterval(ival); return;}
+            if (!sec.connected) {clearInterval(ival); clearTimeout(tval); return;}
             if (sec.connected && sec.encrypted){
               clearInterval(ival);  
+              clearTimeout(tval);
               drawIcon(2); //bonded to iPhone
               do_ancs(); 
               return;
