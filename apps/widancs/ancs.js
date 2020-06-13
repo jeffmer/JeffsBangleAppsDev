@@ -187,19 +187,21 @@
     }
   }
 
+  var notifyTO;
   function getnotify(d){
     var eid = d.getUint8(0);
     var ct = d.getUint8(2);
     var id = d.getUint32(4,true);
-    if (eid!=0) return;
+    if (eid>1) return;
+    if (notifyTO) clearTimeout(notifyTO);
     if(!CATEGORY.includes(ct)) return; 
     var len = state.notqueue.length;
     if (ct == 1) { // it's a call so pre-empt
         if (inalert) {state.notqueue.push(state.current); inalert=false;}
         state.notqueue.push({cat:ct, uid:id});
-    } else if (len<8)
+    } else if (len<16)
         state.notqueue[len] = {cat:ct, uid:id};
-    next_notify();
+    notifyTO = setTimeout(next_notify,1000);
   }
 
   function next_notify(){
@@ -220,9 +222,9 @@
   }
 
   var stage = 5;    
-  //grey, red, lightblue, yellow, green
+  //grey, pink, lightblue, yellow, green
   function draw(){
-    var colors = new Uint16Array([0xc618,0xf800,0x3ff,0xffe0,0x07e0,0x0000]);
+    var colors = new Uint16Array([0xc618,0xf818,0x3ff,0xffe0,0x07e0,0x0000]);
     var img = E.toArrayBuffer(atob("GBgBAAAABAAADgAAHwAAPwAAf4AAP4AAP4AAP4AAHwAAH4AAD8AAB+AAA/AAAfgAAf3gAH/4AD/8AB/+AA/8AAf4AAHwAAAgAAAA"));
     g.setColor(colors[stage]);
     g.drawImage(img,this.x,this.y);
