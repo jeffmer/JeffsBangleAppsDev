@@ -70,7 +70,7 @@
             delete state.ancs;
             NRF.wake();
           });
-      },4000);        
+      },3000);        
       state.gatt.startBonding().then(function(){
         ival = setInterval(function(){
             var sec = state.gatt.getSecurityStatus();
