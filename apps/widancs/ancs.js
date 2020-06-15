@@ -70,7 +70,7 @@
             delete state.ancs;
             NRF.wake();
           });
-      },7000);        
+      },4000);        
       state.gatt.startBonding().then(function(){
         ival = setInterval(function(){
             var sec = state.gatt.getSecurityStatus();
@@ -82,7 +82,7 @@
               do_ancs(); 
               return;
             }
-        },2000);
+        },1000);
       }).catch(function(e){
         Terminal.println("ERROR "+e);
       });
