@@ -172,8 +172,7 @@ function ack(){
     v.setUint8(0,2);
     v.setUint32(1,state.current.uid,true);
     v.setUint8(5,tf?0:1 );
-    state.ancs.control.writeValue(bb).then(release_screen); 
-    next_notify();     
+    state.ancs.control.writeValue(bb).then(release_screen);      
 }
 
 var notifyTO;
