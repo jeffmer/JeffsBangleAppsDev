@@ -17,7 +17,7 @@ function startdraw() {
 }
 
 function setButtons(){
-  function getFace(inc){
+  function newFace(inc){
     var n = FACES.length-1;
     iface+=inc;
     iface = iface>n?0:iface<0?n:iface;
@@ -26,8 +26,8 @@ function setButtons(){
     startdraw();
   }
   setWatch(Bangle.showLauncher, BTN2, {repeat:false,edge:"falling"});
-  setWatch(function(){getFace(1);}, BTN1, {repeat:true,edge:"rising"});
-  setWatch(function(){getFace(-1);}, BTN3, {repeat:true,edge:"rising"});
+  setWatch(newFace.bind(null,1), BTN1, {repeat:true,edge:"rising"});
+  setWatch(newFace.bind(null,-1), BTN3, {repeat:true,edge:"rising"});
 }
 
 var SCREENACCESS = {
