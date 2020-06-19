@@ -134,14 +134,24 @@ function startdraw() {
   intervalRefSec = setInterval(face.update,1000);
 }
 
+function getFace(inc){
+    curface+=inc;
+    curface = curface>2?0:curface<0?2:curface;
+    stopdraw();
+    face = faces[curface]();
+    startdraw();
+ }
+
+var count=0;
+
+Bangle.on('swipe',(dir)=>{
+    count+=dir;
+    count = count>2?2:count<-2?-2:count;
+    if (count==2){getFace(1);count=0;}
+    if (count==-2){getFace(-1);count=0;}
+  });   
+
 function setButtons(){
-  function getFace(inc){
-     curface+=inc;
-     curface = curface>2?0:curface<0?2:curface;
-     stopdraw();
-     face = faces[curface]();
-     startdraw();
-  }
   setWatch(Bangle.showLauncher, BTN2, {repeat:false,edge:"falling"});
   setWatch(function(){getFace(1);}, BTN1, {repeat:true,edge:"rising"});
   setWatch(function(){getFace(-1);}, BTN3, {repeat:true,edge:"rising"});
