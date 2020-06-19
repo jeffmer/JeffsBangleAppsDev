@@ -1,14 +1,14 @@
 [
-  { "id": "Multiclock",
+  { "id": "multiclock",
     "name": "Multi Clock",
     "icon": "multiclock.png",
     "version":"0.02",
-    "description": "THree in one Clock - Big, Analogue, Digital. Switch between faces with BT1 & BTN3",
+    "description": "Three in one Clock - Big, Analogue, Digital.\n Switch between faces with BT1 & BTN3",
     "tags": "clock",
     "type":"clock",
     "allow_emulator":true,
     "storage": [
-      {"name":"multiclock.app.js","url":"multiclock.js"},
+      {"name":"multiclock.app.js","url":"multiclock.min.js"},
       {"name":"multiclock.img","url":"multiclock-icon.js","evaluate":true}
     ]
   },
