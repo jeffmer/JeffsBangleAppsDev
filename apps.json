@@ -2,7 +2,7 @@
   { "id": "multiclock",
     "name": "Multi Clock",
     "icon": "multiclock.png",
-    "version":"0.03",
+    "version":"0.04",
     "description": "Clock with multiple faces - Big, Analogue, Digital.\n Switch between faces with BT1 & BTN3",
     "tags": "clock",
     "type":"clock",
