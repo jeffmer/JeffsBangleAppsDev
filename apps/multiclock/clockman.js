@@ -1,11 +1,7 @@
-
-
-
-
 var FACES = [];
-var curface = 0;
+var iface = 0;
 require("Storage").list(/\.face\.js$/).forEach(face=>FACES.push(eval(require("Storage").read(face))));
-var face = FACES[curface]();
+var face = FACES[iface]();
 var intervalRefSec;
 
 function stopdraw() {
@@ -17,22 +13,14 @@ function startdraw() {
   g.reset();
   Bangle.drawWidgets();
   face.init();
-  intervalRefSec = setInterval(face.update,1000);
+  intervalRefSec = setInterval(face.tick,1000);
 }
-
-function getFace(inc){
-    curface+=inc;
-    curface = curface>2?0:curface<0?2:curface;
-    stopdraw();
-    face = faces[curface]();
-    startdraw();
- }
 
 function setButtons(){
   function getFace(inc){
     var n = FACES.length-1;
-    curface+=inc;
-    curface = curface>n?0:curface<0?n:curface;
+    iface+=inc;
+    iface = iface>n?0:iface<0?n:iface;
     stopdraw();
     face = FACES[curface]();
     startdraw();

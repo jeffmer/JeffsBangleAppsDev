@@ -64,7 +64,7 @@
         onSecond();
     }
 
-    return {init:drawAll, update:onSecond};
+    return {init:drawAll, tick:onSecond};
  }
 
 return getFace;
