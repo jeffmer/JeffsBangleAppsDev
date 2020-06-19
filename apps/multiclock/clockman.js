@@ -22,7 +22,7 @@ function setButtons(){
     iface+=inc;
     iface = iface>n?0:iface<0?n:iface;
     stopdraw();
-    face = FACES[curface]();
+    face = FACES[iface]();
     startdraw();
   }
   setWatch(Bangle.showLauncher, BTN2, {repeat:false,edge:"falling"});
