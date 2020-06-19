@@ -3,6 +3,7 @@
     function getFace(){
 
     function drawTime(d) {
+        g.reset();
         var da = d.toString().split(" ");
         var time = da[4].substr(0, 5).split(":");
         var hours = time[0],

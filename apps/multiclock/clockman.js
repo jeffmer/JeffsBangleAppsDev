@@ -66,7 +66,6 @@ Bangle.on('lcdPower',function(on) {
 });
 
 g.clear();
-Bangle.setLCDBrightness(1);
 Bangle.loadWidgets();
 startdraw();
 setButtons();
