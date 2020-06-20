@@ -5,7 +5,7 @@ var face = FACES[iface]();
 var intervalRefSec;
 
 function stopdraw() {
-  if(intervalRefSec) {clearInterval(intervalRefSec);}
+  if(intervalRefSec) {intervalRefSec=clearInterval(intervalRefSec);}
 }
 
 function startdraw() {
