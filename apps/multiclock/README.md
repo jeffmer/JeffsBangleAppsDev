@@ -4,15 +4,15 @@ This is a clock app that supports multiple clock faces. The user can switch betw
 
 ![](anaface.jpg)
 
-###Analog Clock Face
+### Analog Clock Face
 
 ![](digiface.jpg)
 
-###Digital Clock Face
+### Digital Clock Face
 
 ![](bigface.jpg)
 
-###Big DigitClock Face
+### Big DigitClock Face
 
 
 ## Controls
