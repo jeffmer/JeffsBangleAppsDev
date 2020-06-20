@@ -22,7 +22,7 @@ Clock faces are kept in a circular list.
 *BTN3* - switches to the previous clock face.
 
 ## Adding a new face
-Clock faces are described in javascript storage files named `name.face.app`. For example, the Analog Clock Face is described in `ana.face.js`. These files have the following structure:
+Clock faces are described in javascript storage files named `name.face.js`. For example, the Analog Clock Face is described in `ana.face.js`. These files have the following structure:
 
 ```
 (() => {
