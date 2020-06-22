@@ -9,7 +9,7 @@
           var t20= ["twenty","thirty","forty","fifty"];
           if(n<10) return {top:" ",bot:t0[n]};
           else if(n<20) return {top:" ",bot:t1[n-10]};
-          else if(n<60) return {top:t20[Math.round(n/10)-2],bot:t0[n%10]};
+          else if(n<60) return {top:t20[Math.floor(n/10)-2],bot:t0[n%10]};
           return "error";     
       }
       g.reset();
