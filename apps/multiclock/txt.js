@@ -13,7 +13,7 @@
           return "error";     
       }
       g.reset();
-      g.clearRect(0,40,239,200);
+      g.clearRect(0,40,239,210);
       g.setColor(1,1,1);
       g.setFontAlign(0,0);
       g.setFont("Vector",32);
