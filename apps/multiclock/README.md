@@ -1,6 +1,6 @@
 # Multiclock
 
-This is a clock app that supports multiple clock faces. The user can switch between faces while retaining widget state which makes the switch fast and preserves state such as bluetooth connections. Currently there are three clock faces as shown below:
+This is a clock app that supports multiple clock faces. The user can switch between faces while retaining widget state which makes the switch fast and preserves state such as bluetooth connections. Currently there are four clock faces as shown below:
 
 ### Analog Clock Face
 ![](anaface.jpg)
@@ -8,9 +8,11 @@ This is a clock app that supports multiple clock faces. The user can switch betw
 ### Digital Clock Face
 ![](digiface.jpg)
 
-### Big DigitClock Face
+### Big Digit Clock Face
 ![](bigface.jpg)
 
+### Text Clock Face
+![](txtface.jpg)
 
 ## Controls
 Clock faces are kept in a circular list.
