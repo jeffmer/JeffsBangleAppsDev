@@ -45,24 +45,38 @@
           return {tlen:tn, mlen:mn}; 
       }
   };  
-  
+
+  //stop advertising when peripheral link disconnected
+  if (!NRF.getGattforCentralServer && ENABLED && typeof SCREENACCESS!='undefined') 
+  NRF.on('disconnect',function(reason){
+      NRF.sleep();
+  });
+
   if (ENABLED && typeof SCREENACCESS!='undefined') 
   NRF.on('connect',function(addr){
-      state.gatt = NRF.getGattforCentralServer(addr);
+    if(NRF.getGattforCentralServer)
+      do_bond(NRF.getGattforCentralServer(addr));
+    else
+      NRF.connect(addr).then(do_bond);
+  });
+        
+  function do_bond(g) {
+      var tval, ival;
+      state.gatt = g;
       drawIcon(1); //connect from iPhone
       state.gatt.device.on('gattserverdisconnected', function(reason) {
+         if (ival) clearInterval(ival);
+         if (tval) clearInterval(tval); 
          drawIcon(0); //disconnect from iPhone
          delete state.gatt;
          delete state.ancs;
          NRF.wake();
-         //advert();
       });
       E.on("kill",function(){
         state.gatt.disconnect().then(function(){NRF.sleep();});
       });      
       NRF.setSecurity({passkey:"123456",mitm:1,display:1});
-      var ival;
-      var tval = setTimeout(function(){
+      tval = setTimeout(function(){
           if (ival) clearInterval(ival);
           state.gatt.disconnect().then(function(){
             drawIcon(0);
@@ -86,7 +100,7 @@
       }).catch(function(e){
         Terminal.println("ERROR "+e);
       });
-  });
+  }
   
   function do_ancs() {
     state.ancs = {primary:null, notify:null, control:null, data:null};
