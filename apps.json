@@ -88,7 +88,7 @@
     "shortName":"ANCS Widget",
     "icon": "widget.png",
     "version":"0.06",
-    "description": "Displays calls and messages from a paired iPhone. You can also accept or reject calls. Needs modified clock apps. * works better with modified firmware",
+    "description": "Displays calls and messages from a paired iPhone. Read README before installation as it only works with compatible apps",
     "readme": "README.md",
     "tags": "widget",
     "type": "widget",
