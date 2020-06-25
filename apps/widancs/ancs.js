@@ -68,7 +68,7 @@
         delete state.gatt;
         delete state.ancs;
         if(!NRF.getGattforCentralServer) NRF.disconnect();
-        NRF.wake();
+        setTimeout(()=>{NRF.wake();},500);
       }
       drawIcon(1); //connect from iPhone
       state.gatt.device.on('gattserverdisconnected', function(reason) {
