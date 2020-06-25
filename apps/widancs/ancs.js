@@ -63,14 +63,18 @@
   function do_bond(g) {
       var tval, ival;
       state.gatt = g;
+      function cleanup(){
+        drawIcon(0); //disconnect from iPhone
+        delete state.gatt;
+        delete state.ancs;
+        if(!NRF.getGattforCentralServer) NRF.disconnect();
+        NRF.wake();
+      }
       drawIcon(1); //connect from iPhone
       state.gatt.device.on('gattserverdisconnected', function(reason) {
          if (ival) clearInterval(ival);
          if (tval) clearInterval(tval); 
-         drawIcon(0); //disconnect from iPhone
-         delete state.gatt;
-         delete state.ancs;
-         NRF.wake();
+        cleanup();
       });
       E.on("kill",function(){
         state.gatt.disconnect().then(function(){NRF.sleep();});
@@ -78,12 +82,7 @@
       NRF.setSecurity({passkey:"123456",mitm:1,display:1});
       tval = setTimeout(function(){
           if (ival) clearInterval(ival);
-          state.gatt.disconnect().then(function(){
-            drawIcon(0);
-            delete state.gatt;
-            delete state.ancs;
-            NRF.wake();
-          });
+          state.gatt.disconnect().then(cleanup);
       },10000);        
       state.gatt.startBonding().then(function(){
         ival = setInterval(function(){
