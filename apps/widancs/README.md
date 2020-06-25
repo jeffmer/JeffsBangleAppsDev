@@ -2,7 +2,7 @@
 
 The ANCS widget allows you to answer or cancel iPhone incoming calls and also displays messages and notifications. It connects to the Apple Notification Center Service which is already on all iPhones, so you do not need to install any additional iPhone apps to use this widget.
 
-##Firmware
+## Firmware
 The widget will run on the standard firmware, however, installation of a slightly modified version - the zip file is available from [this directory](https://github.com/jeffmer/JeffsBangleAppsDev/tree/master/apps/widancs) - will increase the performance of the app by an order of magnitude in terms of the time to connect or reconnect to the iPhone. In addition, the Bangle will stay connected to the iPhone over a greater separation distance than with the standard firmware.
 
 
