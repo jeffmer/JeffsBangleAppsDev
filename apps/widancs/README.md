@@ -25,7 +25,7 @@ Once enabled, the widget icon should be displayed coloured grey (its green in th
 * **Yellow** - got Services.
 * **Green** - waiting for new notifications.
 
-After pairing the first time, the Bangle should connect automatically when the widget is running. Sometimes you may need you to click on the Bangle name in `Settings:Bluetooth:My devices` on the iPhone or disable and then enable Bluetooth to start connection. If you need to load other apps from the iPhone, it will be necessary to ask the iPhone to forget the pairing and you will also need to disable the widget in Settings and restart the Bangle by turning it off in Settings and then pressing BTN1 to restart. If you are loading apps from a different device, you simply need to turn off the iPhone bluetooth which will retain the pairing. You still need to disable the widget and restart the Bangle.
+After pairing the first time, the Bangle should connect automatically when the widget is running. Sometimes you may need to restart the widget by holding down BTN3 to restart the current app to reconnect. If you need to load other apps from the iPhone, it will be necessary to ask the iPhone to forget the pairing and you will also need to disable the widget in Settings and restart the Bangle by turning it off in Settings and then pressing BTN1 to restart. If you are loading apps from a different device, you simply need to turn off the iPhone bluetooth which will retain the pairing. You still need to disable the widget and restart the Bangle.
 
 ![](message_pic.jpg)
 
