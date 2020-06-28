@@ -22,7 +22,6 @@
     "icon": "nightclock.png",
     "version":"0.01",
     "description": "Multi Clock for night time - no widgets and dim backlight by swiping",
-    "readme": "README.md",
     "tags": "clock",
     "type":"clock",
     "allow_emulator":false,
