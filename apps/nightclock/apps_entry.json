@@ -1,0 +1,14 @@
+{ "id": "nightclock",
+    "name": "Night Clock",
+    "icon": "nightclock.png",
+    "version":"0.01",
+    "description": "Multi Clock for night time - no widgets and dim backlight by swiping,
+    "readme": "README.md",
+    "tags": "clock",
+    "type":"clock",
+    "allow_emulator":false,
+    "storage": [
+      {"name":"nightclock.app.js","url":"nightclock.min.js"},
+      {"name":"nightclock.img","url":"nightclock-icon.js","evaluate":true}
+    ]
+  },
