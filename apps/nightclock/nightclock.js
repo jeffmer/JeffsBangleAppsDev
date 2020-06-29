@@ -41,8 +41,7 @@ Bangle.on('lcdPower',function(on) {
 
 var bright=1;
 Bangle.on('swipe',(dir)=>{
-    bright += dir/10;
-    bright = bright<0.1?0.1:bright>1?1:bright;
+    bright=dir<0?0.1:1;
     Bangle.setLCDBrightness(bright);
 });  
 
