@@ -78,7 +78,7 @@
     "tags": "tool,outdoors,gps",
     "interface":"waypoints.html",
     "storage": [
-      {"name":"gpsnav.app.js","url":"app.js"},
+      {"name":"gpsnav.app.js","url":"app.min.js"},
       {"name":"waypoints.json","url":"waypoints.json","evaluate":false},
       {"name":"gpsnav.img","url":"app-icon.js","evaluate":true}
     ]
