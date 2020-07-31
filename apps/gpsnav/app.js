@@ -15,7 +15,7 @@ const labels = ["N","NE","E","SE","S","SW","W","NW"];
 function drawCompass(course) {
   if (!candraw) return;
   buf.setColor(1);
-  buf.setFont("Vector",16);
+  buf.setFont("Vector",24);
   var start = course-90;
   if (start<0) start+=360;
   buf.fillRect(28,45,212,49);
@@ -100,7 +100,7 @@ function drawN(){
   buf.drawString("o",100,0);
   buf.setFont("6x8",1);
   buf.drawString("kph",220,40);
-  buf.setFont("Vector",36);
+  buf.setFont("Vector",48);
   var cs = course.toString();
   cs = course<10?"00"+cs : course<100 ?"0"+cs : cs;
   buf.drawString(cs,10,0);
@@ -108,7 +108,7 @@ function drawN(){
   buf.drawString(txt,140,4);
   flip(buf,Yoff+70);
   buf.setColor(1);
-  buf.setFont("Vector",18);
+  buf.setFont("Vector",24);
   var bs = brg.toString();
   bs = brg<10?"00"+bs : brg<100 ?"0"+bs : bs;
   buf.setColor(3);
