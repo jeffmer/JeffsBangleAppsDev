@@ -31,7 +31,6 @@ function setButtons(){
 
 
 Bangle.on('lcdPower',function(on) {
-  if (!SCREENACCESS.withApp) return;
   if (on) {
     startdraw();
   } else {
