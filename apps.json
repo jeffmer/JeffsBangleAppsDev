@@ -1,4 +1,18 @@
 [
+  { "id": "locale",
+    "name": "Languages",
+    "icon": "locale.png",
+    "version":"0.08",
+    "description": "Translations for different countries",
+    "tags": "tool,system,locale,translate",
+    "type": "locale",
+    "custom":"locale.html",
+    "readme": "README.md",
+    "storage": [
+      {"name":"locale"}
+    ],
+    "sortorder" : -10
+  },
   { "id": "multiclock",
     "name": "Multi Clock",
     "icon": "multiclock.png",
@@ -73,12 +87,12 @@
     "name": "GPS Navigation",
     "icon": "icon.png",
     "version":"0.03",
-    "description": "Displays GPS Course snd Speed",
+    "description": "Displays GPS Course snd Speed. For navigation units (nm & kts) set en_NAV in Languages.",
     "readme": "README.md",
     "tags": "tool,outdoors,gps",
     "interface":"waypoints.html",
     "storage": [
-      {"name":"gpsnav.app.js","url":"app.min.js"},
+      {"name":"gpsnav.app.js","url":"app.js"},
       {"name":"waypoints.json","url":"waypoints.json","evaluate":false},
       {"name":"gpsnav.img","url":"app-icon.js","evaluate":true}
     ]
