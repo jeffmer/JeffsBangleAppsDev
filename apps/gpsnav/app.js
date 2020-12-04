@@ -96,20 +96,17 @@ function distance(a,b){
 var selected = false;
 
 function drawN(){
+  var txt = loc.speed(speed);
   buf.setColor(1);
   buf.setFont("6x8",2);
   buf.drawString("o",100,0);
   buf.setFont("6x8",1);
-  buf.drawString("kph",220,40);
+  buf.drawString(txt.substring(txt.length-3),220,40);
   buf.setFont("Vector",48);
   var cs = course.toString();
   cs = course<10?"00"+cs : course<100 ?"0"+cs : cs;
   buf.drawString(cs,10,0);
-  /*
-  var txt = (speed<10) ? speed.toFixed(1) : Math.round(speed);
-  buf.drawString(txt,140,4);
-  */
-  buf.drawString(loc.speed(speed));
+  buf.drawString(txt.substring(0,txt.length-3),140,4);
   flip(buf,Yoff+70);
   buf.setColor(1);
   buf.setFont("Vector",24);
@@ -122,13 +119,7 @@ function drawN(){
   buf.drawString(wp.name,140,0);
   buf.setColor(1);
   buf.drawString(bs,60,0);
-  /*
-  if (dist<1000)
-    buf.drawString(dist.toString()+"m",60,30);
-  else
-    buf.drawString((dist/1000).toFixed(2)+"Km",60,30);
-  */
-  buf.drawString(loc.distance(dist));
+  buf.drawString(loc.distance(dist),60,30);
   flip(buf,Yoff+130);
   g.setFont("6x8",1);
   g.setColor(0,0,0);
