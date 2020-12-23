@@ -154,8 +154,8 @@
     "icon": "icon.png",
     "version":"0.02",
     "description": "Desktop style launcher",
-    "tags": "launcher",
-    "allow_emulator":true,
+    "tags": "tool,system,launcher",
+    "type":"launch",
     "storage": [
       {"name":"dtlaunch.app.js","url":"app.js"},
       {"name":"dtlaunch.img","url":"app-icon.js","evaluate":true}
