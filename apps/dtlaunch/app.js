@@ -35,7 +35,7 @@ function drawPage(p){
     }
 }
 
-TC.on("swipe",(dir)=>{
+Bangle.on("swipe",(dir)=>{
     selected = 0;
     if (dir<0){
         ++page; if (page>maxPage) page=maxPage;
