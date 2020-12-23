@@ -148,6 +148,17 @@
       {"name":"life.app.js","url":"life.min.js"},
       {"name":"life.img","url":"life-icon.js","evaluate":true}
     ]
+  },
+  { "id": "dtlaunch",
+    "name": "launcher",
+    "icon": "icon.png",
+    "version":"0.02",
+    "description": "Desktop style launcher",
+    "tags": "launcher",
+    "allow_emulator":true,
+    "storage": [
+      {"name":"dtlaunch.app.js","url":"app.js"}
+    ]
   }
 ]
 
