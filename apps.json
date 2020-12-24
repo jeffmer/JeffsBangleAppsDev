@@ -154,6 +154,7 @@
     "icon": "icon.png",
     "version":"0.02",
     "description": "Desktop style launcher",
+    "readme": "README.md",
     "tags": "tool,system,launcher",
     "type":"launch",
     "storage": [
