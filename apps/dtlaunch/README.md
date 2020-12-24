@@ -13,4 +13,4 @@ In the picture above, the Settings app is selected.
 
 **Swipe Left** -  move to next page of app icons
 
-**Swipe Right** - move to previous page app app icons
+**Swipe Right** - move to previous page of app icons
