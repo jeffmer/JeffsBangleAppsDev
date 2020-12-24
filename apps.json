@@ -150,10 +150,10 @@
     ]
   },
   { "id": "dtlaunch",
-    "name": "launcher",
+    "name": "Launcher",
     "icon": "icon.png",
     "version":"0.02",
-    "description": "Desktop style launcher",
+    "description": "Desktop style App Launcher",
     "readme": "README.md",
     "tags": "tool,system,launcher",
     "type":"launch",
