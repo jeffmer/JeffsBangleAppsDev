@@ -30,7 +30,7 @@ function setButtons(){
   setWatch(newFace.bind(null,-1), BTN3, {repeat:true,edge:"rising"});
 }
 
-var SCREENACCESS = {
+global.SCREENACCESS = {
       withApp:true,
       request:function(){
         this.withApp=false;
