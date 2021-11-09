@@ -1,14 +1,16 @@
 
 (() => {
 
-  var s = require("Storage").readJSON("widancs.json",1)||{settings:{enabled:false, category:[1,2,4]}};
+  var STOR = require("Storage");
+  var s = STOR.readJSON("widancs.json",1)||{settings:{enabled:false, category:[1,2,4]}};
+  var notifyqueue = STOR.readJSON("widancs.data.json") || [];
+  STOR.erase("widancs.data.json"); // make sure no stale nitification references
+
   var ENABLED = s.settings.enabled;
   var CATEGORY = s.settings.category;
+  var CANDISP = typeof SCREENACCESS!='undefined';
 
-  E.on("ANCS", (d)=>{getnotify(d);});
-
-  var notifyqueue = [];
-  var current = {cat:0,uid:0};
+  var current;
   var msgTO = null;
     
   var screentimeout;
@@ -56,7 +58,11 @@
         notifyqueue.push({cat:d.category, uid:d.uid});
     } else if (len<32)
         notifyqueue[len] = {cat:d.category, uid:d.uid};
-    notifyTO = setTimeout(next_notify,1000);
+    if (CANDISP){
+        notifyTO = setTimeout(next_notify,1000);
+    } else {
+        ready_switch();
+    }
   }
 
   function next_notify(){
@@ -68,36 +74,51 @@
       ).catch(function(e){
         inalert = false;
         next_notify();require("notify").show({title:"Test", body:"Hello"});
-        console.log(e);
+        Terminal.println("ANCS: "+e);
       });
   }
 
   var stage = 0;    
   //grey, pink, lightblue, yellow, green
   function draw(){
-    var colors = new Uint16Array([0xc618,0xf818,0x3ff,0xffe0,0x07e0,0x0000]);
+    var colors = new Uint16Array([0xc618,0xff00,0x3ff,0xffe0,0x07e0,0x0000]);
     var img = E.toArrayBuffer(atob("GBgBAAAABAAADgAAHwAAPwAAf4AAP4AAP4AAP4AAHwAAH4AAD8AAB+AAA/AAAfgAAf3gAH/4AD/8AB/+AA/8AAf4AAHwAAAgAAAA"));
     g.setColor(colors[stage]);
     g.drawImage(img,this.x,this.y);
   }
 
   WIDGETS["ancs"] ={area:"tl", width:24,draw:draw};
-    
-  function drawIcon(id){
-    stage = id;
+  
+  function changed(){
+    stage = NRF.getSecurityStatus().connected ? 4 : 3;
     WIDGETS["ancs"].draw();
   }
 
-  function changed(){
-    stage = NRF.getSecurityStatus().connected ? 4 : 3;
-    drawIcon(stage);
+  function do_switch(){
+    STOR.writeJSON("widancs.data.json",notifyqueue);
+    load("multiclock.app.js");
+  }
+
+  var readied = false;
+  function ready_switch() {
+    if (readied) return;
+    Bangle.buzz().then(()=>{
+      Bangle.setLCDPower(true);
+      setInterval(function (){
+        stage = stage==4? 1:4;
+        WIDGETS["ancs"].draw();
+      }, 1000);
+      setWatch(do_switch, BTN2, {repeat:false,edge:"falling"});
+    });
   }
   
-  if (ENABLED && typeof SCREENACCESS!='undefined') {
+  if (ENABLED) {
+    E.on("ANCS", getnotify);
     NRF.on('connect',changed);
     NRF.on('disconnect',changed);
     NRF.setServices({},{ancs:true});
     stage = NRF.getSecurityStatus().connected ? 4 : 3;
+    notifyTO = setTimeout(next_notify,1000);
   }
   
   })();
