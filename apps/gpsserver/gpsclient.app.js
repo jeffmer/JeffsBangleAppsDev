@@ -17,16 +17,18 @@ NRF.requestDevice({ filters: [{ name: 'gps' }] }).then(function(device) {
 });
 
 function unpack(v){
+    var fix = v.getInt8(29);
+    function ck(d) {return !fix && d==-1 ? NaN : d;}
     return {
-      lat:v.getFloat32(0),
-      lon:v.getFloat32(4),
-      alt:v.getFloat32(8),
-      speed:v.getFloat32(12),
-      course:v.getFloat32(16),
+      lat:ck(v.getFloat32(0)),
+      lon:ck(v.getFloat32(4)),
+      alt:ck(v.getFloat32(8)),
+      speed:ck(v.getFloat32(12)),
+      course:ck(v.getFloat32(16)),
       time:new Date(v.getFloat64(20)),
       satellites:v.getInt8(28),
-      fix:v.getInt8(29),
-      hdop:v.getFloat32(30),
+      fix:fix,
+      hdop:ck(v.getFloat32(30)),
     }
 }
 function readMsg() {

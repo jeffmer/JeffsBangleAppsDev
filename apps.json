@@ -98,6 +98,17 @@
       {"name":"gpsnav.img","url":"app-icon.js","evaluate":true}
     ]
   },
+  { "id": "gpsserver",
+    "name": "GPS Server",
+    "icon": "gpsicon.png",
+    "version":"0.01",
+    "description": "Provides Bangle compatible GPS information over bluetooth.",
+    "tags": "tool,outdoors,gps",
+    "storage": [
+      {"name":"gpsserver.app.js","url":"gpsserver.app.js"},
+      {"name":"gpsserver.img","url":"gps-icon.js","evaluate":true}
+    ]
+  },
   { "id": "bigclock",
     "name": "Big Clock",
     "icon": "bigclock.png",
