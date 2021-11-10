@@ -19,7 +19,7 @@ NRF.requestDevice({ filters: [{ name: 'gps' }] }).then(function(device) {
 function unpack(v){
     return {
       lat:v.getFloat32(0),
-      long:v.getFloat32(4),
+      lon:v.getFloat32(4),
       alt:v.getFloat32(8),
       speed:v.getFloat32(12),
       course:v.getFloat32(16),

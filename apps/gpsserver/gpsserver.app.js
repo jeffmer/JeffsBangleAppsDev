@@ -11,15 +11,14 @@
 }
 */
 
-var gpsdata = {lat:23.1234,long:-4.1234,alt:0,speed:67.3,course:160.0,time:Date.now(),satellites:4,fix:1,hdop:42.7};
 
 var buf = new ArrayBuffer(34);
 var view = new DataView(buf);
 
 function pack(d){
-    function ck(v){ return isNaN(v)?0:v; }
+    function ck(v){ return isNaN(v)?-1:v; }
     view.setFloat32(0,ck(d.lat));
-    view.setFloat32(4,ck(d.long));
+    view.setFloat32(4,ck(d.lon));
     view.setFloat32(8,ck(d.alt));
     view.setFloat32(12,ck(d.speed));
     view.setFloat32(16,ck(d.course));
@@ -29,7 +28,6 @@ function pack(d){
     view.setFloat32(30,ck(d.hdop));
 }
 
-pack(gpsdata);
 
 NRF.setServices({
   "974e0001-1b9a-4468-a83d-7f811b3dbaff": {
@@ -44,13 +42,8 @@ NRF.setServices({
 NRF.setAdvertising({}, {name:"gps"});
 
 
-count = 0;
-
-setInterval(function(){
-    ++count;
-    gpsdata.time=Date.now();
-    gpsdata.satellites=count;
-    pack(gpsdata);
+function update(d){
+    pack(d);
     NRF.updateServices({
         "974e0001-1b9a-4468-a83d-7f811b3dbaff": {
           "974e0002-1b9a-4468-a83d-7f811b3dbaff": {
@@ -59,11 +52,14 @@ setInterval(function(){
           }
         }
       });
-      E.showMessage("Running "+count,"GPS Server");
-},3000);
+}
 
+NRF.on("connect",(d)=>{
+  E.showMessage("Connected "+d,"GPS Server");
+});
 
-E.showMessage("Running "+count,"GPS Server");
+E.showMessage("Running ","GPS Server");
 
-
+Bangle.setGPSPower(1,"gpsserver");
+Bangle.on("GPS",update);
 
